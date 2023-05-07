@@ -15,6 +15,13 @@ if [ "$(uname)" == "Darwin" ]; then
 ./venv/bin/python3 -m pip install python-magic-bin
 fi
 
+# Setup gitignore for teams
+git update-index --assume-unchanged team/teammenu.py
+git update-index --assume-unchanged team/config/example_config.yaml
+
+echo "team/teammenu.py" >> .git/info/exclude
+echo "team/config/example_config.yaml" >> .git/info/exclude
+
 #Print completion message
 echo " "
 echo "------------------------------------------"
