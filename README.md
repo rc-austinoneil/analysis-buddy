@@ -51,7 +51,7 @@ Each menu in SOC Buddy has two elements.
 * A `menu_switch(choice)` function that will collect the input and send you to your function. 
 
 ### Team Config
-Just like the "core" code, there is a `.team/config/config.yaml` example file. You will need to copy this file to `.team/config/config.yaml` and add your APIs to that config file.  Once that is configured, uncomment `# teamconfigvars = loadconfig.load_team_config()` found in `teammenu.py` to load your config file. 
+Just like the "core" code, there is a `.team/config/example_config.yaml` example file. You will need to rename this file to `config.yaml` and add your APIs to that config file.  Once that is configured, uncomment `# teamconfigvars = loadconfig.load_team_config()` found in `teammenu.py` to load your config file. 
 
 ## Images
 ### Machinae
