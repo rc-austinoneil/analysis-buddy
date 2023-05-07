@@ -1,0 +1,1146 @@
+[
+  {
+    "ProviderNamespace": "abusiveexperiencereport.googleapis.com",
+    "ResourceName": "Abusive Experience Report API"
+  },
+  {
+    "ProviderNamespace": "acceleratedmobilepageurl.googleapis.com",
+    "ResourceName": "Accelerated Mobile Pages (AMP) URL API"
+  },
+  {
+    "ProviderNamespace": "accessapproval.googleapis.com",
+    "ResourceName": "Access Approval API"
+  },
+  {
+    "ProviderNamespace": "accesscontextmanager.googleapis.com",
+    "ResourceName": "Access Context Manager API"
+  },
+  {
+    "ProviderNamespace": "actions.googleapis.com",
+    "ResourceName": "Actions API"
+  },
+  {
+    "ProviderNamespace": "adexchangebuyer-json.googleapis.com",
+    "ResourceName": "Ad Exchange Buyer API"
+  },
+  {
+    "ProviderNamespace": "adexchangebuyer.googleapis.com",
+    "ResourceName": "Ad Exchange Buyer API II"
+  },
+  {
+    "ProviderNamespace": "adexchangeseller.googleapis",
+    "ResourceName": "Ad Exchange Seller API"
+  },
+  {
+    "ProviderNamespace": "adexperiencereport.googleapis.com",
+    "ResourceName": "Ad Experience Report API"
+  },
+  {
+    "ProviderNamespace": "admin.googleapis.com",
+    "ResourceName": "Admin SDK"
+  },
+  {
+    "ProviderNamespace": "admob.googleapis.com",
+    "ResourceName": "AdMob API"
+  },
+  {
+    "ProviderNamespace": "adsense.googleapis.com",
+    "ResourceName": "AdSense Management API"
+  },
+  {
+    "ProviderNamespace": "adsensehost.googleapis.com",
+    "ResourceName": "AdSense Host API"
+  },
+  {
+    "ProviderNamespace": "alertcenter.googleapis.com",
+    "ResourceName": "G Suite Alert Center API"
+  },
+  {
+    "ProviderNamespace": "analytics.googleapis.com",
+    "ResourceName": "Google Analytics API"
+  },
+  {
+    "ProviderNamespace": "analyticsreporting.googleapis.com",
+    "ResourceName": "Analytics Reporting API"
+  },
+  {
+    "ProviderNamespace": "androidcheck.googleapis.com",
+    "ResourceName": "Android Device Verification"
+  },
+  {
+    "ProviderNamespace": "androiddeviceprovisioning.googleapis.com",
+    "ResourceName": "Android Device Provisioning Partner API"
+  },
+  {
+    "ProviderNamespace": "androidenterprise.googleapis.com",
+    "ResourceName": "Google Play EMM API"
+  },
+  {
+    "ProviderNamespace": "androidmanagement.googleapis.com",
+    "ResourceName": "Android Management API"
+  },
+  {
+    "ProviderNamespace": "androidovertheair.googleapis.com",
+    "ResourceName": "Android Over the Air API"
+  },
+  {
+    "ProviderNamespace": "androidpublisher.googleapis.com",
+    "ResourceName": "Google Play Android Developer API"
+  },
+  {
+    "ProviderNamespace": "anthos.googleapis.com",
+    "ResourceName": "Anthos API"
+  },
+  {
+    "ProviderNamespace": "anthosaudit.googleapis.com",
+    "ResourceName": "Anthos Audit API"
+  },
+  {
+    "ProviderNamespace": "anthosgke.googleapis.com",
+    "ResourceName": "Anthos GKE API"
+  },
+  {
+    "ProviderNamespace": "apigee.googleapis.com",
+    "ResourceName": "Apigee API"
+  },
+  {
+    "ProviderNamespace": "appengine.googleapis.com",
+    "ResourceName": "App Engine Admin API"
+  },
+  {
+    "ProviderNamespace": "appengineflex.googleapis.com",
+    "ResourceName": "Google App Engine Flexible Environment"
+  },
+  {
+    "ProviderNamespace": "appsactivity.googleapis.com",
+    "ResourceName": "Apps Activity API"
+  },
+  {
+    "ProviderNamespace": "appsmarket-component.googleapis.com",
+    "ResourceName": "G Suite Marketplace SDK"
+  },
+  {
+    "ProviderNamespace": "appsmarket.googleapis.com",
+    "ResourceName": "G Suite Marketplace API"
+  },
+  {
+    "ProviderNamespace": "arcorecloudanchor.googleapis.com",
+    "ResourceName": "ARCore Cloud Anchor API"
+  },
+  {
+    "ProviderNamespace": "artifactregistry.googleapis.com",
+    "ResourceName": "Artifact Registry API"
+  },
+  {
+    "ProviderNamespace": "audit.googleapis.com",
+    "ResourceName": "Audit API"
+  },
+  {
+    "ProviderNamespace": "automl.googleapis.com",
+    "ResourceName": "Cloud AutoML API"
+  },
+  {
+    "ProviderNamespace": "bigquery.googleapis.com",
+    "ResourceName": "BigQuery API"
+  },
+  {
+    "ProviderNamespace": "bigqueryconnection.googleapis.com",
+    "ResourceName": "BigQuery Connection API"
+  },
+  {
+    "ProviderNamespace": "bigquerydatatransfer.googleapis.com",
+    "ResourceName": "BigQuery Data Transfer API"
+  },
+  {
+    "ProviderNamespace": "bigqueryreservation.googleapis.com",
+    "ResourceName": "BigQuery Reservation API"
+  },
+  {
+    "ProviderNamespace": "bigquerystorage.googleapis.com",
+    "ResourceName": "BigQuery Storage API"
+  },
+  {
+    "ProviderNamespace": "bigtable.googleapis.com",
+    "ResourceName": "Cloud Bigtable API"
+  },
+  {
+    "ProviderNamespace": "bigtableadmin.googleapis.com",
+    "ResourceName": "Cloud Bigtable Admin API"
+  },
+  {
+    "ProviderNamespace": "bigtabletableadmin.googleapis.com",
+    "ResourceName": "Cloud Bigtable Table Admin API"
+  },
+  {
+    "ProviderNamespace": "billingbudgets.googleapis.com",
+    "ResourceName": "Cloud Billing Budget API"
+  },
+  {
+    "ProviderNamespace": "binaryauthorization.googleapis.com",
+    "ResourceName": "Binary Authorization API"
+  },
+  {
+    "ProviderNamespace": "blogger.googleapis.com",
+    "ResourceName": "Blogger API v3"
+  },
+  {
+    "ProviderNamespace": "books.googleapis.com",
+    "ResourceName": "Books API"
+  },
+  {
+    "ProviderNamespace": "bookstore.endpoints.endpoints-portal-demo.cloud.goog",
+    "ResourceName": "Bookstore gRPC API"
+  },
+  {
+    "ProviderNamespace": "caldav.googleapis.com",
+    "ResourceName": "CalDAV API"
+  },
+  {
+    "ProviderNamespace": "calendar-json.googleapis.com",
+    "ResourceName": "Google Calendar API"
+  },
+  {
+    "ProviderNamespace": "carddav.googleapis.com",
+    "ResourceName": "Google Contacts CardDAV API"
+  },
+  {
+    "ProviderNamespace": "chat.googleapis.com",
+    "ResourceName": "Hangouts Chat API"
+  },
+  {
+    "ProviderNamespace": "chromewebstore.googleapis.com",
+    "ResourceName": "Chrome Web Store API"
+  },
+  {
+    "ProviderNamespace": "civicinfo.googleapis.com",
+    "ResourceName": "Civic Information API"
+  },
+  {
+    "ProviderNamespace": "classroom.googleapis.com",
+    "ResourceName": "Google Classroom API"
+  },
+  {
+    "ProviderNamespace": "cloudapis.googleapis.com",
+    "ResourceName": "Google Cloud APIs"
+  },
+  {
+    "ProviderNamespace": "cloudasset.googleapis.com",
+    "ResourceName": "Cloud Asset API"
+  },
+  {
+    "ProviderNamespace": "cloudbilling.googleapis.com",
+    "ResourceName": "Cloud Billing API"
+  },
+  {
+    "ProviderNamespace": "cloudbuild.googleapis.com",
+    "ResourceName": "Cloud Build API"
+  },
+  {
+    "ProviderNamespace": "clouddebugger.googleapis.com",
+    "ResourceName": "Cloud Debugger API"
+  },
+  {
+    "ProviderNamespace": "clouderrorreporting.googleapis.com",
+    "ResourceName": "Error Reporting API"
+  },
+  {
+    "ProviderNamespace": "cloudfunctions.googleapis.com",
+    "ResourceName": "Cloud Functions API"
+  },
+  {
+    "ProviderNamespace": "cloudidentity.googleapis.com",
+    "ResourceName": "Cloud Identity API"
+  },
+  {
+    "ProviderNamespace": "cloudiot.googleapis.com",
+    "ResourceName": "Cloud IoT API"
+  },
+  {
+    "ProviderNamespace": "cloudkms.googleapis.com",
+    "ResourceName": "Cloud Key Management Service (KMS) API"
+  },
+  {
+    "ProviderNamespace": "cloudlatencytest.googleapis.com",
+    "ResourceName": "Cloud Network Performance Monitoring API"
+  },
+  {
+    "ProviderNamespace": "cloudprivatecatalog.googleapis.com",
+    "ResourceName": "Cloud Private Catalog API"
+  },
+  {
+    "ProviderNamespace": "cloudprofiler.googleapis.com",
+    "ResourceName": "Stackdriver Profiler API"
+  },
+  {
+    "ProviderNamespace": "cloudresourcemanager.googleapis.com",
+    "ResourceName": "Cloud Resource Manager API"
+  },
+  {
+    "ProviderNamespace": "cloudscheduler.googleapis.com",
+    "ResourceName": "Cloud Scheduler API"
+  },
+  {
+    "ProviderNamespace": "cloudsearch.googleapis.com",
+    "ResourceName": "Cloud Search API"
+  },
+  {
+    "ProviderNamespace": "cloudshell.googleapis.com",
+    "ResourceName": "Cloud Shell API"
+  },
+  {
+    "ProviderNamespace": "cloudtasks.googleapis.com",
+    "ResourceName": "Cloud Tasks API"
+  },
+  {
+    "ProviderNamespace": "cloudtrace.googleapis.com",
+    "ResourceName": "Cloud Trace API"
+  },
+  {
+    "ProviderNamespace": "cloudvolumesgcp-api.netapp.com",
+    "ResourceName": "NetApp Cloud Volumes API"
+  },
+  {
+    "ProviderNamespace": "composer.googleapis.com",
+    "ResourceName": "Cloud Composer API"
+  },
+  {
+    "ProviderNamespace": "compute.googleapis.com",
+    "ResourceName": "Compute Engine API"
+  },
+  {
+    "ProviderNamespace": "computescanning.googleapis.com",
+    "ResourceName": "Compute Scanning API"
+  },
+  {
+    "ProviderNamespace": "contacts.googleapis.com",
+    "ResourceName": "Contacts API"
+  },
+  {
+    "ProviderNamespace": "container.googleapis.com",
+    "ResourceName": "Kubernetes Engine API"
+  },
+  {
+    "ProviderNamespace": "containeranalysis.googleapis.com",
+    "ResourceName": "Container Analysis API"
+  },
+  {
+    "ProviderNamespace": "containerregistry.googleapis.com",
+    "ResourceName": "Container Registry API"
+  },
+  {
+    "ProviderNamespace": "containerscanning.googleapis.com",
+    "ResourceName": "Container Scanning API"
+  },
+  {
+    "ProviderNamespace": "containerthreatdetection.googleapis.com",
+    "ResourceName": "Container Threat Detection API"
+  },
+  {
+    "ProviderNamespace": "copresence.googleapis.com",
+    "ResourceName": "Nearby Messages API"
+  },
+  {
+    "ProviderNamespace": "customsearch.googleapis.com",
+    "ResourceName": "Custom Search API"
+  },
+  {
+    "ProviderNamespace": "datacatalog.googleapis.com",
+    "ResourceName": "Google Cloud Data Catalog API"
+  },
+  {
+    "ProviderNamespace": "dataflow.googleapis.com",
+    "ResourceName": "Dataflow API"
+  },
+  {
+    "ProviderNamespace": "datafusion.googleapis.com",
+    "ResourceName": "Cloud Data Fusion API"
+  },
+  {
+    "ProviderNamespace": "datalabeling.googleapis.com",
+    "ResourceName": "Data Labeling API"
+  },
+  {
+    "ProviderNamespace": "dataproc.googleapis.com",
+    "ResourceName": "Cloud Dataproc API"
+  },
+  {
+    "ProviderNamespace": "datastore.googleapis.com",
+    "ResourceName": "Cloud Datastore API"
+  },
+  {
+    "ProviderNamespace": "datastudio.googleapis.com",
+    "ResourceName": "Data Studio API"
+  },
+  {
+    "ProviderNamespace": "deploymentmanager.googleapis.com",
+    "ResourceName": "Cloud Deployment Manager V2 API"
+  },
+  {
+    "ProviderNamespace": "dfareporting.googleapis.com",
+    "ResourceName": "DCM/DFA Reporting And Trafficking API"
+  },
+  {
+    "ProviderNamespace": "dialogflow.googleapis.com",
+    "ResourceName": "Dialogflow API"
+  },
+  {
+    "ProviderNamespace": "digitalassetlinks.googleapis.com",
+    "ResourceName": "Digital Asset Links API"
+  },
+  {
+    "ProviderNamespace": "directions-backend.googleapis.com",
+    "ResourceName": "Directions API"
+  },
+  {
+    "ProviderNamespace": "discovery.googleapis.com",
+    "ResourceName": "API Discovery Service"
+  },
+  {
+    "ProviderNamespace": "displayvideo.googleapis.com",
+    "ResourceName": "Display & Video 360 API"
+  },
+  {
+    "ProviderNamespace": "displayvideo.googleapis.com",
+    "ResourceName": "Display & Video 360 API"
+  },
+  {
+    "ProviderNamespace": "distance-matrix-backend.googleapis.com",
+    "ResourceName": "Distance Matrix API"
+  },
+  {
+    "ProviderNamespace": "dlp.googleapis.com",
+    "ResourceName": "Cloud Data Loss Prevention (DLP) API"
+  },
+  {
+    "ProviderNamespace": "dns.googleapis.com",
+    "ResourceName": "Cloud DNS API"
+  },
+  {
+    "ProviderNamespace": "docs.googleapis.com",
+    "ResourceName": "Google Docs API"
+  },
+  {
+    "ProviderNamespace": "documentai.googleapis.com",
+    "ResourceName": "Cloud Document AI API"
+  },
+  {
+    "ProviderNamespace": "domainsrdap.googleapis.com",
+    "ResourceName": "Domains RDAP API"
+  },
+  {
+    "ProviderNamespace": "doubleclickbidmanager.googleapis.com",
+    "ResourceName": "DoubleClick Bid Manager API"
+  },
+  {
+    "ProviderNamespace": "doubleclicksearch.googleapis.com",
+    "ResourceName": "Search Ads 360 API"
+  },
+  {
+    "ProviderNamespace": "drive.googleapis.com",
+    "ResourceName": "Google Drive API"
+  },
+  {
+    "ProviderNamespace": "driveactivity.googleapis.com",
+    "ResourceName": "Drive Activity API"
+  },
+  {
+    "ProviderNamespace": "echo-api.endpoints.endpoints-portal-demo.cloud.goog",
+    "ResourceName": "Endpoints Example"
+  },
+  {
+    "ProviderNamespace": "elasticsearch-service.gcpmarketplace.elastic.co",
+    "ResourceName": "Elasticsearch Service on Elastic Cloud - Standard"
+  },
+  {
+    "ProviderNamespace": "elevation-backend.googleapis.com",
+    "ResourceName": "Maps Elevation API"
+  },
+  {
+    "ProviderNamespace": "embeddedassistant.googleapis.com",
+    "ResourceName": "Google Assistant API"
+  },
+  {
+    "ProviderNamespace": "endpoints.googleapis.com",
+    "ResourceName": "Google Cloud Endpoints"
+  },
+  {
+    "ProviderNamespace": "endpointsportal.googleapis.com",
+    "ResourceName": "Cloud Endpoints Portal"
+  },
+  {
+    "ProviderNamespace": "factchecktools.googleapis.com",
+    "ResourceName": "Fact Check Tools API"
+  },
+  {
+    "ProviderNamespace": "fcm.googleapis.com",
+    "ResourceName": "Firebase Cloud Messaging API"
+  },
+  {
+    "ProviderNamespace": "fcmregistrations.googleapis.com",
+    "ResourceName": "FCM Registration API"
+  },
+  {
+    "ProviderNamespace": "file.googleapis.com",
+    "ResourceName": "Cloud Filestore API"
+  },
+  {
+    "ProviderNamespace": "firebase.googleapis.com",
+    "ResourceName": "Firebase Management API"
+  },
+  {
+    "ProviderNamespace": "firebaseappdistribution.googleapis.com",
+    "ResourceName": "Firebase App Distribution API"
+  },
+  {
+    "ProviderNamespace": "firebaseapptesters.googleapis.com",
+    "ResourceName": "Firebase App Testers API"
+  },
+  {
+    "ProviderNamespace": "firebasedynamiclinks.googleapis.com",
+    "ResourceName": "Firebase Dynamic Links API"
+  },
+  {
+    "ProviderNamespace": "firebaseextensions.googleapis.com",
+    "ResourceName": "Firebase Extensions API"
+  },
+  {
+    "ProviderNamespace": "firebasehosting.googleapis.com",
+    "ResourceName": "Firebase Hosting API"
+  },
+  {
+    "ProviderNamespace": "firebaseinappmessaging.googleapis.com",
+    "ResourceName": "Firebase In-App Messaging API"
+  },
+  {
+    "ProviderNamespace": "firebaseinstallations.googleapis.com",
+    "ResourceName": "Firebase Installations API"
+  },
+  {
+    "ProviderNamespace": "firebaseml.googleapis.com",
+    "ResourceName": "Firebase ML API"
+  },
+  {
+    "ProviderNamespace": "firebasemods.googleapis.com",
+    "ResourceName": "Firebase Mods API"
+  },
+  {
+    "ProviderNamespace": "firebasepredictions.googleapis.com",
+    "ResourceName": "Firebase Predictions API"
+  },
+  {
+    "ProviderNamespace": "firebaseremoteconfig.googleapis.com",
+    "ResourceName": "Firebase Remote Config API"
+  },
+  {
+    "ProviderNamespace": "firebaserules.googleapis.com",
+    "ResourceName": "Firebase Rules API"
+  },
+  {
+    "ProviderNamespace": "firebasestorage.googleapis.com",
+    "ResourceName": "Firebase Storage"
+  },
+  {
+    "ProviderNamespace": "firestore.googleapis.com",
+    "ResourceName": "Cloud Firestore API"
+  },
+  {
+    "ProviderNamespace": "firewallinsights.googleapis.com",
+    "ResourceName": "Firewall Insights API"
+  },
+  {
+    "ProviderNamespace": "fitness.googleapis.com",
+    "ResourceName": "Fitness API"
+  },
+  {
+    "ProviderNamespace": "freebase.googleapis.com",
+    "ResourceName": "Freebase API"
+  },
+  {
+    "ProviderNamespace": "fusiontables.googleapis.com",
+    "ResourceName": "Fusion Tables API"
+  },
+  {
+    "ProviderNamespace": "games.googleapis.com",
+    "ResourceName": "Google Play Game Services"
+  },
+  {
+    "ProviderNamespace": "gamesconfiguration.googleapis.com",
+    "ResourceName": "Google Play Game Services Publishing API"
+  },
+  {
+    "ProviderNamespace": "gameservices.googleapis.com",
+    "ResourceName": "Game Services API"
+  },
+  {
+    "ProviderNamespace": "gamesmanagement.googleapis.com",
+    "ResourceName": "Google Play Game Management"
+  },
+  {
+    "ProviderNamespace": "gcp.redisenterprise.com",
+    "ResourceName": "Redis Enterprise"
+  },
+  {
+    "ProviderNamespace": "genomics.googleapis.com",
+    "ResourceName": "Genomics API"
+  },
+  {
+    "ProviderNamespace": "geocoding-backend.googleapis.com",
+    "ResourceName": "Geocoding API"
+  },
+  {
+    "ProviderNamespace": "geolocation.googleapis.com",
+    "ResourceName": "Geolocation API"
+  },
+  {
+    "ProviderNamespace": "gkeconnect.googleapis.com",
+    "ResourceName": "GKE Connect API"
+  },
+  {
+    "ProviderNamespace": "gkehub.googleapis.com",
+    "ResourceName": "GKE Hub"
+  },
+  {
+    "ProviderNamespace": "gmail.googleapis.com",
+    "ResourceName": "Gmail API"
+  },
+  {
+    "ProviderNamespace": "googleads.googleapis.com",
+    "ResourceName": "Google Ads API"
+  },
+  {
+    "ProviderNamespace": "googlecloudmessaging.googleapis.com",
+    "ResourceName": "Cloud Messaging"
+  },
+  {
+    "ProviderNamespace": "groupsmigration.googleapis.com",
+    "ResourceName": "Groups Migration API"
+  },
+  {
+    "ProviderNamespace": "groupssettings.googleapis.com",
+    "ResourceName": "Groups Settings API"
+  },
+  {
+    "ProviderNamespace": "healthcare.googleapis.com",
+    "ResourceName": "Cloud Healthcare API"
+  },
+  {
+    "ProviderNamespace": "homegraph.googleapis.com",
+    "ResourceName": "HomeGraph API"
+  },
+  {
+    "ProviderNamespace": "iam.googleapis.com",
+    "ResourceName": "Identity and Access Management (IAM) API"
+  },
+  {
+    "ProviderNamespace": "iamcredentials.googleapis.com",
+    "ResourceName": "IAM Service Account Credentials API"
+  },
+  {
+    "ProviderNamespace": "iap.googleapis.com",
+    "ResourceName": "Cloud Identity-Aware Proxy API"
+  },
+  {
+    "ProviderNamespace": "identitytoolkit.googleapis.com",
+    "ResourceName": "Identity Toolkit API"
+  },
+  {
+    "ProviderNamespace": "indexing.googleapis.com",
+    "ResourceName": "Indexing API"
+  },
+  {
+    "ProviderNamespace": "invoice.googleapis.com",
+    "ResourceName": "Invoice"
+  },
+  {
+    "ProviderNamespace": "jobs.googleapis.com",
+    "ResourceName": "Cloud Talent Solution API"
+  },
+  {
+    "ProviderNamespace": "kgsearch.googleapis.com",
+    "ResourceName": "Knowledge Graph Search API"
+  },
+  {
+    "ProviderNamespace": "language.googleapis.com",
+    "ResourceName": "Cloud Natural Language API"
+  },
+  {
+    "ProviderNamespace": "libraryagent.googleapis.com",
+    "ResourceName": "Library Agent API"
+  },
+  {
+    "ProviderNamespace": "licensing.googleapis.com",
+    "ResourceName": "Enterprise License Manager API"
+  },
+  {
+    "ProviderNamespace": "lifesciences.googleapis.com",
+    "ResourceName": "Cloud Life Sciences API"
+  },
+  {
+    "ProviderNamespace": "logging.googleapis.com",
+    "ResourceName": "Cloud Logging API"
+  },
+  {
+    "ProviderNamespace": "managedidentities.googleapis.com",
+    "ResourceName": "Managed Service for Microsoft Active Directory API"
+  },
+  {
+    "ProviderNamespace": "manufacturers.googleapis.com",
+    "ResourceName": "Manufacturer Center API"
+  },
+  {
+    "ProviderNamespace": "maps-android-backend.googleapis.com",
+    "ResourceName": "Maps SDK for Android"
+  },
+  {
+    "ProviderNamespace": "maps-backend.googleapis.com",
+    "ResourceName": "Maps JavaScript API"
+  },
+  {
+    "ProviderNamespace": "maps-embed-backend.googleapis.com",
+    "ResourceName": "Maps Embed API"
+  },
+  {
+    "ProviderNamespace": "maps-ios-backend.googleapis.com",
+    "ResourceName": "Maps SDK for iOS"
+  },
+  {
+    "ProviderNamespace": "mediatranslation.googleapis.com",
+    "ResourceName": "Media Translation API"
+  },
+  {
+    "ProviderNamespace": "memcache.googleapis.com",
+    "ResourceName": "Cloud Memorystore for Memcached API"
+  },
+  {
+    "ProviderNamespace": "meshca.googleapis.com",
+    "ResourceName": "Anthos Service Mesh Certificate Authority API"
+  },
+  {
+    "ProviderNamespace": "meshconfig.googleapis.com",
+    "ResourceName": "Mesh Configuration API"
+  },
+  {
+    "ProviderNamespace": "meshtelemetry.googleapis.com",
+    "ResourceName": "Mesh Telemetry API"
+  },
+  {
+    "ProviderNamespace": "migrate.googleapis.com",
+    "ResourceName": "G Suite Migrate API"
+  },
+  {
+    "ProviderNamespace": "mirror.googleapis.com",
+    "ResourceName": "Mirror API"
+  },
+  {
+    "ProviderNamespace": "ml.googleapis.com",
+    "ResourceName": "AI Platform Training & Prediction API"
+  },
+  {
+    "ProviderNamespace": "mlkit.googleapis.com",
+    "ResourceName": "ML Kit API"
+  },
+  {
+    "ProviderNamespace": "mobilecrashreporting.googleapis.com",
+    "ResourceName": "Mobile Crash Reporting API"
+  },
+  {
+    "ProviderNamespace": "monitoring.googleapis.com",
+    "ResourceName": "Cloud Monitoring API"
+  },
+  {
+    "ProviderNamespace": "moviesanywhere.googleapis.com",
+    "ResourceName": "Play Movies Anywhere API"
+  },
+  {
+    "ProviderNamespace": "multiclusteringress.googleapis.com",
+    "ResourceName": "Multi Cluster Ingress API"
+  },
+  {
+    "ProviderNamespace": "multiclustermetering.googleapis.com",
+    "ResourceName": "Multi cluster metering API"
+  },
+  {
+    "ProviderNamespace": "networkmanagement.googleapis.com",
+    "ResourceName": "Network Management API"
+  },
+  {
+    "ProviderNamespace": "networktopology.googleapis.com",
+    "ResourceName": "Network Topology API"
+  },
+  {
+    "ProviderNamespace": "notebooks.googleapis.com",
+    "ResourceName": "Notebooks API"
+  },
+  {
+    "ProviderNamespace": "orkut.googleapis.com",
+    "ResourceName": "Orkut REST API"
+  },
+  {
+    "ProviderNamespace": "osconfig.googleapis.com",
+    "ResourceName": "Cloud OS Config API"
+  },
+  {
+    "ProviderNamespace": "oslogin.googleapis.com",
+    "ResourceName": "Cloud OS Login API"
+  },
+  {
+    "ProviderNamespace": "pagespeedonline.googleapis.com",
+    "ResourceName": "PageSpeed Insights API"
+  },
+  {
+    "ProviderNamespace": "partners-json.googleapis.com",
+    "ResourceName": "Google Partners API"
+  },
+  {
+    "ProviderNamespace": "payg-prod.gcpmarketplace.confluent.cloud",
+    "ResourceName": "Confluent Cloud Service Prod"
+  },
+  {
+    "ProviderNamespace": "people.googleapis.com",
+    "ResourceName": "People API"
+  },
+  {
+    "ProviderNamespace": "performanceparameters.googleapis.com",
+    "ResourceName": "Android Performance Parameters API"
+  },
+  {
+    "ProviderNamespace": "photoslibrary.googleapis.com",
+    "ResourceName": "Photos Library API"
+  },
+  {
+    "ProviderNamespace": "picker.googleapis.com",
+    "ResourceName": "Google Picker API"
+  },
+  {
+    "ProviderNamespace": "places-backend.googleapis.com",
+    "ResourceName": "Places API"
+  },
+  {
+    "ProviderNamespace": "playcustomapp.googleapis.com",
+    "ResourceName": "Google Play Custom App Publishing API"
+  },
+  {
+    "ProviderNamespace": "plus.googleapis.com",
+    "ResourceName": "Google+ API"
+  },
+  {
+    "ProviderNamespace": "plusdomains.googleapis.com",
+    "ResourceName": "Google+ Domains API"
+  },
+  {
+    "ProviderNamespace": "plushangouts.googleapis.com",
+    "ResourceName": "Google+ Hangouts API"
+  },
+  {
+    "ProviderNamespace": "policytroubleshooter.googleapis.com",
+    "ResourceName": "Policy Troubleshooter API"
+  },
+  {
+    "ProviderNamespace": "poly.googleapis.com",
+    "ResourceName": "Poly API"
+  },
+  {
+    "ProviderNamespace": "prod-tt-sasportal.googleapis.com",
+    "ResourceName": "SAS Portal API (Testing)"
+  },
+  {
+    "ProviderNamespace": "prod.cloud.datastax.com",
+    "ResourceName": "DataStax Astra - Cassandra as a Service"
+  },
+  {
+    "ProviderNamespace": "pubsub.googleapis.com",
+    "ResourceName": "Cloud Pub/Sub API"
+  },
+  {
+    "ProviderNamespace": "realtime.googleapis.com",
+    "ResourceName": "Realtime API"
+  },
+  {
+    "ProviderNamespace": "recommender.googleapis.com",
+    "ResourceName": "Recommender API"
+  },
+  {
+    "ProviderNamespace": "redis.googleapis.com",
+    "ResourceName": "Google Cloud Memorystore for Redis API"
+  },
+  {
+    "ProviderNamespace": "remotebuildexecution.googleapis.com",
+    "ResourceName": "Remote Build Execution API"
+  },
+  {
+    "ProviderNamespace": "replicapool.googleapis.com",
+    "ResourceName": "Compute Engine Instance Group Manager API"
+  },
+  {
+    "ProviderNamespace": "replicapoolupdater.googleapis.com",
+    "ResourceName": "Compute Engine Instance Group Updater API"
+  },
+  {
+    "ProviderNamespace": "reseller.googleapis.com",
+    "ResourceName": "Google Apps Reseller API"
+  },
+  {
+    "ProviderNamespace": "resourceviews.googleapis.com",
+    "ResourceName": "Compute Engine Instance Groups API"
+  },
+  {
+    "ProviderNamespace": "risc.googleapis.com",
+    "ResourceName": "RISC API"
+  },
+  {
+    "ProviderNamespace": "roads.googleapis.com",
+    "ResourceName": "Roads API"
+  },
+  {
+    "ProviderNamespace": "run.googleapis.com",
+    "ResourceName": "Cloud Run API"
+  },
+  {
+    "ProviderNamespace": "runtimeconfig.googleapis.com",
+    "ResourceName": "Cloud Runtime Configuration API"
+  },
+  {
+    "ProviderNamespace": "safebrowsing-json.googleapis.com",
+    "ResourceName": "Safe Browsing API (Legacy)"
+  },
+  {
+    "ProviderNamespace": "safebrowsing.googleapis.com",
+    "ResourceName": "Safe Browsing API"
+  },
+  {
+    "ProviderNamespace": "sasportal.googleapis.com",
+    "ResourceName": "SAS Portal API"
+  },
+  {
+    "ProviderNamespace": "script.googleapis.com",
+    "ResourceName": "Apps Script API"
+  },
+  {
+    "ProviderNamespace": "searchconsole.googleapis.com",
+    "ResourceName": "Google Search Console URL Testing Tools API"
+  },
+  {
+    "ProviderNamespace": "secretmanager.googleapis.com",
+    "ResourceName": "Secret Manager API"
+  },
+  {
+    "ProviderNamespace": "securetoken.googleapis.com",
+    "ResourceName": "Token Service API"
+  },
+  {
+    "ProviderNamespace": "securitycenter.googleapis.com",
+    "ResourceName": "Security Command Center API"
+  },
+  {
+    "ProviderNamespace": "serviceconsumermanagement.googleapis.com",
+    "ResourceName": "Service Consumer Management API"
+  },
+  {
+    "ProviderNamespace": "servicecontrol.googleapis.com",
+    "ResourceName": "Service Control API"
+  },
+  {
+    "ProviderNamespace": "servicedirectory.googleapis.com",
+    "ResourceName": "Service Directory API"
+  },
+  {
+    "ProviderNamespace": "servicemanagement.googleapis.com",
+    "ResourceName": "Service Management API"
+  },
+  {
+    "ProviderNamespace": "servicenetworking.googleapis.com",
+    "ResourceName": "Service Networking API"
+  },
+  {
+    "ProviderNamespace": "serviceusage.googleapis.com",
+    "ResourceName": "Service Usage API"
+  },
+  {
+    "ProviderNamespace": "sheets.googleapis.com",
+    "ResourceName": "Google Sheets API"
+  },
+  {
+    "ProviderNamespace": "shoppingcontent.googleapis.com",
+    "ResourceName": "Content API for Shopping"
+  },
+  {
+    "ProviderNamespace": "siteverification.googleapis.com",
+    "ResourceName": "Site Verification API"
+  },
+  {
+    "ProviderNamespace": "slides.googleapis.com",
+    "ResourceName": "Google Slides API"
+  },
+  {
+    "ProviderNamespace": "sourcerepo.googleapis.com",
+    "ResourceName": "Cloud Source Repositories API"
+  },
+  {
+    "ProviderNamespace": "spanner.googleapis.com",
+    "ResourceName": "Cloud Spanner API"
+  },
+  {
+    "ProviderNamespace": "speech.googleapis.com",
+    "ResourceName": "Cloud Speech-to-Text API"
+  },
+  {
+    "ProviderNamespace": "sql-component.googleapis.com",
+    "ResourceName": "Cloud SQL"
+  },
+  {
+    "ProviderNamespace": "sqladmin.googleapis.com",
+    "ResourceName": "Cloud SQL Admin API"
+  },
+  {
+    "ProviderNamespace": "stackdriver.googleapis.com",
+    "ResourceName": "Stackdriver API"
+  },
+  {
+    "ProviderNamespace": "static-maps-backend.googleapis.com",
+    "ResourceName": "Maps Static API"
+  },
+  {
+    "ProviderNamespace": "storage-api.googleapis.com",
+    "ResourceName": "Google Cloud Storage JSON API"
+  },
+  {
+    "ProviderNamespace": "storage-component.googleapis.com",
+    "ResourceName": "Cloud Storage"
+  },
+  {
+    "ProviderNamespace": "storagetransfer.googleapis.com",
+    "ResourceName": "Storage Transfer API"
+  },
+  {
+    "ProviderNamespace": "street-view-image-backend.googleapis.com",
+    "ResourceName": "Street View Static API"
+  },
+  {
+    "ProviderNamespace": "streetviewpublish.googleapis.com",
+    "ResourceName": "Street View Publish API"
+  },
+  {
+    "ProviderNamespace": "subscribewithgoogle.googleapis.com",
+    "ResourceName": "Subscribe with Google Publication API"
+  },
+  {
+    "ProviderNamespace": "subscribewithgoogledeveloper.googleapis.com",
+    "ResourceName": "Subscribe with Google Developer API"
+  },
+  {
+    "ProviderNamespace": "surveys.googleapis.com",
+    "ResourceName": "Google Surveys API"
+  },
+  {
+    "ProviderNamespace": "tagmanager.googleapis.com",
+    "ResourceName": "Tag Manager API"
+  },
+  {
+    "ProviderNamespace": "tasks.googleapis.com",
+    "ResourceName": "Tasks API"
+  },
+  {
+    "ProviderNamespace": "testing.googleapis.com",
+    "ResourceName": "Cloud Testing API"
+  },
+  {
+    "ProviderNamespace": "texttospeech.googleapis.com",
+    "ResourceName": "Cloud Text-to-Speech API"
+  },
+  {
+    "ProviderNamespace": "threatdetection.googleapis.com",
+    "ResourceName": "Threat Detection API"
+  },
+  {
+    "ProviderNamespace": "timezone-backend.googleapis.com",
+    "ResourceName": "Time Zone API"
+  },
+  {
+    "ProviderNamespace": "toolresults.googleapis.com",
+    "ResourceName": "Cloud Tool Results API"
+  },
+  {
+    "ProviderNamespace": "tpu.googleapis.com",
+    "ResourceName": "Cloud TPU API"
+  },
+  {
+    "ProviderNamespace": "trafficdirector.googleapis.com",
+    "ResourceName": "Traffic Director API"
+  },
+  {
+    "ProviderNamespace": "translate.googleapis.com",
+    "ResourceName": "Cloud Translation API"
+  },
+  {
+    "ProviderNamespace": "travelpartner.googleapis.com",
+    "ResourceName": "Travel Partner API"
+  },
+  {
+    "ProviderNamespace": "urlshortener.googleapis.com",
+    "ResourceName": "URL Shortener API"
+  },
+  {
+    "ProviderNamespace": "usercontext.googleapis.com",
+    "ResourceName": "Awareness API"
+  },
+  {
+    "ProviderNamespace": "vault.googleapis.com",
+    "ResourceName": "G Suite Vault API"
+  },
+  {
+    "ProviderNamespace": "verifiedaccess.googleapis.com",
+    "ResourceName": "Chrome Verified Access API"
+  },
+  {
+    "ProviderNamespace": "videointelligence.googleapis.com",
+    "ResourceName": "Cloud Video Intelligence API"
+  },
+  {
+    "ProviderNamespace": "vision.googleapis.com",
+    "ResourceName": "Cloud Vision API"
+  },
+  {
+    "ProviderNamespace": "vmmigration.googleapis.com",
+    "ResourceName": "VM Migration API"
+  },
+  {
+    "ProviderNamespace": "vpcaccess.googleapis.com",
+    "ResourceName": "Serverless VPC Access API"
+  },
+  {
+    "ProviderNamespace": "walletobjects.googleapis.com",
+    "ResourceName": "Google Pay Passes API"
+  },
+  {
+    "ProviderNamespace": "webfonts.googleapis.com",
+    "ResourceName": "Web Fonts Developer API"
+  },
+  {
+    "ProviderNamespace": "webmasters.googleapis.com",
+    "ResourceName": "Google Search Console API"
+  },
+  {
+    "ProviderNamespace": "websecurityscanner.googleapis.com",
+    "ResourceName": "Web Security Scanner API"
+  },
+  {
+    "ProviderNamespace": "youtube.googleapis.com",
+    "ResourceName": "YouTube Data API v3"
+  },
+  {
+    "ProviderNamespace": "youtubeadsreach.googleapis.com",
+    "ResourceName": "YouTube Ads Reach API"
+  },
+  {
+    "ProviderNamespace": "youtubeanalytics.googleapis.com",
+    "ResourceName": "YouTube Analytics API"
+  },
+  {
+    "ProviderNamespace": "youtubereporting.googleapis.com",
+    "ResourceName": "YouTube Reporting API"
+  },
+  {
+    "ProviderNamespace": "zync.googleapis.com",
+    "ResourceName": "Zync Render API"
+  }
+]

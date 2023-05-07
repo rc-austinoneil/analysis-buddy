@@ -1,0 +1,835 @@
+ipwhois:
+  name: IP Whois
+  default: True
+  otypes:
+    - ipv4
+  ipwhois:
+    results:
+      - key: '@'
+        multi_match:
+          keys:
+            - asn
+            - asn_cidr
+            - asn_date
+            - asn_registry
+            - asn_country_code
+        pretty_name: ASN Information
+      - key: nets
+        multi_match:
+          keys:
+            - cidr
+            - handle
+            - name
+            - range
+        pretty_name: Network Information
+      - key: nets
+        multi_match:
+          keys:
+            - description
+            - key: created
+              regex: '(\d+-\d+-\d+)T'
+            - key: updated
+              regex: '(\d+-\d+-\d+)T'
+        pretty_name: Registration Info
+      - key: nets
+        multi_match:
+          keys:
+            - city
+            - state
+            - postal_code
+            - country
+        pretty_name: Registration Locality
+      - key: nets
+        multi_match:
+          keys:
+            - key: abuse_emails
+              split: "\n"
+        pretty_name: Abuse Email
+      - key: nets
+        multi_match:
+          keys:
+            - key: tech_emails
+              split: "\n"
+        pretty_name: Tech Email
+      - key: nets
+        multi_match:
+          keys:
+            - key: emails
+              split: "\n"
+        pretty_name: Contacts
+urlvoid:
+  name: URLVoid
+  default: True
+  otypes:
+    - fqdn
+  webscraper:
+    request:
+      url: 'http://www.urlvoid.com/scan/{target}'
+      method: get
+    results:
+      - regex: 'Analysis Date<\/td><td>(.+?)<\/td>'
+        values: urlvoid_analysis_date
+        pretty_name: Last Analysis
+      - regex: '(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}).{5,30}Find\swebsites\shosted\shere'
+        values: urlvoid_ip
+        pretty_name: IP from URLVoid
+      - regex: '\/>(.+?)<\/td><td><i class="glyphicon glyphicon-alert text-danger"><\/i>'
+        values: urlvoid_blacklist
+        pretty_name: Blacklist from URL Void
+      - regex: 'Domain\s1st\sRegistered.+\<td\>(.+)\<\/td\>'
+        values: urlvoid_domain_age
+        pretty_name: Domain Age from URL Void
+      - regex: 'latitude\s/\slongitude.+\<td\>(.+)\<\/td\>'
+        values: urlvoid_location
+        pretty_name: Geo Coordinates from URLVoid
+      - regex: 'alt="flag"\s/>\s\(\w+\)\s+([\w\s]+)</td>'
+        values: urlvoid_country_code
+        pretty_name: Country from URLVoid
+unshorten:
+  name: URL Unshorten
+  default: True
+  otypes:
+    - fqdn
+    - url
+  webscraper:
+    request:
+      url: http://www.toolsvoid.com/unshorten-url
+      method: post
+      data:
+        urladdr: '{target}'
+    results:
+      - regex: 'class="myarea">(.*?)</textarea'
+        values:
+          - unshorten_url
+        pretty_name: Unshortened URL
+sans:
+  name: SANS
+  otypes:
+    - ipv4
+  webscraper:
+    request:
+      url: 'https://isc.sans.edu/api/ip/{target}'
+      method: get
+    results:
+    - regex: 'attacks>(\d+)<'
+      values:
+        - sans_attacks
+      pretty_name: SANS attacks
+    - regex: 'count>(\d+)<'
+      values:
+        - sans_count
+      pretty_name: SANS count
+    - regex: 'count>(\d+)<'
+      values:
+        - sans_count
+      pretty_name: SANS count
+    - regex: 'maxdate>(\d{4}-\d{2}-\d{2})<'
+      values:
+        - sans_maxdate
+      pretty_name: SANS maxdate
+    - regex: 'mindate>(\d{4}-\d{2}-\d{2})<'
+      values:
+        - sans_mindate
+      pretty_name: SANS mindate
+maxmind:
+  name: MaxMind GeoIP2 Precision
+  default: False
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://geoip.maxmind.com/geoip/v2.1/insights/{target}
+      auth: CHANGEME
+    results:
+    - key: country.iso_code
+      pretty_name: MaxMind Country Code
+    - key: country.names.en
+      pretty_name: MaxMind Country
+    - key: subdivisions
+      multi_match:
+        keys:
+          - iso_code
+      pretty_name: MaxMind Region Code
+    - key: subdivisions
+      multi_match:
+        keys:
+          - names.en
+      pretty_name: MaxMind Region
+    - key: city.names.en
+      pretty_name: MaxMind City
+    - key: postal.code
+      pretty_name: MaxMind Zip Code
+    - key: location.latitude
+      pretty_name: MaxMind Latitude
+    - key: location.longitude
+      pretty_name: MaxMind Longitude
+    - key: location.time_zone
+      pretty_name: MaxMind Timezone
+vt_ip:
+  name: VirusTotal pDNS
+  default: True
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://www.virustotal.com/vtapi/v2/ip-address/report
+      params:
+        ip: '{target}'
+        apikey: CHANGEME
+      method: get
+    results:
+    - key: resolutions
+      multi_match:
+        keys:
+          - key: last_resolved
+            regex: '(\d{4}\-\d{1,2}\-\d{1,2})'
+          - hostname
+        onlyif:
+          key: last_resolved
+          maxage: '-30d'
+      pretty_name: pDNS data from VirusTotal
+    - key: detected_urls
+      multi_match:
+        keys:
+          - key: scan_date
+            regex: '(\d{4}\-\d{1,2}\-\d{1,2})'
+          - key: url
+            regex: '(http.{1,70}/)'
+        onlyif:
+          key: scan_date
+          maxage: '-30d'
+      pretty_name: pDNS malicious URLs from VirusTotal
+vt_domain:
+  name: VirusTotal pDNS
+  default: True
+  otypes:
+    - fqdn
+  json:
+    request:
+      url: https://www.virustotal.com/vtapi/v2/domain/report
+      params:
+        domain: '{target}'
+        apikey: CHANGEME
+      method: get
+    results:
+    - key: resolutions
+      multi_match:
+        keys:
+          - key: last_resolved
+            regex: '(\d{4}\-\d{1,2}\-\d{1,2})'
+          - ip_address
+      pretty_name: pDNS data from VirusTotal
+    - key: Websense ThreatSeeker category
+      pretty_name: Websense ThreatSeeker category
+    - key: Webutation domain info.Safety score
+      pretty_name: Webutation Safety score
+vt_url:
+  name: VirusTotal URL Report
+  default: True
+  otypes:
+    - url
+  json:
+    request:
+      url: https://www.virustotal.com/vtapi/v2/url/report
+      method: get
+      params:
+        apikey: CHANGEME
+        resource: '{target}'
+    results:
+      - key: scan_date
+        pretty_name: Date submitted
+      - key: positives
+        pretty_name: Detected scanners
+      - key: total
+        pretty_name: Total scanners
+      - key: scans
+        pretty_name: URL Scanner
+        multi_match:
+          keys:
+            - '@'
+            - result
+          onlyif: detected
+vt_hash:
+  name: VirusTotal File Report
+  default: True
+  otypes:
+    - hash
+    - hash.sha1
+    - 'hash.sha256'
+  json:
+    request:
+      url: https://www.virustotal.com/vtapi/v2/file/report
+      method: get
+      params:
+        apikey: CHANGEME
+        resource: '{target}'
+    results:
+      - key: scan_date
+        pretty_name: Date submitted
+      - key: positives
+        pretty_name: Detected engines
+      - key: total
+        pretty_name: Total engines
+      - key: scans
+        pretty_name: Scans
+        multi_match:
+          keys:
+            - '@'
+            - result
+          onlyif: detected
+vxvault:
+  name: VxVault
+  default: True
+  otypes:
+    - hash
+  webscraper:
+    request:
+      url: 'http://vxvault.net/ViriList.php?MD5={target}'
+      method: get
+    results:
+      - regex: '>(\d{2}\-\d{2})<'
+        values:
+          - vxvault_date
+        pretty_name: Date found at VXVault
+      - regex: '\[D\].{2,40}\Wphp\?id.{2,10}>(.{5,100})</a'
+        values:
+          - vxvault_url
+        pretty_name: URL found at VXVault
+projecthoneypot:
+  name: ProjectHoneypot
+  default: True
+  otypes:
+    - ipv4
+  webscraper:
+    request:
+      url: 'https://www.projecthoneypot.org/ip_{target}'
+      method: get
+    results:
+      - regex: 'list_of_ips\.php\?t=[a-z]\">([a-zA-Z\s]+)</a></b>'
+        values:
+          - php_activity_type
+        pretty_name: ProjectHoneyPot activity type
+      - regex: '>First&nbsp;Received&nbsp;From.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])[a-zA-Z0-9><"&:,()=;\s\t/]+Number&nbsp;Received'
+        values:
+          - php_first_mail
+        pretty_name: ProjectHoneyPot first mail received
+      - regex: '>Last&nbsp;Received&nbsp;From.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])[a-zA-Z0-9><":,()=;\s\t/]+Number&nbsp;Received'
+        values:
+          - php_last_mail
+        pretty_name: ProjectHoneyPot last mail received
+      - regex: '>Number&nbsp;Received.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)]+[a-zA-Z\)])'
+        values:
+          - php_total_mail
+        pretty_name: ProjectHoneyPot total mail received
+      - regex: '>Spider&nbsp;First&nbsp;Seen.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_first_spider
+        pretty_name: ProjectHoneyPot spider first seen
+      - regex: '>Spider&nbsp;Last&nbsp;Seen.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)]+[a-zA-Z])'
+        values:
+          - php_last_spider
+        pretty_name: ProjectHoneyPot spider last seen
+      - regex: '>Spider&nbsp;Sightings.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(]+[a-zA-Z\)])'
+        values:
+          - php_spider_sightings
+        pretty_name: ProjectHoneyPot total spider sightings
+      - regex: '>User-Agents.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9\-\(\),\s]+[a-zA-Z\)])'
+        values:
+          - php_user_agents
+        pretty_name: ProjectHoneyPot user-agent sightings
+      - regex: '>First&nbsp;Post&nbsp;On.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_first_post
+        pretty_name: ProjectHoneyPot first form post
+      - regex: '>Last&nbsp;Post&nbsp;On.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_last_post
+        pretty_name: ProjectHoneyPot last form post
+      - regex: '>Form&nbsp;Posts.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)]+[a-zA-Z\)])'
+        values:
+          - php_form_posts
+        pretty_name: ProjectHoneyPot total form posts
+      - regex: '>First&nbsp;Rule-Break&nbsp;On.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_first_rulebreak
+        pretty_name: ProjectHoneyPot first rule break
+      - regex: '>Last&nbsp;Rule-Break&nbsp;On.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_last_rulebreak
+        pretty_name: ProjectHoneyPot last rule break
+      - regex: '>Rule&nbsp;Breaks.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)]+[a-zA-Z\)])'
+        values:
+          - php_total_rulebreaks
+        pretty_name: ProjectHoneyPot total rule breaks
+      - regex: 'Dictionary&nbsp;Attacks[a-zA-Z0-9><":,()=;\s\t/]+>First&nbsp;Received&nbsp;From.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_first_dictionary_attack
+        pretty_name: ProjectHoneyPot first dictionary attack
+      - regex: 'Dictionary&nbsp;Attacks[a-zA-Z0-9><"&:,()=;\s\t/]+>Last&nbsp;Received&nbsp;From.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_last_dictionary_attack
+        pretty_name: ProjectHoneyPot last dictionary attack
+      - regex: '>Dictionary&nbsp;Attacks.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)]+[a-zA-Z\)])'
+        values:
+          - php_total_dictionary_attacks
+        pretty_name: ProjectHoneyPot total dictionary attacks
+      - regex: '>First&nbsp;Bad&nbsp;Host&nbsp;Appearance.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_first_bad_host
+        pretty_name: ProjectHoneyPot first bad host
+      - regex: '>Last&nbsp;Bad&nbsp;Host&nbsp;Appearance.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_last_bad_host
+        pretty_name: ProjectHoneyPot last bad host
+      - regex: '>Bad&nbsp;Host&nbsp;Appearances.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)\-]+[a-zA-Z\)])'
+        values:
+          - php_total_bad_host
+        pretty_name: ProjectHoneyPot total bad hosts
+      - regex: '>Harvester&nbsp;First&nbsp;Seen.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s]+[a-zA-Z])'
+        values:
+          - php_first_harvester
+        pretty_name: ProjectHoneyPot harvester first seen
+      - regex: '>Harvester&nbsp;Last&nbsp;Seen.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\s\(\)]+[a-zA-Z])'
+        values:
+          - php_last_harvester
+        pretty_name: ProjectHoneyPot harvester last seen
+      - regex: '>Harvester&nbsp;Sightings.+[\n\r\t\s]+.+[\n\r\t\s]+([a-zA-Z0-9,\(\s]+[a-zA-Z\)])'
+        values:
+          - php_total_harvester
+        pretty_name: ProjectHoneyPot total harvester sightings
+      - regex: '(?:>Harvester&nbsp;Results(?:.+[\n\s].+[\n\s]+)\s{2,}|(?:<br\s/>))(?!\s)([0-9a-zA-Z.\s:,()-]+)\s{2,}'
+        values:
+          - php_harvester_results
+        pretty_name: ProjectHoneyPot harvester results
+stopforumspam:
+  name: StopForumSpam
+  default: True
+  otypes:
+    - email
+  webscraper:
+    request:
+      url: 'http://www.stopforumspam.com/search/{target}'
+      method: get
+    results:
+      - regex: '>Found (0*[1-9]\d*) entries'
+        values:
+          - sfs_spam_count
+        pretty_name: Spam email count
+icsi_notary:
+  name: ICSI Certificate Notary
+  default: True
+  otypes:
+    - sslfp
+  dns:
+    request:
+      query: '{target_stripped}.notary.icsi.berkeley.edu'
+      rrtype: txt
+    results:
+      - regex: 'version=1 first_seen=(\d+) last_seen=(\d+) times_seen=(\d+) validated=(\d+)'
+        values:
+          - icsi_first_seen
+          - icsi_last_seen
+          - icsi_times_seen
+          - icsi_validated
+        pretty_name: ICSI Notary Results
+passivetotal_pdns:
+  name: PassiveTotal Passive DNS
+  default: True
+  otypes:
+    - fqdn
+    - ipv4
+  json:
+    request:
+      url: 'https://api.passivetotal.org/v2/dns/passive'
+      auth: passivetotal
+      params:
+        query: '{target}'
+      method: get
+      headers:
+        Accept: application/json
+      ignored_status_codes:
+        - 401
+    results:
+      - key: results
+        format: as_list
+        pretty_name: Results
+        multi_match:
+          keys:
+            - key: resolve
+      - key: queryValue
+        pretty_name: Query Value
+passivetotal_whois:
+  name: PassiveTotal Whois
+  default: True
+  otypes:
+    - fqdn
+  json:
+    request:
+      url: 'https://api.passivetotal.org/v2/whois'
+      auth: passivetotal
+      params:
+        query: '{target}'
+      method: get
+      headers:
+        Accept: application/json
+      ignored_status_codes:
+        - 401
+    results:
+      - key: registryUpdatedAt
+        pretty_name: Registry Updated At
+      - key: domain
+        pretty_name: Domain
+      - key: billing
+        pretty_name: Billing
+      - key: zone
+        pretty_name: Zone
+      - key: nameServers
+        pretty_name: Name Servers
+      - key: registered
+        pretty_name: Registered
+      - key: lastLoadedAt
+        pretty_name: Last Loaded At
+      - key: whoisServer
+        pretty_name: Whois Server
+      - key: contactEmail
+        pretty_name: Contact Email
+      - key: admin
+        pretty_name: Admin
+      - key: expiresAt
+        pretty_name: Expires At
+      - key: registrar
+        pretty_name: Registrar
+      - key: tech
+        pretty_name: Tech
+      - key: registrant
+        pretty_name: Registrant
+passivetotal_sslcert:
+  name: PassiveTotal SSL Certificate History
+  default: True
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: 'https://api.passivetotal.org/v2/ssl-certificate/history'
+      auth: passivetotal
+      params:
+        query: '{target}'
+      method: get
+      headers:
+        Accept: application/json
+      ignored_status_codes:
+        - 401
+    results:
+      - key: results
+        multi_match:
+          keys:
+            - key: sha1
+              pretty_name: Sha1
+            - key: firstSeen
+              pretty_name: First Seen
+            - key: ipAddresses
+              pretty_name: Ip Addresses
+            - key: lastSeen
+              pretty_name: Last Seen
+        pretty_name: Results
+passivetotal_components:
+  name: PassiveTotal Components
+  default: True
+  otypes:
+    - fqdn
+  json:
+    request:
+      url: 'https://api.passivetotal.org/v2/host-attributes/components'
+      auth: passivetotal
+      params:
+        query: '{target}'
+      method: get
+      headers:
+        Accept: application/json
+      ignored_status_codes:
+        - 401
+    results:
+      - key: results
+        multi_match:
+          keys:
+          - key: category
+            pretty_name: Category
+          - key: hostname
+            pretty_name: Hostname
+          - key: lastSeen
+            pretty_name: Last Seen
+          - key: firstSeen
+            pretty_name: First Seen
+          - key: label
+            pretty_name: Label
+        pretty_name: Results
+passivetotal_trackers:
+  name: PassiveTotal Trackers
+  default: True
+  otypes:
+    - fqdn
+  json:
+    request:
+      url: 'https://api.passivetotal.org/v2/host-attributes/trackers'
+      auth: passivetotal
+      params:
+        query: '{target}'
+      method: get
+      headers:
+        Accept: application/json
+      ignored_status_codes:
+        - 401
+    results:
+      - key: results
+        multi_match:
+          keys:
+          - key: hostname
+            pretty_name: Hostname
+          - key: attributeType
+            pretty_name: Type
+          - key: attributeValue
+            pretty_name: Value
+          - key: lastSeen
+            pretty_name: Last Seen
+          - key: firstSeen
+            pretty_name: First Seen
+        pretty_name: Results
+ipqs:
+  name: IP Quality Score
+  default: False
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://us.ipqualityscore.com/api/json/ip/APIKEY_CHANGEME/{target}
+    results:
+      - key: ISP
+        pretty_name: ISP
+      - key: Organization
+        pretty_name: Organization
+      - key: country_code
+        pretty_name: Country
+      - key: city
+        pretty_name: City
+      - key: mobile
+        pretty_name: Is Mobile?
+      - key: is_crawler
+        pretty_name: Is Crawler?
+      - key: connection_type
+        pretty_name: Connection Type
+      - key: recent_abuse
+        pretty_name: Recent Abuse
+      - key: bot_status
+        pretty_name: Bot Status
+      - key: vpn
+        pretty_name: Is VPN?
+      - key: active_vpn
+        pretty_name: Active VPN?
+      - key: tor
+        pretty_name: Is Tor?
+      - key: active_tor
+        pretty_name: Active Tor?
+      - key: fraud_score
+        pretty_name: Fraud Score
+      - key: abuse_velocity
+        pretty_name: How frequent is this abused?
+shodan:
+  name: Shodan
+  default: False
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://api.shodan.io/shodan/host/{target}
+      params:
+        key: CHANGEME
+    results:
+    - key: '@'
+      multi_match:
+        keys:
+          - asn
+          - org
+          - city
+          - region
+          - country_code
+          - postal_code
+      pretty_name: Shodan Organization
+    - key: hostnames
+      match_all: true
+      pretty_name: Shodan Hostnames
+    - key: isp
+      pretty_name: Shodan ISP
+    - key: data
+      multi_match:
+        keys:
+          - timestamp
+          - transport
+          - port
+          - product
+          - version
+      pretty_name: Shodan Ports
+    - key: data
+      multi_match:
+        keys:
+          - transport
+          - port
+          - ssl.versions
+        onlyif: ssl.versions
+      pretty_name: Shodan SSL Versions
+    - key: data
+      multi_match:
+        keys:
+          - transport
+          - port
+          - ssl.cert.subject.CN
+          - ssl.cert.fingerprint.sha256
+        onlyif: ssl.cert.fingerprint.sha256
+      pretty_name: Shodan SSL Certs
+ipinfoio:
+    name: ipinfo.io
+    default: True
+    otypes:
+        - ipv4
+        - ipv6
+    json:
+        request:
+            url: https://ipinfo.io/{target}
+            headers:
+                Accept: application/json
+        results:
+            - key: hostname
+              pretty_name: ipinfo.io hostname
+            - key: city
+              pretty_name: ipinfo.io city
+            - key: region
+              pretty_name: ipinfo.io region
+            - key: country
+              pretty_name: ipinfo.io country
+            - key: loc
+              pretty_name: ipinfo.io geolocation
+            - key: org
+              pretty_name: ipinfo.io organization
+            - key: postal
+              pretty_name: ipinfo.io postal code
+hackedip:
+  name: Hacked IP
+  default: True
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: http://www.hackedip.com/api.php?ip={target}
+    results:
+    - key: '@'
+      format: as_list
+      pretty_name: Hacked IP Threat List
+greynoise:
+  name: GreyNoise Community
+  default: False
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://api.greynoise.io/v3/community/{target}
+      headers:
+        key: CHANGEME
+      ignored_status_codes:
+        - 404
+    results:
+      - key: noise
+        pretty_name: GreyNoise Known Scanner
+      - key: riot
+        pretty_name: GreyNoise Rule-It-OuT
+      - key: classification
+        pretty_name: GreyNoise Classification
+      - key: name
+        pretty_name: GreyNoise Name
+greynoise_ent:
+  name: GreyNoise VIP
+  default: False
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://enterprise.api.greynoise.io/v2/noise/context/{target}
+      headers:
+        key: CHANGEME
+      ignored_status_codes:
+        - 404
+    results:
+      - key: seen
+        pretty_name: GreyNoise Known Scanner
+      - key: actor
+        pretty_name: GreyNoise Actor
+      - key: tags
+        pretty_name: GreyNoise Reason
+      - key: metadata.category
+        pretty_name: GreyNoise Category
+      - key: first_seen
+        pretty_name: GreyNoise First Seen
+      - key: last_seen
+        pretty_name: GreyNoise Last Seen
+      - key: raw_data.web.useragents
+        pretty_name: GreyNoise User-agent
+      - key: raw_data.scan
+        multi_match:
+        keys:
+          - port
+          - protocol
+        pretty_name: GreyNoise Observations
+macvendors:
+  name: MACVendors
+  default: True
+  otypes:
+    - mac
+  webscraper:
+    request:
+      url: 'https://api.macvendors.com/{target}'
+      method: get
+    results:
+      - regex: '(.+)'
+        values:
+          - vendor
+        pretty_name: Mac Address Vendor
+phishstats_ip:
+  name: Phishstats IP
+  default: True
+  otypes:
+    - ipv4
+  json:
+    request:
+      url: https://phishstats.info:2096/api/phishing?&_size=100&_where=(ip,eq,{target})
+    results:
+      - key: date
+        pretty_name: Date
+      - key: date_update
+        pretty_name: Date Updated
+      - key: url
+        pretty_name: URL
+      - key: title
+        pretty_name: Title
+      - key: domain_registered_n_days_ago
+        pretty_name: Domain registered x days ago
+      - key: ip
+        pretty_name: IP Address
+phishstats_url:
+  name: Phishstats URL
+  default: True
+  otypes:
+    - url
+  json:
+    request:
+      url: https://phishstats.info:2096/api/phishing?&_size=100&_where=(url,like,~{target}~)
+    results:
+      - key: date
+        pretty_name: Date
+      - key: date_update
+        pretty_name: Date Updated
+      - key: url
+        pretty_name: URL
+      - key: title
+        pretty_name: Title
+      - key: domain_registered_n_days_ago
+        pretty_name: Domain registered x days ago
+      - key: ip
+        pretty_name: IP Address

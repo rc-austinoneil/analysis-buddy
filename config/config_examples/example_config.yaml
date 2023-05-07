@@ -1,0 +1,8 @@
+AB_API_KEY: 'Enter API Key Here'
+URLSCAN_IO_KEY: 'Enter API Key Here'
+EMAILREP_API_KEY: 'Enter API Key Here'
+IPQS_API_KEY: 'Enter API Key Here'
+SHODAN_API_KEY: 'Enter API Key Here'
+GREYNOISE_API_KEY: 'Enter API Key Here'
+ECHOTRAIL_API_KEY: 'Enter API Key Here'
+USER_AGENT: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36'

@@ -1,0 +1,26 @@
+# Project specific files
+config/config.yaml
+config/machinae.yaml
+config/json_lookups/mitre-enterprise-attack.json
+config/json_lookups/windows_lookups/lolbins.json
+config/json_lookups/windows_lookups/windowseventids.json
+config/json_lookups/windows_lookups/loldrivers.json
+config/output/**
+team/**
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/**
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+__pycache__
+
