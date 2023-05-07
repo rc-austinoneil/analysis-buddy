@@ -32,7 +32,7 @@ SOC Buddy is an all-in-one tool for cybersecurity professionals, designed to mak
 
 * More to come! I plan to continue deving on this project because I use this tool daily in my analysis workflow. 
 
-## Add your your own internal tools (Teams)
+## Add your own internal tools (Teams)
 
 If you want to use your internal APIs or internal python tools and use SOC Buddy as a framework, the `./teams`  module will allow you to build in a .gitignored folder to keep the code separate from the "core" code of SOC Buddy. 
 
