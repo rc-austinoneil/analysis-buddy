@@ -12,7 +12,7 @@ def menu():
     socbuddy.title_bar("URL Tools")
     socbuddy.menu_item(0, "Return to main menu", "goback")
     socbuddy.menu_item(1, "URLScan.io", "tool")
-    menu_switch(input(bcolors.INPUT + " ~> " + bcolors.ENDC))
+    menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
 def menu_switch(choice):
@@ -32,9 +32,7 @@ def urlscanio():
             url_to_scan = socbuddy.ask_for_user_input("Enter URL")
             type_prompt = str(
                 input(
-                    bcolors.INPUT
-                    + '\nSet scan visibility to Public? \nType "1" for Public or "2" for Private: '
-                    + bcolors.ENDC
+                    f"{bcolors.INPUT}\nSet scan visibility to Public? \nType '1' for Public or '2' for Private: {bcolors.ENDC}"
                 )
             )
             if type_prompt == "1":

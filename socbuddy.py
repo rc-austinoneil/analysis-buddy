@@ -31,7 +31,7 @@ def main_menu():
     menu_item(8, "Run data through OSINT tooling", "tool")
     menu_item(9, "MITRE ATT&CK Lookup", "tool")
     menu_item(10, "JSON Pretty Print", "tool")
-    menu_switch(input(bcolors.INPUT + " ~> " + bcolors.ENDC))
+    menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
 def menu_switch(choice):
@@ -65,45 +65,40 @@ def menu_switch(choice):
 def title_bar(title, include_clipboard=False):
     print("")
     print(
-        bcolors.HEADER
-        + bcolors.UNDERLINE
-        + title[:50].upper().center(50)
-        + bcolors.ENDC
+        f"{bcolors.HEADER}{bcolors.UNDERLINE}{title[:50].upper().center(50)}{bcolors.ENDC}"
     )
     if include_clipboard and not clipboard_paste() == "Clipboard init failed.":
         print("")
-        print(
-            bcolors.HEADER + " On Clipboard: " + bcolors.ENDC + clipboard_paste()[:75]
-        )
+        print(f"{bcolors.HEADER}On Clipboard:{bcolors.ENDC} {clipboard_paste()[:75]}")
     print("")
 
 
 def title_bar_time():
-    print(" Local : " + datetime.now().strftime("%H:%M:%S %m/%d/%Y"))
-    print(" UTC   : " + datetime.utcnow().strftime("%H:%M:%S %m/%d/%Y"))
+    print(f" Local : {datetime.now().strftime('%H:%M:%S %m/%d/%Y')}")
+    print(f" UTC   : {datetime.utcnow().strftime('%H:%M:%S %m/%d/%Y')}")
     print("")
 
 
 def menu_item(option_number, option_name, option_type):
     prefix = ""
     if option_type == "menu":
-        prefix = bcolors.MENU + "[MENU]"
+        prefix = f"{bcolors.MENU}[MENU]"
     elif option_type == "tool":
-        prefix = bcolors.TOOL + "[TOOL]"
+        prefix = f"{bcolors.TOOL}[TOOL]"
     elif option_type == "copy":
         prefix = "[CLIPBOARD]"
     elif option_type == "link":
         prefix = "[LINK]"
     elif option_type == "goback":
-        prefix = bcolors.GOBACK + "[RETURN]"
+        prefix = f"{bcolors.GOBACK}[RETURN]"
     elif option_type == "exit":
-        prefix = bcolors.GOBACK + "[EXIT]"
+        prefix = f"{bcolors.GOBACK}[EXIT]"
 
     if option_number <= 9:
         prefix = f"  {prefix}"
     else:
         prefix = f" {prefix}"
-    print(f" {option_number}:{prefix} {option_name}" + bcolors.ENDC)
+    print(f" {option_number}:{prefix} {option_name}{bcolors.ENDC}")
 
 
 def error_message(message, error=False):
@@ -154,20 +149,18 @@ def clipboard_copy(item_to_copy):
 def ask_for_user_input(input_message="Enter a search string"):
     print("")
     if clipboard_paste() == "Clipboard init failed.":
-        output = str(input(bcolors.INPUT + f"{input_message}: " + bcolors.ENDC)).strip()
+        output = str(input(f"{bcolors.INPUT}{input_message}: {bcolors.ENDC}")).strip()
     else:
         paste_from_clipboard = str(
             input(
-                bcolors.INPUT
-                + f"{input_message}, Paste from clipboard? (Y/N): "
-                + bcolors.ENDC
+                f"{bcolors.INPUT}{input_message}, Paste from clipboard? (Y/N): {bcolors.ENDC}"
             )
         ).strip()
         if paste_from_clipboard.upper() == "Y":
             output = str(clipboard_paste()).strip()
         elif paste_from_clipboard.upper() == "N":
             output = str(
-                input(bcolors.INPUT + f"{input_message}: " + bcolors.ENDC)
+                input(f"{bcolors.INPUT}{input_message}: {bcolors.ENDC}")
             ).strip()
         else:
             output = str(paste_from_clipboard).strip()
@@ -176,7 +169,7 @@ def ask_for_user_input(input_message="Enter a search string"):
 
 def ask_to_run_again():
     print("")
-    run_again = input(bcolors.INPUT + "Run again? (Y/N): " + bcolors.ENDC)
+    run_again = input(f"{bcolors.INPUT}Run again? (Y/N): {bcolors.ENDC}")
     if run_again.upper() == "Y":
         return True
     else:
@@ -185,7 +178,7 @@ def ask_to_run_again():
 
 def open_in_jsoncrack(inputdata):
     open_jsoncrack = input(
-        bcolors.INPUT + "Open in jsoncrack? See (Y/N) " + bcolors.ENDC
+        f"{bcolors.INPUT}Open in jsoncrack? See (Y/N) {bcolors.ENDC}"
     )
     if open_jsoncrack.upper() == "Y":
         info_message(
@@ -212,20 +205,20 @@ def print_json(json_data, level=0, newline=True):
         if isinstance(json_data, dict):
             for k, v in json_data.items():
                 if isinstance(v, dict):
-                    print(" "*level + bcolors.OKBLUE + k.capitalize() + ":" + bcolors.ENDC)
+                    print(" "*level + f"{bcolors.OKBLUE}{k.capitalize()}:{bcolors.ENDC}")
                     print_json(v, level+1, False)
 
                 elif isinstance(v, list):
-                    print(" "*level + bcolors.WARNING + k.capitalize() + ":" + bcolors.ENDC)
+                    print(" "*level + f"{bcolors.WARNING}{k.capitalize()}:{bcolors.ENDC}")
                     for item in v:
                         if isinstance(item, dict):
                             print_json(item, level+1, False)
                         if isinstance(item, list):
-                                print(" "*level + " - " + str(item)) 
+                                print(" "*level + f" - {str(item)}") 
                         else:
-                            print(" "*level + " - " + str(item))
+                            print(" "*level + f" - {str(item)}")
                 else:
-                    print(" "*level + bcolors.OKGREEN + k.capitalize() + ": " + bcolors.ENDC + str(v))
+                    print(" "*level + f"{bcolors.OKGREEN}{k.capitalize()}: {bcolors.ENDC}{str(v)}")
     except Exception:
         error_message("Error printing results.")
 # fmt: on

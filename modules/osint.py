@@ -126,9 +126,7 @@ def osint_enrichment(target, newline=False):
 
         if (
             input(
-                bcolors.INPUT
-                + f"Run {target} against additional OSINT enrichment? (Y/N): "
-                + bcolors.ENDC
+                f"{bcolors.INPUT}Run {target} against additional OSINT enrichment? (Y/N): {bcolors.ENDC}"
             ).upper()
             == "Y"
         ):
@@ -167,7 +165,7 @@ def additional_osint(target):
         )
 
     if links:
-        print(bcolors.OKGREEN + "[+] OSINT Links" + bcolors.ENDC)
+        print(f"{bcolors.OKGREEN}[+] OSINT Links{bcolors.ENDC}")
         for link in links:
             print(f"    [-] {link}")
 
@@ -177,7 +175,7 @@ def tor_list(target):
         TOR_URL = "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1"
         req = requests.get(TOR_URL)
         if req.status_code == 200:
-            print(bcolors.OKGREEN + "[+] TOR Exit Node Report" + bcolors.ENDC)
+            print(f"{bcolors.OKGREEN}[+] TOR Exit Node Report{bcolors.ENDC}")
             tl = req.text.split("\n")
             c = 0
             for i in tl:
@@ -189,7 +187,7 @@ def tor_list(target):
         else:
             raise Exception
     except Exception:
-        print(bcolors.ERROR + "[!] Unable to check against TOR list" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}[!] Unable to check against TOR list{bcolors.ENDC}")
 
 
 def abuse_ipdb(target):
@@ -208,7 +206,7 @@ def abuse_ipdb(target):
 
             if response.status_code == 200:
                 req = response.json()
-                print(bcolors.OKGREEN + "[+] ABUSEIPDB Report" + bcolors.ENDC)
+                print(f"{bcolors.OKGREEN}[+] ABUSEIPDB Report{bcolors.ENDC}")
                 print("    [-] IP:          " + str(req["data"]["ipAddress"]))
                 print("    [-] Reports:     " + str(req["data"]["totalReports"]))
                 print(
@@ -220,7 +218,7 @@ def abuse_ipdb(target):
             else:
                 raise Exception
     except Exception:
-        print(bcolors.ERROR + "[!] Unable to run ABUSE IPDB" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}[!] Unable to run ABUSE IPDB{bcolors.ENDC}")
 
 
 def ip_threat_lists(target):
@@ -262,9 +260,7 @@ def ip_threat_lists(target):
         for listObj in blacklistObjs:
             if len(listObj.hitlist) != 0:
                 print(
-                    bcolors.OKGREEN
-                    + f"[+] IP found in {listObj.name} threat list"
-                    + bcolors.ENDC
+                    f"{bcolors.OKGREEN}[+] IP found in {listObj.name} threat list{bcolors.ENDC}"
                 )
                 print(f"    [-] Category: {listObj.category}")
                 print(f"    [-] List Age: {listObj.period}")
@@ -272,12 +268,10 @@ def ip_threat_lists(target):
                 print(f"    [-] List URL: {listObj.listURL}")
             else:
                 print(
-                    bcolors.WARNING
-                    + f"[-] IP not found in {listObj.name} threat list"
-                    + bcolors.ENDC
+                    f"{bcolors.WARNING}[-] IP not found in {listObj.name} threat list{bcolors.ENDC}"
                 )
     except Exception:
-        print(bcolors.ERROR + "[!] Unable to run IP threat lists" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}[!] Unable to run IP threat lists{bcolors.ENDC}")
 
 
 def domain_threat_lists(target):
@@ -319,20 +313,16 @@ def domain_threat_lists(target):
         for listObj in blacklistObjs:
             if len(listObj.hitlist) != 0:
                 print(
-                    bcolors.OKGREEN
-                    + f"[+] Domain found in {listObj.name} threat list"
-                    + bcolors.ENDC
+                    f"{bcolors.OKGREEN}[+] Domain found in {listObj.name} threat list{bcolors.ENDC}"
                 )
                 print(f"    [-] Category: {listObj.category}")
                 print(f"    [-] List URL: {listObj.listURL}")
             else:
                 print(
-                    bcolors.WARNING
-                    + f"[-] Domain not found in {listObj.name} threat list"
-                    + bcolors.ENDC
+                    f"{bcolors.WARNING}[-] Domain not found in {listObj.name} threat list{bcolors.ENDC}"
                 )
     except Exception:
-        print(bcolors.ERROR + "[!] Unable to run domain threat lists" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}[!] Unable to run domain threat lists{bcolors.ENDC}")
 
 
 def hash_threat_lists(target):
@@ -366,17 +356,13 @@ def hash_threat_lists(target):
         for listObj in blacklistObjs:
             if len(listObj.hitlist) != 0:
                 print(
-                    bcolors.OKGREEN
-                    + f"[+] Hash found in {listObj.name} threat list"
-                    + bcolors.ENDC
+                    f"{bcolors.OKGREEN}[+] Hash found in {listObj.name} threat list{bcolors.ENDC}"
                 )
                 print(f"    [-] Category: {listObj.category}")
                 print(f"    [-] List URL: {listObj.listURL}")
             else:
                 print(
-                    bcolors.WARNING
-                    + f"[-] Hash not found in {listObj.name} threat list"
-                    + bcolors.ENDC
+                    f"{bcolors.WARNING}[-] Hash not found in {listObj.name} threat list{bcolors.ENDC}"
                 )
     except Exception:
-        print(bcolors.ERROR + "[!] Unable to run hash threat lists" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}[!] Unable to run hash threat lists{bcolors.ENDC}")

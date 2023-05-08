@@ -19,7 +19,7 @@ def menu():
     socbuddy.menu_item(2, "PhishStats URL", "tool")
     socbuddy.menu_item(3, "PhishStats IP", "tool")
     socbuddy.menu_item(4, "Report phishing email to EmailRep.io", "tool")
-    menu_switch(input(bcolors.INPUT + " ~> " + bcolors.ENDC))
+    menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
 def menu_switch(choice):
@@ -57,16 +57,12 @@ def report_phishing():
             email = socbuddy.ask_for_user_input("Enter email address")
             tags = str(
                 input(
-                    bcolors.INPUT
-                    + 'Input comma delaminated tags. For example "bec,maldoc": '
-                    + bcolors.ENDC
+                    f"{bcolors.INPUT}Input comma delaminated tags. For example 'bec,maldoc': {bcolors.ENDC}"
                 )
             ).strip()
             description = str(
                 input(
-                    bcolors.INPUT
-                    + 'Enter a reason why youre reporting this email. Example "Phishing email targeting CEO": '
-                    + bcolors.ENDC
+                    f"{bcolors.INPUT}Enter a reason why youre reporting this email. Example 'Phishing targeting CEO': {bcolors.ENDC}"
                 )
             ).strip()
 
@@ -74,9 +70,7 @@ def report_phishing():
                 tags = tags.split(",")
 
             yn = input(
-                bcolors.ORANGE
-                + f"You're about to report the email: {email}\nTags: {tags}\nDescription: {description}\n\nAre you sure you want to do this?? (Y/N): "
-                + bcolors.ENDC
+                f"{bcolors.ORANGE}You're about to report the email: {email}\nTags: {tags}\nDescription {description}\n\nAre you sure you want to do this?? (Y/N): {bcolors.ENDC}"
             )
 
             if yn.upper() == "Y":
@@ -101,12 +95,14 @@ def phish_stats_url():
         if response.status_code == 200:
             print("")
             for x in response.json():
-                print(bcolors.OKGREEN + f"IP    : {str(x['ip'])}" + bcolors.ENDC)
-                print(bcolors.OKGREEN + f"Title : {str(x['title'])}" + bcolors.ENDC)
-                print(bcolors.OKGREEN + f"URL   : {str(x['url'])}" + bcolors.ENDC)
-                print(bcolors.OKGREEN + f"Score : {str(x['score'])}" + bcolors.ENDC)
-                print(bcolors.OKGREEN + f"Tags  : {str(x['tags'])}" + bcolors.ENDC)
-                print("")
+                output = {
+                    "IP": str(x["ip"]),
+                    "Title": str(x["title"]),
+                    "URL": str(x["url"]),
+                    "Score": str(x["score"]),
+                    "Tags": str(x["tags"]),
+                }
+                socbuddy.print_json(output)
         else:
             socbuddy.error_message(f"Error {response.status_code}: {response.text}")
         osint.osint_enrichment(url, True)
@@ -129,12 +125,14 @@ def phish_stats_ip():
             for x in response.json():
                 if str(x["ip"]) == ip:
                     c += 1
-                    print(bcolors.OKGREEN + f"IP    : {str(x['ip'])}" + bcolors.ENDC)
-                    print(bcolors.OKGREEN + f"Title : {str(x['title'])}" + bcolors.ENDC)
-                    print(bcolors.OKGREEN + f"URL   : {str(x['url'])}" + bcolors.ENDC)
-                    print(bcolors.OKGREEN + f"Score : {str(x['score'])}" + bcolors.ENDC)
-                    print(bcolors.OKGREEN + f"Tags  : {str(x['tags'])}" + bcolors.ENDC)
-                    print("")
+                    output = {
+                        "IP": str(x["ip"]),
+                        "Title": str(x["title"]),
+                        "URL": str(x["url"]),
+                        "Score": str(x["score"]),
+                        "Tags": str(x["tags"]),
+                    }
+                    socbuddy.print_json(output)
             if c == 0:
                 socbuddy.error_message("No results found")
         else:

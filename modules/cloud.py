@@ -12,7 +12,7 @@ def menu():
     socbuddy.menu_item(2, "AWS eventName Lookup", "tool")
     socbuddy.menu_item(3, "GCP serviceName Lookup", "tool")
     socbuddy.menu_item(4, "Azure Service Actions Lookup", "tool")
-    menu_switch(input(bcolors.INPUT + " ~> " + bcolors.ENDC))
+    menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
 def menu_switch(choice):

@@ -26,7 +26,7 @@ def menu():
     socbuddy.menu_item(7, "Geo Compare IPs", "tool")
     socbuddy.menu_item(8, "TCP/UDP Port Lookup", "tool")
     socbuddy.menu_item(9, "Defang URLs & IPs", "tool")
-    menu_switch(input(bcolors.INPUT + " ~> " + bcolors.ENDC))
+    menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
 def menu_switch(choice):
@@ -249,34 +249,28 @@ def get_ip_quality_score_geo(ip_address):
 
 def check_if_mobile(ip_address, ipquality_data):
     if ipquality_data["mobile"] or ipquality_data["connection_type"] == "Mobile":
-        print(bcolors.ERROR + f"{ip_address} a mobile IP address!" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}{ip_address} a mobile IP address!{bcolors.ENDC}")
     else:
-        print(bcolors.OKGREEN + f"{ip_address} not a mobile IP address." + bcolors.ENDC)
+        print(f"{bcolors.OKGREEN}{ip_address} not a mobile IP address.{bcolors.ENDC}")
 
 
 def check_if_zscalar(ip_address, ipquality_data):
     if ipquality_data["ISP"] == "Zscaler":
-        print(bcolors.ERROR + f"{ip_address} is a Zscalar IP address!" + bcolors.ENDC)
+        print(f"{bcolors.ERROR}{ip_address} is a Zscalar IP address!{bcolors.ENDC}")
     else:
         print(
-            bcolors.OKGREEN
-            + f"{ip_address} is not a Zscalar IP address."
-            + bcolors.ENDC
+            f"{bcolors.OKGREEN}{ip_address} is not a Zscalar IP address.{bcolors.ENDC}"
         )
 
 
 def check_if_residential(ip_address, ipquality_data):
     if ipquality_data["connection_type"] == "Residential":
         print(
-            bcolors.OKGREEN
-            + f"{ip_address} is a residential IP address."
-            + bcolors.ENDC
+            f"{bcolors.OKGREEN}{ip_address} is a residential IP address.{bcolors.ENDC}"
         )
     else:
         print(
-            bcolors.ERROR
-            + f"{ip_address} is a {ipquality_data['connection_type']} IP address!"
-            + bcolors.ENDC
+            f"{bcolors.ERROR}{ip_address} is a {ipquality_data['connection_type']} IP address!{bcolors.ENDC}"
         )
 
 

@@ -16,7 +16,7 @@ def menu():
     socbuddy.menu_item(3, "LOLdriver Lookup", "tool")
     socbuddy.menu_item(4, "CLISD Lookup", "tool")
     socbuddy.menu_item(5, "EchoTrail Lookup - WIP", "tool")
-    menu_switch(str(input(bcolors.INPUT + " ~> " + bcolors.ENDC)))
+    menu_switch(str(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}")))
 
 
 def menu_switch(choice):

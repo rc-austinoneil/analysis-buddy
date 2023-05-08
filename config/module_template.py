@@ -11,7 +11,7 @@ def menu():
     socbuddy.menu_item(1, "Tool function", "tool")
     socbuddy.menu_item(2, "Menu function", "menu")
     socbuddy.menu_item(0, "Return to main menu", "goback")
-    menu_switch(input(bcolors.INPUT + " ~> " + bcolors.ENDC))
+    menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
 def menu_switch(choice):
