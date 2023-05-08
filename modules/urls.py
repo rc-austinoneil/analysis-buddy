@@ -1,6 +1,7 @@
 import socbuddy
 import time
 import requests
+import json
 from config import fontcolors, loadconfig
 
 bcolors = fontcolors.bcolors()
@@ -35,63 +36,47 @@ def urlscanio():
                     f"{bcolors.INPUT}\nSet scan visibility to Public? \nType '1' for Public or '2' for Private: {bcolors.ENDC}"
                 )
             )
-            if type_prompt == "1":
-                scan_type = "public"
-            else:
-                scan_type = "private"
 
+            visibility = "public" if type_prompt == "1" else "private"
+            data = {"url": url_to_scan, "visibility": visibility}
             headers = {
+                "API-Key": str(configvars.data["URLSCAN_IO_KEY"]),
                 "Content-Type": "application/json",
-                "API-Key": configvars.data["URLSCAN_IO_KEY"],
             }
+
             response = requests.post(
                 "https://urlscan.io/api/v1/scan/",
                 headers=headers,
-                data='{"url": "%s", "%s": "on"}' % (url_to_scan, scan_type),
-            ).json()
+                data=json.dumps(data),
+            )
 
-            if "successful" in response["message"]:
+            if response.status_code == 200:
                 socbuddy.info_message(
-                    f"Now scanning {url_to_scan}. Check back in around 1 minute."
+                    f"Now {visibility} scanning {url_to_scan}\nCheck back in 1 minute."
                 )
 
-                uuid_variable = str(response["uuid"])
+                uuid_variable = str(response.json()["uuid"])
                 time.sleep(60)
                 scan_results = requests.get(
                     f"https://urlscan.io/api/v1/result/{uuid_variable}/"
                 ).json()
 
-                task_url = scan_results["task"]["url"]
-                verdicts_overall_score = scan_results["verdicts"]["overall"]["score"]
-                verdicts_overall_malicious = scan_results["verdicts"]["overall"][
-                    "malicious"
-                ]
-                task_report_URL = scan_results["task"]["reportURL"]
-
-                print("urlscan.io Report:")
-                print("URL: " + task_url)
-                print("Overall Verdict: " + str(verdicts_overall_score))
-                print("Malicious: " + str(verdicts_overall_malicious))
-                print(
-                    "urlscan.io: " + str(scan_results["verdicts"]["urlscan"]["score"])
-                )
-                if scan_results["verdicts"]["urlscan"]["malicious"]:
-                    print(
-                        "Malicious: "
-                        + str(scan_results["verdicts"]["urlscan"]["malicious"])
-                    )  # True
-                if scan_results["verdicts"]["urlscan"]["categories"]:
-                    print("Categories: ")
-                for line in scan_results["verdicts"]["urlscan"]["categories"]:
-                    print("\t" + str(line))  # phishing
-                for line in scan_results["verdicts"]["engines"]["verdicts"]:
-                    print(
-                        str(line["engine"]) + " score: " + str(line["score"])
-                    )  # googlesafebrowsing
-                    print("Categories: ")
-                    for item in line["categories"]:
-                        print("\t" + item)  # social_engineering
-                print("See full report for more details: " + str(task_report_URL))
+                output = {
+                    "Task URL": scan_results.get("task").get("url"),
+                    "Report URL": scan_results.get("task").get("reportURL"),
+                    "Screenshot": scan_results.get("task").get("screenshotURL"),
+                    "Overall Verdict": scan_results.get("verdicts")
+                    .get("overall")
+                    .get("score"),
+                    "Malicious": scan_results.get("verdicts")
+                    .get("overall")
+                    .get("malicious"),
+                    "IPs": scan_results.get("lists").get("ips"),
+                    "Countries": scan_results.get("lists").get("countries"),
+                    "Domains": scan_results.get("lists").get("domains"),
+                    "Servers": scan_results.get("lists").get("servers"),
+                }
+                socbuddy.print_json(output)
             else:
                 socbuddy.error_message("URLScan run failed", response["message"])
     except Exception as e:
