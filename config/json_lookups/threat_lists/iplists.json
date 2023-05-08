@@ -70,42 +70,42 @@
         "period": "6 hours"
     },
     {
-        "name": "Montysecurity - Brute Ratel C2",
+        "name": "Montysecurity Brute Ratel C2",
         "desc": "Montysecurity C2-Tracker IP Threat Intelligence Feed",
         "category": "C2",
         "listURL": "https://github.com/Montysecurity/C2-Tracker/blob/main/data/Brute%20Ratel%20C4%20IPs.txt",
         "period": "N/A"
     },
     {
-        "name": "Montysecurity - Cobalt Strike",
+        "name": "Montysecurity Cobalt Strike",
         "desc": "Montysecurity C2-Tracker IP Threat Intelligence Feed",
         "category": "C2",
         "listURL": "https://github.com/Montysecurity/C2-Tracker/blob/main/data/Brute%20Ratel%20C4%20IPs.txt",
         "period": "N/A"
     },
     {
-        "name": "Montysecurity - Sliver C2",
+        "name": "Montysecurity Sliver C2",
         "desc": "Montysecurity C2-Tracker IP Threat Intelligence Feed",
         "category": "C2",
         "listURL": "https://github.com/Montysecurity/C2-Tracker/blob/main/data/Sliver%20C2%20IPs.txt",
         "period": "N/A"
     },
     {
-        "name": "Montysecurity - Posh C2",
+        "name": "Montysecurity Posh C2",
         "desc": "Montysecurity C2-Tracker IP Threat Intelligence Feed",
         "category": "C2",
         "listURL": "https://github.com/Montysecurity/C2-Tracker/blob/main/data/Posh%20C2%20IPs.txt",
         "period": "N/A"
     },
     {
-        "name": "Montysecurity - Metasploit",
+        "name": "Montysecurity Metasploit",
         "desc": "Montysecurity C2-Tracker IP Threat Intelligence Feed",
         "category": "C2",
         "listURL": "https://github.com/Montysecurity/C2-Tracker/blob/main/data/Metasploit%20Framework%20C2%20IPs.txt",
         "period": "N/A"
     },
     {
-        "name": "Montysecurity - Havoc C2",
+        "name": "Montysecurity Havoc C2",
         "desc": "Montysecurity C2-Tracker IP Threat Intelligence Feed",
         "category": "C2",
         "listURL": "https://github.com/Montysecurity/C2-Tracker/blob/main/data/Havoc%20C2%20IPs.txt",
