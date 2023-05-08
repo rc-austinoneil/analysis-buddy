@@ -6,7 +6,7 @@ import webbrowser
 import urllib.parse
 import json
 import requests
-from modules import urls, dns_ip, decoders, phishing, osint, mitre, windows, cloud
+from modules import dns_ip, decoders, phishing, osint, mitre, windows, cloud
 from config import fontcolors, loadconfig
 from team import teammenu
 from datetime import datetime
@@ -24,13 +24,12 @@ def main_menu():
     menu_item(1, teammenu.team_name(), "menu")
     menu_item(2, "Decoders (PP, URL, SafeLinks)", "menu")
     menu_item(3, "DNS and IP Tools", "menu")
-    menu_item(4, "Phishing Analysis", "menu")
-    menu_item(5, "URLs", "menu")
-    menu_item(6, "Windows Tools", "menu")
-    menu_item(7, "Cloud Tools", "menu")
-    menu_item(8, "Run data through OSINT tooling", "tool")
-    menu_item(9, "MITRE ATT&CK Lookup", "tool")
-    menu_item(10, "JSON Pretty Print", "tool")
+    menu_item(4, "Phishing & URL Analysis", "menu")
+    menu_item(5, "Windows Tools", "menu")
+    menu_item(6, "Cloud Tools", "menu")
+    menu_item(7, "Run data through OSINT tooling", "tool")
+    menu_item(8, "MITRE ATT&CK Lookup", "tool")
+    menu_item(9, "JSON Pretty Print", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -46,16 +45,14 @@ def menu_switch(choice):
     if choice == "4":
         phishing.menu()
     if choice == "5":
-        urls.menu()
-    if choice == "6":
         windows.menu()
-    if choice == "7":
+    if choice == "6":
         cloud.menu()
-    if choice == "8":
+    if choice == "7":
         osint.run_osint()
-    if choice == "9":
+    if choice == "8":
         mitre.mitre_lookup()
-    if choice == "10":
+    if choice == "9":
         decoders.json_pprint()
     else:
         main_menu()
