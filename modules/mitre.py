@@ -1,6 +1,4 @@
 import socbuddy
-import os
-import requests
 from mitreattack.stix20 import MitreAttackData
 from config import fontcolors
 
