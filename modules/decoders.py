@@ -201,6 +201,8 @@ def json_pprint(clear_screen=True):
         socbuddy.print_json(json.loads(line))
     except Exception:
         socbuddy.error_message("Error parsing JSON input.")
+    except KeyboardInterrupt:
+        socbuddy.error_message("Keyboard Interrupt")
     json_pprint(False) if socbuddy.ask_to_run_again() else socbuddy.main_menu()
 
 
