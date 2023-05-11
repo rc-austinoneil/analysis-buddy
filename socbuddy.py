@@ -210,8 +210,8 @@ def print_json(json_data, level=0, newline=True):
                     for item in v:
                         if isinstance(item, dict):
                             print_json(item, level+1, False)
-                        if isinstance(item, list):
-                                print(" "*level + f" - {str(item)}") 
+                        elif isinstance(item, list):
+                            print(" "*level + f" - {str(item)}")
                         else:
                             print(" "*level + f" - {str(item)}")
                 else:
