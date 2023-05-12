@@ -60,14 +60,23 @@ def menu_switch(choice):
 
 # Project Wide Functions
 def title_bar(title, include_clipboard=False):
-    print("")
-    print(
-        f"{bcolors.HEADER}{bcolors.UNDERLINE}{title[:50].upper().center(50)}{bcolors.ENDC}"
-    )
-    if include_clipboard and not clipboard_paste() == "Clipboard init failed.":
+    try:
         print("")
-        print(f"{bcolors.HEADER}On Clipboard:{bcolors.ENDC} {clipboard_paste()[:75]}")
-    print("")
+        print(
+            f"{bcolors.HEADER}{bcolors.UNDERLINE}{title[:50].upper().center(50)}{bcolors.ENDC}"
+        )
+        if include_clipboard and not clipboard_paste() == "Clipboard init failed.":
+            print("")
+            print(
+                f"{bcolors.HEADER}On Clipboard:{bcolors.ENDC} {clipboard_paste()[:75]}"
+            )
+        print("")
+    except Exception:
+        print("")
+        print(
+            f"{bcolors.HEADER}{bcolors.UNDERLINE}{title[:50].upper().center(50)}{bcolors.ENDC}"
+        )
+        print("")
 
 
 def title_bar_time():
