@@ -5,7 +5,6 @@ import ipaddress
 import re
 import json
 import datetime
-import os
 from config import fontcolors, loadconfig
 
 bcolors = fontcolors.bcolors()
@@ -59,67 +58,71 @@ def get_target_type(target):
     return "fqdn"
 
 
-def count_occurrences(target):
+def update_historical_osint_data(target):
+    """
+    This code creates a file for storing the historical OSINT data. It then
+    reads the data into a variable, checks to see if the target has been
+    scanned before, and if it has, it appends the date to the file. Finally,
+    it outputs the number of times the target has been scanned and the date
+    of the last scan.
+    """
     historical_osint_data = "./config/output/osint_data.json"
 
-    def append_to_file(target):
-        date = datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-        data = {"target": target, "date": date}
+    with open(historical_osint_data, "w+") as f:
         try:
-            with open(historical_osint_data, "r") as f:
-                existing_data = json.load(f)
-        except Exception:
-            existing_data = []
-        existing_data.append(data)
-        with open(historical_osint_data, "w") as f:
-            json.dump(existing_data, f)
+            historical_osint_data = json.load(f)
+        except json.decoder.JSONDecodeError:  # expecting json value
+            historical_osint_data = []
 
-    try:
-        if not os.path.exists(historical_osint_data):
-            os.system(f"touch {historical_osint_data}")
+        last_scan_date = None
+        for entry in reversed(historical_osint_data):
+            if entry.get("target") == target:
+                last_scan_date = entry.get("date")
+                break
 
-        with open(historical_osint_data, "r") as f:
-            data = json.load(f)
-    except Exception:
-        data = []
-
-    last_date = None
-    for d in reversed(data):
-        if d.get("target") == target:
-            last_date = d.get("date")
-            break
-
-    count = sum(1 for d in data if d.get("target") == target)
-    append_to_file(target)
-
-    if count == 0:
-        return f"{target} has not been scanned before."
-    else:
-        return (
-            f"{target} has been scanned {count} times, the last scan was: {last_date}"
+        count = sum(
+            1 for entry in historical_osint_data if entry.get("target") == target
         )
+
+        try:
+            target = target.replace("[.]", ".")
+            data = {
+                "target": target,
+                "date": datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S"),
+            }
+            historical_osint_data.append(data)
+            json.dump(historical_osint_data, f)
+        except Exception as e:
+            socbuddy.error_message("Failed to update historical OSINT data", str(e))
+
+        if count == 0:
+            return f"{target} has not been scanned before."
+        else:
+            return f"{target} has been scanned {count} times, the last scan was: {last_scan_date}"
 
 
 def run_osint():
     try:
         socbuddy.title_bar("Machinae OSINT")
-        target = str(socbuddy.ask_for_user_input("Enter a target"))
-        if "[.]" in target:
-            target = target.replace("[.]", ".")
+        target = socbuddy.ask_for_user_input("Enter a target")
         socbuddy.info_message(f"Running OSINT search for {target}", True)
-        socbuddy.info_message(count_occurrences(target), False)
+        socbuddy.info_message(update_historical_osint_data(target), False)
         subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
-        additional_osint(target)
+        run_secondary_osint(target)
         run_osint() if socbuddy.ask_to_run_again() else socbuddy.main_menu()
     except KeyboardInterrupt:
         socbuddy.error_message("OSINT search canceled.")
-    except Exception:
-        socbuddy.error_message("Failed to run OSINT search.")
+    except Exception as e:
+        socbuddy.error_message("Failed to run OSINT search.", str(e))
         input(bcolors.INPUT + "Press enter to return to the main menu" + bcolors.ENDC)
         socbuddy.main_menu()
 
 
-def osint_enrichment(target, newline=False):
+def run_osint_no_menu(target, newline=False):
+    """
+    This code asks the user if they want to run additional OSINT and then
+    run the Machinae against the target, with secondary osint tools.
+    """
     try:
         if newline:
             print("")
@@ -130,18 +133,18 @@ def osint_enrichment(target, newline=False):
             ).upper()
             == "Y"
         ):
-            count_occurrences(target)
+            update_historical_osint_data(target)
             subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
-            additional_osint(target)
+            run_secondary_osint(target)
         else:
             return
     except KeyboardInterrupt:
         socbuddy.error_message("OSINT search canceled.")
-    except Exception:
-        socbuddy.error_message("Failed to run OSINT search.")
+    except Exception as e:
+        socbuddy.error_message("Failed to run OSINT search.", str(e))
 
 
-def additional_osint(target):
+def run_secondary_osint(target):
     links = []
     if get_target_type(target) == "ipv4":
         tor_list(target)
@@ -172,20 +175,20 @@ def additional_osint(target):
 
 def tor_list(target):
     try:
-        TOR_URL = "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1"
-        req = requests.get(TOR_URL)
-        if req.status_code == 200:
+        tor_url = "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1"
+        response = requests.get(tor_url)
+        if response.status_code == 200:
             print(f"{bcolors.OKGREEN}[+] TOR Exit Node Report{bcolors.ENDC}")
-            tl = req.text.split("\n")
-            c = 0
-            for i in tl:
-                if target == i:
-                    print(f"    [-] {i} is a TOR Exit Node")
-                    c = c + 1
-            if c == 0:
+            tor_endpoint_list = response.text.split("\n")
+            count = 0
+            for ip_address in tor_endpoint_list:
+                if target == ip_address:
+                    print(f"    [-] {ip_address} is a TOR Exit Node")
+                    count = count + 1
+            if count == 0:
                 print(f"    [-] {target} is NOT a TOR Exit Node")
         else:
-            raise Exception
+            raise Exception(f"Invalid response {response.status_code}")
     except Exception:
         print(f"{bcolors.ERROR}[!] Unable to check against TOR list{bcolors.ENDC}")
 
@@ -193,30 +196,29 @@ def tor_list(target):
 def abuse_ipdb(target):
     try:
         if loadconfig.check_buddy_config("AB_API_KEY"):
-            AB_URL = "https://api.abuseipdb.com/api/v2/check"
-            days = "180"
-            querystring = {"ipAddress": target, "maxAgeInDays": days}
-            headers = {
-                "Accept": "application/json",
-                "Key": configvars.data["AB_API_KEY"],
-            }
             response = requests.request(
-                method="GET", url=AB_URL, headers=headers, params=querystring
+                method="GET",
+                url="https://api.abuseipdb.com/api/v2/check",
+                headers={
+                    "Accept": "application/json",
+                    "Key": configvars.data["AB_API_KEY"],
+                },
+                params={"ipAddress": target, "maxAgeInDays": "180"},
             )
 
             if response.status_code == 200:
                 req = response.json()
+                # fmt: off
                 print(f"{bcolors.OKGREEN}[+] ABUSEIPDB Report{bcolors.ENDC}")
-                print("    [-] IP:          " + str(req["data"]["ipAddress"]))
-                print("    [-] Reports:     " + str(req["data"]["totalReports"]))
-                print(
-                    "    [-] Abuse Score: "
-                    + str(req["data"]["abuseConfidenceScore"])
-                    + "%"
-                )
-                print("    [-] Last Report: " + str(req["data"]["lastReportedAt"]))
+                print(f"    [-] IP:          {req.get('data', {}).get('ipAddress')}")
+                print(f"    [-] Reports:     {req.get('data', {}).get('totalReports')}")
+                print(f"    [-] Abuse Score: {req.get('data', {}).get('abuseConfidenceScore')}%")   
+                print(f"    [-] Last Report: {req.get('data', {}).get('lastReportedAt')}")
+                # fmt: on
             else:
-                raise Exception
+                raise Exception(f"Invalid response {response.status_code}")
+        else:
+            raise Exception("Invalid API Key")
     except Exception:
         print(f"{bcolors.ERROR}[!] Unable to run ABUSE IPDB{bcolors.ENDC}")
 
@@ -230,7 +232,7 @@ def ip_threat_lists(target):
             self.listURL = listURL
             self.period = period
 
-        def ip_threat_lists(self, target):
+        def search_threat_lists(self, target):
             self.hitlist = set()
             req = requests.get(self.listURL)
             if req.status_code == 200:
@@ -239,37 +241,42 @@ def ip_threat_lists(target):
                     if target == line:
                         self.hitlist.add(target)
 
-    try:
-        with open("./config/json_lookups/threat_lists/iplists.json") as settings:
-            blacklists = json.load(settings)
-
-        blacklistObjs = [
-            lookupLists(
-                blacklist["name"],
-                blacklist["desc"],
-                blacklist["category"],
-                blacklist["listURL"],
-                blacklist["period"],
+        def print_output(self):
+            print(
+                f"{bcolors.OKGREEN}[+] IP found in {listObj.name} threat list{bcolors.ENDC}"
             )
-            for blacklist in blacklists
-        ]
+            print(f"    [-] Category: {listObj.category}")
+            print(f"    [-] List Age: {listObj.period}")
+            print(f"    [-] List Description: {listObj.desc}")
+            print(f"    [-] List URL: {listObj.listURL}")
 
-        for listObj in blacklistObjs:
-            listObj.ip_threat_lists(target)
+    try:
+        with open("./config/json_lookups/threat_lists/iplists.json") as threat_list:
+            threat_list = json.load(threat_list)
 
-        for listObj in blacklistObjs:
-            if len(listObj.hitlist) != 0:
-                print(
-                    f"{bcolors.OKGREEN}[+] IP found in {listObj.name} threat list{bcolors.ENDC}"
+        threatlistObjs = []
+        for ip_address in threat_list:
+            threatlistObjs.append(
+                lookupLists(
+                    ip_address["name"],
+                    ip_address["desc"],
+                    ip_address["category"],
+                    ip_address["listURL"],
+                    ip_address["period"],
                 )
-                print(f"    [-] Category: {listObj.category}")
-                print(f"    [-] List Age: {listObj.period}")
-                print(f"    [-] List Description: {listObj.desc}")
-                print(f"    [-] List URL: {listObj.listURL}")
+            )
+
+        for listObj in threatlistObjs:
+            listObj.search_threat_lists(target)
+
+        for listObj in threatlistObjs:
+            if len(listObj.hitlist) != 0:
+                listObj.print_output()
             else:
                 print(
                     f"{bcolors.WARNING}[-] IP not found in {listObj.name} threat list{bcolors.ENDC}"
                 )
+
     except Exception:
         print(f"{bcolors.ERROR}[!] Unable to run IP threat lists{bcolors.ENDC}")
 
@@ -288,7 +295,7 @@ def domain_threat_lists(target):
                 line = line.strip()
             return line
 
-        def domain_threat_lists(self, target):
+        def search_threat_lists(self, target):
             self.hitlist = set()
             req = requests.get(self.listURL)
             if req.status_code == 200:
@@ -298,25 +305,29 @@ def domain_threat_lists(target):
                     if target == line:
                         self.hitlist.add(target)
 
+        def print_output(self):
+            print(
+                f"{bcolors.OKGREEN}[+] Domain found in {listObj.name} threat list{bcolors.ENDC}"
+            )
+            print(f"    [-] Category: {listObj.category}")
+            print(f"    [-] List URL: {listObj.listURL}")
+
     try:
-        with open("./config/json_lookups/threat_lists/domainlists.json") as settings:
-            blacklists = json.load(settings)
+        with open("./config/json_lookups/threat_lists/domainlists.json") as threat_list:
+            threat_list = json.load(threat_list)
 
-        blacklistObjs = [
-            lookupLists(blacklist["name"], blacklist["category"], blacklist["listURL"])
-            for blacklist in blacklists
-        ]
+        threatlistObjs = []
+        for domain in threat_list:
+            threatlistObjs.append(
+                lookupLists(domain["name"], domain["category"], domain["listURL"])
+            )
 
-        for listObj in blacklistObjs:
-            listObj.domain_threat_lists(target)
+        for listObj in threatlistObjs:
+            listObj.search_threat_lists(target)
 
-        for listObj in blacklistObjs:
+        for listObj in threatlistObjs:
             if len(listObj.hitlist) != 0:
-                print(
-                    f"{bcolors.OKGREEN}[+] Domain found in {listObj.name} threat list{bcolors.ENDC}"
-                )
-                print(f"    [-] Category: {listObj.category}")
-                print(f"    [-] List URL: {listObj.listURL}")
+                listObj.print_output()
             else:
                 print(
                     f"{bcolors.WARNING}[-] Domain not found in {listObj.name} threat list{bcolors.ENDC}"
@@ -332,7 +343,7 @@ def hash_threat_lists(target):
             self.category = category
             self.listURL = listURL
 
-        def hash_threat_lists(self, target):
+        def search_threat_lists(self, target):
             self.hitlist = set()
             req = requests.get(self.listURL)
             if req.status_code == 200:
@@ -341,25 +352,31 @@ def hash_threat_lists(target):
                     if target == line:
                         self.hitlist.add(target)
 
+        def print_output(self):
+            print(
+                f"{bcolors.OKGREEN}[+] Hash found in {listObj.name} threat list{bcolors.ENDC}"
+            )
+            print(f"    [-] Category: {listObj.category}")
+            print(f"    [-] List URL: {listObj.listURL}")
+
     try:
-        with open("./config/json_lookups/threat_lists/hashlists.json") as settings:
-            blacklists = json.load(settings)
+        with open("./config/json_lookups/threat_lists/hashlists.json") as threat_list:
+            threat_list = json.load(threat_list)
 
-        blacklistObjs = [
-            lookupLists(blacklist["name"], blacklist["category"], blacklist["listURL"])
-            for blacklist in blacklists
-        ]
-
-        for listObj in blacklistObjs:
-            listObj.hash_threat_lists(target)
-
-        for listObj in blacklistObjs:
-            if len(listObj.hitlist) != 0:
-                print(
-                    f"{bcolors.OKGREEN}[+] Hash found in {listObj.name} threat list{bcolors.ENDC}"
+        threatlistObjs = []
+        for hash_item in threat_list:
+            threatlistObjs.append(
+                lookupLists(
+                    hash_item["name"], hash_item["category"], hash_item["listURL"]
                 )
-                print(f"    [-] Category: {listObj.category}")
-                print(f"    [-] List URL: {listObj.listURL}")
+            )
+
+        for listObj in threatlistObjs:
+            listObj.search_threat_lists(target)
+
+        for listObj in threatlistObjs:
+            if len(listObj.hitlist) != 0:
+                listObj.print_output()
             else:
                 print(
                     f"{bcolors.WARNING}[-] Hash not found in {listObj.name} threat list{bcolors.ENDC}"

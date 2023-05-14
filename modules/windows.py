@@ -54,8 +54,8 @@ def clsid_lookup():
                     )
         else:
             raise Exception
-    except Exception:
-        socbuddy.error_message(f"Failed to run the CLSID lookup.")
+    except Exception as e:
+        socbuddy.error_message(f"Failed to run the CLSID lookup.", str(e))
     clsid_lookup() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -69,8 +69,8 @@ def event_id_lookup():
         socbuddy.json_lookup(
             "./config/json_lookups/windows_lookups/windowseventids.json", "UTF-8"
         )
-    except Exception:
-        socbuddy.error_message("Failed to run the event id lookup")
+    except Exception as e:
+        socbuddy.error_message("Failed to run the event id lookup", str(e))
     event_id_lookup() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -84,8 +84,8 @@ def lolbin_lookup():
         socbuddy.json_lookup(
             "./config/json_lookups/windows_lookups/lolbins.json", "UTF-8"
         )
-    except Exception:
-        socbuddy.error_message("Failed to run the LOLBin lookup")
+    except Exception as e:
+        socbuddy.error_message("Failed to run the LOLBin lookup", str(e))
     lolbin_lookup() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -99,8 +99,8 @@ def loldriver_lookup():
         socbuddy.json_lookup(
             "./config/json_lookups/windows_lookups/loldrivers.json", "UTF-8"
         )
-    except Exception:
-        socbuddy.error_message("Failed to run the Loldriver lookup")
+    except Exception as e:
+        socbuddy.error_message("Failed to run the Loldriver lookup", str(e))
     loldriver_lookup() if socbuddy.ask_to_run_again() else menu()
 
 

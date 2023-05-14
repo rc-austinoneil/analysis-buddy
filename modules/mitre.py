@@ -49,6 +49,13 @@ def get_mitre_details(mitre_id):
             "description": mitre_object.get("description"),
         }
         return mitre_details
+
+    except AttributeError:
+        socbuddy.error_message(
+            f"Mitre ID ({mitre_id}) not found. Check the Mitre ID and try again."
+        )
+        return None
+
     except Exception:
         socbuddy.error_message(f"Failed to get Mitre details for {mitre_id}.")
         return None
@@ -59,20 +66,22 @@ def mitre_lookup():
         socbuddy.title_bar("Mitre Lookup")
         mitre_id = socbuddy.ask_for_user_input("Enter the MITRE ID to lookup")
         mitre_id = check_mitre_id(mitre_id)
-        socbuddy.info_message(f"Looking up Mitre ID: {mitre_id}")
-        socbuddy.download_file_from_internet(
-            url="https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json",
-            file_path="./config/json_lookups/mitre-enterprise-attack.json",
-        )
-        technique = get_mitre_details(mitre_id)
-        socbuddy.next_result_message(f"Technique: {mitre_id}")
-        socbuddy.print_json(technique, False)
-        if "." in mitre_id:
-            parent_technique = get_mitre_details(mitre_id.split(".")[0])
-            socbuddy.next_result_message(f'Parent Technique: {mitre_id.split(".")[0]}')
-            socbuddy.print_json(parent_technique, False)
-    except Exception:
-        socbuddy.error_message(
-            f"Mitre ID ({mitre_id}) not found. Check the Mitre ID and try again."
-        )
+        if mitre_id:
+            socbuddy.info_message(f"Looking up Mitre ID: {mitre_id}")
+            socbuddy.download_file_from_internet(
+                url="https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json",
+                file_path="./config/json_lookups/mitre-enterprise-attack.json",
+            )
+            technique = get_mitre_details(mitre_id)
+            if technique:
+                socbuddy.next_result_message(f"Technique: {mitre_id}")
+                socbuddy.print_json(technique, False)
+                if "." in mitre_id:
+                    parent_technique = get_mitre_details(mitre_id.split(".")[0])
+                    socbuddy.next_result_message(
+                        f'Parent Technique: {mitre_id.split(".")[0]}'
+                    )
+                    socbuddy.print_json(parent_technique, False)
+    except Exception as e:
+        socbuddy.error_message(f"Failed to run MITRE lookup", str(e))
     mitre_lookup() if socbuddy.ask_to_run_again() else socbuddy.main_menu()

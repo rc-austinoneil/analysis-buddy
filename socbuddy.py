@@ -194,8 +194,8 @@ def open_in_jsoncrack(inputdata):
             url = f"http://127.0.0.1:8888/editor?json={urllib.parse.quote_plus(json.dumps(inputdata))}"
             success_message(url)
             webbrowser.open(url)
-        except Exception:
-            error_message("Error opening jsoncrack.")
+        except Exception as e:
+            error_message("Error opening jsoncrack.", str(e))
 
 
 # fmt: off
@@ -225,8 +225,8 @@ def print_json(json_data, level=0, newline=True):
                             print(" "*level + f" - {str(item)}")
                 else:
                     print(" "*level + f"{bcolors.OKGREEN}{k.capitalize()}: {bcolors.ENDC}{str(v)}")
-    except Exception:
-        error_message("Error printing results.")
+    except Exception as e:
+        error_message("Error printing results.", str(e))
 # fmt: on
 
 
@@ -242,8 +242,8 @@ def json_lookup(file, encoding=None):
                         if searchFor in str(v):
                             output.append(k)
             return output
-        except Exception:
-            error_message(f"Error searching for {searchFor} in {file}.")
+        except Exception as e:
+            error_message(f"Error searching for {searchFor} in {file}.", str(e))
 
     try:
         searchFor = ask_for_user_input("Enter a search string")
@@ -276,8 +276,8 @@ def download_file_from_internet(url, file_path):
                 with open(file_path, "wb") as f:
                     f.write(response.content)
                 info_message(f"File downloaded and saved to {file_path}")
-    except Exception:
-        error_message(f"Failed to download {url} to {file_path}")
+    except Exception as e:
+        error_message(f"Failed to download {url} to {file_path}", str(e))
 
 
 if __name__ == "__main__":

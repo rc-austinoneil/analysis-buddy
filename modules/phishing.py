@@ -50,10 +50,10 @@ def analyze_email():
         if loadconfig.check_buddy_config("EMAILREP_API_KEY"):
             socbuddy.title_bar("EmailRep.io Analyze Email")
             email = socbuddy.ask_for_user_input("Enter email address")
-            socbuddy.info_message(osint.count_occurrences(email), True)
+            socbuddy.info_message(osint.update_historical_osint_data(email), True)
             emailrep = EmailRep(f"{configvars.data['EMAILREP_API_KEY']}")
             socbuddy.print_json(emailrep.query(email))
-            osint.osint_enrichment(email, True)
+            osint.run_osint_no_menu(email, True)
     except Exception as e:
         socbuddy.error_message("Error querying EmailRep.io", str(e))
     analyze_email() if socbuddy.ask_to_run_again() else menu()
@@ -97,7 +97,7 @@ def phish_stats_url():
     try:
         socbuddy.title_bar("PhishStats URL")
         url = socbuddy.ask_for_user_input()
-        socbuddy.info_message(osint.count_occurrences(url), True)
+        socbuddy.info_message(osint.update_historical_osint_data(url), True)
         endpoint = "https://phishstats.info:2096/api/phishing"
         params = {"_size": "100", "url": f"like,~{url}~"}
         response = requests.get(endpoint, params=params)
@@ -114,9 +114,9 @@ def phish_stats_url():
                 socbuddy.print_json(output)
         else:
             socbuddy.error_message(f"Error {response.status_code}: {response.text}")
-        osint.osint_enrichment(url, True)
-    except Exception:
-        socbuddy.error_message("Failed to query PhishStats API")
+        osint.run_osint_no_menu(url, True)
+    except Exception as e:
+        socbuddy.error_message("Failed to query PhishStats API", str(e))
     phish_stats_url() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -124,7 +124,7 @@ def phish_stats_ip():
     try:
         socbuddy.title_bar("PhishStats IPs")
         ip = socbuddy.ask_for_user_input()
-        socbuddy.info_message(osint.count_occurrences(ip), True)
+        socbuddy.info_message(osint.update_historical_osint_data(ip), True)
         endpoint = "https://phishstats.info:2096/api/phishing"
         params = {"_size": "100", "url": f"eq,{ip}"}
         response = requests.get(endpoint, params=params)
@@ -146,9 +146,9 @@ def phish_stats_ip():
                 socbuddy.error_message("No results found")
         else:
             socbuddy.error_message(f"Error {response.status_code}: {response.text}")
-        osint.osint_enrichment(ip, True)
-    except Exception:
-        socbuddy.error_message("Failed to query PhishStats API")
+        osint.run_osint_no_menu(ip, True)
+    except Exception as e:
+        socbuddy.error_message("Failed to query PhishStats API", str(e))
     phish_stats_ip() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -157,6 +157,7 @@ def urlscanio():
         if loadconfig.check_buddy_config("URLSCAN_IO_KEY"):
             socbuddy.title_bar("Urlscan.io")
             url_to_scan = socbuddy.ask_for_user_input("Enter URL")
+            socbuddy.info_message(osint.update_historical_osint_data(url_to_scan), True)
             type_prompt = str(
                 input(
                     f"{bcolors.INPUT}\nSet scan visibility to Public? \nType '1' for Public or '2' for Private: {bcolors.ENDC}"
@@ -164,16 +165,14 @@ def urlscanio():
             )
 
             visibility = "public" if type_prompt == "1" else "private"
-            data = {"url": url_to_scan, "visibility": visibility}
-            headers = {
-                "API-Key": str(configvars.data["URLSCAN_IO_KEY"]),
-                "Content-Type": "application/json",
-            }
 
             response = requests.post(
                 "https://urlscan.io/api/v1/scan/",
-                headers=headers,
-                data=json.dumps(data),
+                headers={
+                    "API-Key": str(configvars.data["URLSCAN_IO_KEY"]),
+                    "Content-Type": "application/json",
+                },
+                data=json.dumps({"url": url_to_scan, "visibility": visibility}),
             )
 
             if response.status_code == 200:
@@ -188,21 +187,19 @@ def urlscanio():
                     f"https://urlscan.io/api/v1/result/{uuid_variable}/"
                 ).json()
 
+                # fmt: off
                 output = {
-                    "Task URL": scan_results.get("task").get("url"),
-                    "Report URL": scan_results.get("task").get("reportURL"),
-                    "Screenshot": scan_results.get("task").get("screenshotURL"),
-                    "Overall Verdict": scan_results.get("verdicts")
-                    .get("overall")
-                    .get("score"),
-                    "Malicious": scan_results.get("verdicts")
-                    .get("overall")
-                    .get("malicious"),
-                    "IPs": scan_results.get("lists").get("ips"),
-                    "Countries": scan_results.get("lists").get("countries"),
-                    "Domains": scan_results.get("lists").get("domains"),
-                    "Servers": scan_results.get("lists").get("servers"),
+                    "Task URL": scan_results.get("task", {}).get("url"),
+                    "Report URL": scan_results.get("task", {}).get("reportURL"),
+                    "Screenshot": scan_results.get("task", {}).get("screenshotURL"),
+                    "Overall Verdict": scan_results.get("verdicts", {}).get("overall", {}).get("score"),
+                    "Malicious": scan_results.get("verdicts", {}, {}).get("overall", {}).get("malicious"),
+                    "IPs": scan_results.get("lists", {}).get("ips"),
+                    "Countries": scan_results.get("lists", {}).get("countries"),
+                    "Domains": scan_results.get("lists", {}).get("domains"),
+                    "Servers": scan_results.get("lists", {}).get("servers"),
                 }
+                # fmt: on
                 socbuddy.print_json(output)
             else:
                 socbuddy.error_message("URLScan run failed", response["message"])
@@ -224,7 +221,6 @@ def useragent_lookup():
         fix = fix.replace("_", "-")
         fix = fix.replace(",", "-")
         fix = fix.replace("--", "-")
-
         return fix
 
     try:
@@ -233,6 +229,6 @@ def useragent_lookup():
         url = f"https://user-agents.net/string/{user_agent_fix(useragent)}"
         socbuddy.print_json({"Useragent Lookup": url})
         webbrowser.open(url, new=2)
-    except Exception:
-        socbuddy.error_message("Failed to query useragent.net")
+    except Exception as e:
+        socbuddy.error_message("Failed to query useragent.net", str(e))
     urlscanio() if socbuddy.ask_to_run_again() else menu()

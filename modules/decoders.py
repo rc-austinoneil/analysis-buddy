@@ -111,8 +111,8 @@ def proofpoint_decoder():
                     linksFoundList.clear()
             else:
                 socbuddy.error_message(f"No valid URL found in input: {rewrittenurl}")
-    except Exception:
-        socbuddy.error_message("Failed to decode ProofPoint URL")
+    except Exception as e:
+        socbuddy.error_message("Failed to decode ProofPoint URL", str(e))
     proofpoint_decoder() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -124,8 +124,8 @@ def url_decoder():
         output = {"url:": decodedUrl}
         socbuddy.print_json(output)
         socbuddy.clipboard_copy(decodedUrl)
-    except Exception:
-        socbuddy.error_message("Failed to decode URL")
+    except Exception as e:
+        socbuddy.error_message("Failed to decode URL", str(e))
     url_decoder() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -140,8 +140,8 @@ def safelinks_decoder():
         output = {"url": dcUrl}
         socbuddy.print_json(output)
         socbuddy.clipboard_copy(dcUrl)
-    except Exception:
-        socbuddy.error_message("Failed to decode SafeLink")
+    except Exception as e:
+        socbuddy.error_message("Failed to decode SafeLink", str(e))
     safelinks_decoder() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -153,8 +153,8 @@ def unshorten_url():
         output = {"url": req.text}
         socbuddy.print_json(output)
         socbuddy.clipboard_copy(req.text)
-    except Exception:
-        socbuddy.error_message("Failed to unshorten URL")
+    except Exception as e:
+        socbuddy.error_message("Failed to unshorten URL", str(e))
     unshorten_url() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -166,8 +166,8 @@ def b64_decoder():
         decoded_str = decoded_bytes.decode("utf-8")
         output = {"decoded b64": decoded_str}
         socbuddy.print_json(output)
-    except Exception:
-        socbuddy.error_message("No Base64 Encoded String Found")
+    except Exception as e:
+        socbuddy.error_message("No Base64 Encoded String Found", str(e))
     b64_decoder() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -179,8 +179,8 @@ def unfurl_url():
         unfurl_instance.add_to_queue(data_type="url", key=None, value=url_to_unfurl)
         unfurl_instance.parse_queue()
         print(unfurl_instance.generate_text_tree())
-    except Exception:
-        socbuddy.error_message("No valid URL found")
+    except Exception as e:
+        socbuddy.error_message("No valid URL found", str(e))
     unfurl_url() if socbuddy.ask_to_run_again() else menu()
 
 
@@ -199,8 +199,8 @@ def json_pprint(clear_screen=True):
         if clear_screen:
             os.system("clear")
         socbuddy.print_json(json.loads(line))
-    except Exception:
-        socbuddy.error_message("Error parsing JSON input.")
+    except Exception as e:
+        socbuddy.error_message("Error parsing JSON input.", str(e))
     except KeyboardInterrupt:
         socbuddy.error_message("Keyboard Interrupt")
     json_pprint(False) if socbuddy.ask_to_run_again() else socbuddy.main_menu()
@@ -225,5 +225,5 @@ def chrome_extension_lookup():
         }
         socbuddy.print_json(output)
     except AttributeError as e:
-        socbuddy.error_message("Failed to parse HTML", e)
+        socbuddy.error_message("Failed to parse HTML", str(e))
     chrome_extension_lookup() if socbuddy.ask_to_run_again() else menu()
