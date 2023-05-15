@@ -512,8 +512,11 @@ def tweetfeed_live(target=None):
     elif api_type == "hash.sha256":
         api_type = "Sha256"
         results = query_api(f"https://api.tweetfeed.live/v1/{time}/sha256")
-
-    if running_as_secondary_osint:
-        print_secondary_osint(api_type, results, domain_or_url)
     else:
-        print_results(results, domain_or_url)
+        results = None
+
+    if results:
+        if running_as_secondary_osint:
+            print_secondary_osint(api_type, results, domain_or_url)
+        else:
+            print_results(results, domain_or_url)
