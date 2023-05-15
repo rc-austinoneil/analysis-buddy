@@ -67,7 +67,7 @@ def reverse_dns_lookup():
         results = socket.gethostbyaddr(domain)
         output = {"Hostname": results[0], "Aliases": results[1], "IPs": results[2]}
         socbuddy.print_json(output)
-        osint.run_osint_no_menu(output.get("Hostname"), True)
+        osint.run_osint_no_menu(output.get("Hostname"))
     except Exception as e:
         socbuddy.error_message("Hostname not found", str(e))
     reverse_dns_lookup() if socbuddy.ask_to_run_again() else menu()
@@ -83,7 +83,7 @@ def dns_lookup():
         output = {"IP": socket.gethostbyname(domain), "Domain": domain}
         socbuddy.print_json(output)
         socbuddy.clipboard_copy(output.get("IP"))
-        osint.run_osint_no_menu(output.get("IP"), True)
+        osint.run_osint_no_menu(output.get("IP"))
     except Exception as e:
         socbuddy.error_message("Domain not found", str(e))
     dns_lookup() if socbuddy.ask_to_run_again() else menu()
@@ -124,7 +124,7 @@ def who_is():
         }
 
         socbuddy.print_json(output)
-        osint.run_osint_no_menu(w.get("query"), True)
+        osint.run_osint_no_menu(w.get("query"))
     except Exception as e:
         socbuddy.error_message("Failed to run WHOIS lookup", str(e))
     who_is() if socbuddy.ask_to_run_again() else menu()
@@ -151,7 +151,7 @@ def ip_quality_score():
                     f"https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test/lookup/{ip_address}",
                     True,
                 )
-            osint.run_osint_no_menu(ip_address, True)
+            osint.run_osint_no_menu(ip_address)
 
     except Exception as e:
         socbuddy.error_message("Failed to query IP Quality Score", str(e))
@@ -169,7 +169,7 @@ def grey_noise():
                 headers={"key": configvars.data["GREYNOISE_API_KEY"]},
             )
             socbuddy.print_json(response.json())
-            osint.run_osint_no_menu(ip_address, True)
+            osint.run_osint_no_menu(ip_address)
     except Exception as e:
         socbuddy.error_message("Failed to query Greynoise", str(e))
     grey_noise() if socbuddy.ask_to_run_again() else menu()
@@ -324,8 +324,8 @@ def ip_quality_score_geo_compare():
             check_if_residential(ip_address2, data2)
             check_if_mobile(ip_address2, data2)
             check_if_zscalar(ip_address2, data2)
-            osint.run_osint_no_menu(ip_address1, True)
-            osint.run_osint_no_menu(ip_address2, False)
+            osint.run_osint_no_menu(ip_address1)
+            osint.run_osint_no_menu(ip_address2)
     except Exception as e:
         socbuddy.error_message("Failed to run geo compare", str(e))
     ip_quality_score_geo_compare() if socbuddy.ask_to_run_again() else menu()
