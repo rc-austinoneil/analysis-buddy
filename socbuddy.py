@@ -17,6 +17,9 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def main_menu():
+    """
+    This function will clear the console and print the SOC Buddy main menu.
+    """
     os.system("clear")
     title_bar("Main Menu", True)
     title_bar_time()
@@ -34,6 +37,9 @@ def main_menu():
 
 
 def menu_switch(choice):
+    """
+    This function will take the user input and run the appropriate function.
+    """
     if choice == "0":
         sys.exit()
     if choice == "1":
