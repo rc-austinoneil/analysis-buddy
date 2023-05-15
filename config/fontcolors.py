@@ -1,5 +1,7 @@
 class bcolors:
-    """Class for coloring terminal output"""
+    """
+    Class for coloring terminal output
+    """
 
     HEADER = "\033[36m"
     INPUT = "\033[36m"
