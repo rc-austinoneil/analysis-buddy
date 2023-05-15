@@ -5,6 +5,9 @@ bcolors = fontcolors.bcolors()
 
 
 def load_buddy_config():
+    """
+    This function will load the ./config/config.yaml file and return the configvars object
+    """
     try:
         f = open("./config/config.yaml", "r")
         configvars = strictyaml.load(f.read())
@@ -18,6 +21,9 @@ def load_buddy_config():
 
 
 def check_buddy_config(key):
+    """
+    This function will check if an API key is set in the config.yaml file
+    """
     configvars = load_buddy_config()
     if configvars[key] != "Enter API Key Here":
         return True
@@ -26,6 +32,9 @@ def check_buddy_config(key):
 
 
 def check_team_config(key):
+    """
+    This function will check if an API key is set in the config.yaml file
+    """
     configvars = load_team_config()
     if configvars[key] != "Enter API Key Here":
         return True
@@ -34,6 +43,9 @@ def check_team_config(key):
 
 
 def load_team_config():
+    """
+    This function will load the ./team/config/config.yaml file and return the configvars object
+    """
     try:
         f = open("./team/config/config.yaml", "r")
         configvars = strictyaml.load(f.read())
