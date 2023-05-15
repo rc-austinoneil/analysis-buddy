@@ -38,6 +38,9 @@ def menu_switch(choice):
 
 # Tools
 def clsid_lookup():
+    """
+    This function will lookup a CLSID string in the CLSID-Lookup github repo
+    """
     try:
         socbuddy.title_bar("CLSID Lookup")
         target = socbuddy.ask_for_user_input("Enter a CLSID string to lookup")
@@ -60,6 +63,9 @@ def clsid_lookup():
 
 
 def event_id_lookup():
+    """
+    This function will lookup a Windows Event ID in ./config/json_lookups/windows_lookups/windowseventids.json
+    """
     try:
         socbuddy.title_bar("Windows Event ID Lookup")
         socbuddy.download_file_from_internet(
@@ -75,6 +81,9 @@ def event_id_lookup():
 
 
 def lolbin_lookup():
+    """
+    This function will lookup a LOLBin in ./config/json_lookups/windows_lookups/lolbins.json
+    """
     try:
         socbuddy.title_bar("LOLBin Lookup")
         socbuddy.download_file_from_internet(
@@ -90,6 +99,9 @@ def lolbin_lookup():
 
 
 def loldriver_lookup():
+    """
+    This function will lookup a LOLDriver in ./config/json_lookups/windows_lookups/loldrivers.json
+    """
     try:
         socbuddy.title_bar("Loldriver Lookup")
         socbuddy.download_file_from_internet(
@@ -105,25 +117,23 @@ def loldriver_lookup():
 
 
 def echotrail_lookup():
+    """
+    This function will lookup a Windows Binary using the EchoTrail API
+    """
     try:
         if loadconfig.check_buddy_config("ECHOTRAIL_API_KEY"):
             socbuddy.title_bar("Echo Trail Windows Binary Lookup")
             search = socbuddy.ask_for_user_input("Enter a Windows Binary to lookup")
 
-            url = f"https://api.echotrail.io/v1/insights/{search}"
-            echotrail_session = requests.session()
-            echotrail_session.verify = True
-            echotrail_session.headers = {
-                "X-Api-Key": str(configvars["ECHOTRAIL_API_KEY"]),
-                "Content-Type": "application/json",
-            }
-
-            echotrail_api_response = echotrail_session.get(
-                url, headers=echotrail_session.headers
+            response = requests.get(
+                f"https://api.echotrail.io/v1/insights/{search}",
+                headers={
+                    "X-Api-Key": str(configvars["ECHOTRAIL_API_KEY"]),
+                    "Content-Type": "application/json",
+                },
             )
-
-            if echotrail_api_response.status_code == 200:
-                print(json.dumps(echotrail_api_response.json()))
+            if response.status_code == 200:
+                socbuddy.print_json(response.json())
             else:
                 raise Exception
     except Exception as e:
