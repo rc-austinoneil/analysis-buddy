@@ -117,6 +117,9 @@ def proofpoint_decoder():
 
 
 def url_decoder():
+    """
+    This function will decode a URL using urllib.parse.unquote
+    """
     try:
         socbuddy.title_bar("URL Decoder")
         url = socbuddy.ask_for_user_input("Enter URL")
@@ -130,6 +133,9 @@ def url_decoder():
 
 
 def safelinks_decoder():
+    """
+    This function will replace the SafeLinks URL with the original URL
+    """
     try:
         socbuddy.title_bar("SafeLinks Decoder")
         url = socbuddy.ask_for_user_input("Enter URL")
@@ -146,6 +152,9 @@ def safelinks_decoder():
 
 
 def unshorten_url():
+    """
+    This function will unshorten a URL using unshorten.me
+    """
     try:
         socbuddy.title_bar("URL UnShortener")
         link = socbuddy.ask_for_user_input("Enter URL")
@@ -159,12 +168,15 @@ def unshorten_url():
 
 
 def b64_decoder():
+    """
+    This function will decode a base64 encoded string using base64.b64decode
+    """
     try:
         socbuddy.title_bar("B64 Decoder")
         b64_string = socbuddy.ask_for_user_input("Enter B64")
         decoded_bytes = base64.b64decode(b64_string)
         decoded_str = decoded_bytes.decode("utf-8")
-        output = {"decoded b64": decoded_str}
+        output = {"input b64": b64_string, "decoded b64": decoded_str}
         socbuddy.print_json(output)
     except Exception as e:
         socbuddy.error_message("No Base64 Encoded String Found", str(e))
@@ -172,6 +184,9 @@ def b64_decoder():
 
 
 def unfurl_url():
+    """
+    This function will unfurl a URL using the unfurl library
+    """
     try:
         socbuddy.title_bar("Unfurl URL")
         url_to_unfurl = socbuddy.ask_for_user_input("Enter URL")
@@ -185,6 +200,9 @@ def unfurl_url():
 
 
 def json_pprint(clear_screen=True):
+    """
+    This function will pretty print a JSON blob you paste into the terminal
+    """
     socbuddy.title_bar("PPrint JSON input", False)
     print(
         f"{bcolors.INPUT}Enter your JSON Blob below.\nEnter + CTRL+D to finish input.\n{bcolors.ENDC}"
@@ -207,6 +225,9 @@ def json_pprint(clear_screen=True):
 
 
 def chrome_extension_lookup():
+    """
+    This function will lookup a Chrome Extension ID in the Chrome Web Store
+    """
     try:
         socbuddy.title_bar("Chrome Extension Details")
         extension_id = socbuddy.ask_for_user_input("Enter the Chrome Extension ID")
