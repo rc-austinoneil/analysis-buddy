@@ -26,6 +26,7 @@ def menu():
     socbuddy.menu_item(7, "Geo Compare IPs", "tool")
     socbuddy.menu_item(8, "TCP/UDP Port Lookup", "tool")
     socbuddy.menu_item(9, "Defang URLs & IPs", "tool")
+    socbuddy.menu_item(10, "Tweetfeed IOC lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -48,6 +49,9 @@ def menu_switch(choice):
         tcp_udp_port_lookup()
     if choice == "9":
         defang()
+    if choice == "10":
+        osint.tweetfeed_live()
+        osint.tweetfeed_live() if socbuddy.ask_to_run_again() else menu()
     if choice == "0":
         socbuddy.main_menu()
     else:

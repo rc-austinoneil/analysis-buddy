@@ -24,6 +24,7 @@ def menu():
     socbuddy.menu_item(4, "Report phishing email to EmailRep.io", "tool")
     socbuddy.menu_item(5, "PhishStats URL", "tool")
     socbuddy.menu_item(6, "PhishStats IP", "tool")
+    socbuddy.menu_item(7, "Tweetfeed IOC lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -40,6 +41,9 @@ def menu_switch(choice):
         phish_stats_url()
     if choice == "6":
         phish_stats_ip()
+    if choice == "7":
+        osint.tweetfeed_live()
+        osint.tweetfeed_live() if socbuddy.ask_to_run_again() else menu()
     else:
         socbuddy.main_menu()
 

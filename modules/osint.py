@@ -167,6 +167,8 @@ def run_secondary_osint(target):
             f"https://mxtoolbox.com/SuperTool.aspx?action=mx%3a{target}&run=toolpage"
         )
 
+    tweetfeed_live(target)
+
     if links:
         print(f"{bcolors.OKGREEN}[+] OSINT Links{bcolors.ENDC}")
         for link in links:
@@ -383,3 +385,77 @@ def hash_threat_lists(target):
                 )
     except Exception:
         print(f"{bcolors.ERROR}[!] Unable to run hash threat lists{bcolors.ENDC}")
+
+
+def tweetfeed_live(target=None):
+    running_as_secondary_osint = True
+    time = "month"
+
+    def query_api(url):
+        response = requests.get(url)
+        if response.status_code == 200:
+            return response.json()
+
+    if not target:
+        socbuddy.title_bar("TweetFeed.live")
+        target = socbuddy.ask_for_user_input("Enter a target")
+        time = socbuddy.ask_for_user_input(
+            "How long would you like to search back? (today, week, month, year)"
+        )
+        running_as_secondary_osint = False
+
+    api_type = get_target_type(target)
+    domain_or_url = False
+
+    if api_type == "ipv4":
+        api_type = "IP"
+        results = query_api(f"https://api.tweetfeed.live/v1/{time}/ip")
+    elif api_type == "fqdn" or api_type == "url":
+        api_type = "Domain"
+        results = []
+        results.append(query_api(f"https://api.tweetfeed.live/v1/{time}/domain"))
+        results.append(query_api(f"https://api.tweetfeed.live/v1/{time}/url"))
+        domain_or_url = True
+    elif api_type == "hash":
+        api_type = "MD5"
+        results = query_api(f"https://api.tweetfeed.live/v1/{time}/md5")
+    elif api_type == "hash.sha256":
+        api_type = "Sha256"
+        results = query_api(f"https://api.tweetfeed.live/v1/{time}/sha256")
+
+    if not running_as_secondary_osint:
+        socbuddy.info_message(update_historical_osint_data(target), True)
+        if domain_or_url:
+            for dic in results:
+                for key in dic:
+                    if target in key.get("value"):
+                        socbuddy.print_json(key)
+        else:
+            for item in results:
+                if target in item.get("value"):
+                    socbuddy.print_json(item)
+
+    else:
+        if domain_or_url:
+            for dic in results:
+                for key in dic:
+                    if target in key.get("value"):
+                        # fmt: off
+                        print(f"{bcolors.OKGREEN}[+] {api_type} found in Tweetfeed.live data{bcolors.ENDC}")
+                        print(f"    [-] Date:  {key.get('date')}")
+                        print(f"    [-] User:  {key.get('user')}")
+                        print(f"    [-] Value: {key.get('value')}")
+                        print(f"    [-] Tweet: {key.get('tweet')}")
+                        print(f"    [-] Tags:  {key.get('tags')}")
+                        # fmt: on
+        else:
+            for item in results:
+                if target in item.get("value"):
+                    # fmt: off
+                    print(f"{bcolors.OKGREEN}[+] {api_type} found in Tweetfeed.live data{bcolors.ENDC}")
+                    print(f"    [-] Date:  {item.get('date')}")
+                    print(f"    [-] User:  {item.get('user')}")
+                    print(f"    [-] Value: {item.get('value')}")
+                    print(f"    [-] Tweet: {item.get('tweet')}")
+                    print(f"    [-] Tags:  {item.get('tags')}")
+                    # fmt: on
