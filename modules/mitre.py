@@ -22,9 +22,15 @@ def check_mitre_id(mitre_id):
 
 
 def get_mitre_details(mitre_id):
+    """
+    This function will return Mitre details for a given Mitre ID
+    """
     try:
 
         def get_mitre_url(mitre_id):
+            """
+            This function will return a valid URL for a Mitre ID
+            """
             if "." in mitre_id:
                 mitre_url_sanitized = mitre_id.replace(".", "/")
                 mitre_url = "https://attack.mitre.org/techniques/" + mitre_url_sanitized
@@ -62,6 +68,9 @@ def get_mitre_details(mitre_id):
 
 
 def mitre_lookup():
+    """
+    This function will lookup a Mitre ID in the Mitre Enterprise Attack Framework JSON file
+    """
     try:
         socbuddy.title_bar("Mitre Lookup")
         mitre_id = socbuddy.ask_for_user_input("Enter the MITRE ID to lookup")
