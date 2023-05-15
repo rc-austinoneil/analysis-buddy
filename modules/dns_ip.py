@@ -60,6 +60,9 @@ def menu_switch(choice):
 
 # Tools
 def reverse_dns_lookup():
+    """
+    This function will query DNS for information about an IP address
+    """
     try:
         socbuddy.title_bar("Reverse DNS Lookup")
         domain = socbuddy.ask_for_user_input("Enter IP to check")
@@ -74,6 +77,9 @@ def reverse_dns_lookup():
 
 
 def dns_lookup():
+    """
+    This function will query DNS for information about a domain
+    """
     try:
         socbuddy.title_bar("DNS Lookup")
         domain = socbuddy.ask_for_user_input("Enter a FQDN to check")
@@ -90,6 +96,9 @@ def dns_lookup():
 
 
 def who_is():
+    """
+    This function will query IPWhois for information about an IP address
+    """
     try:
         socbuddy.title_bar("Whois")
         search = socbuddy.ask_for_user_input("Enter IP / Domain")
@@ -131,6 +140,9 @@ def who_is():
 
 
 def ip_quality_score():
+    """
+    This function will query IP Quality Score for information about an IP address
+    """
     try:
         if loadconfig.check_buddy_config("IPQS_API_KEY"):
             socbuddy.title_bar("IP Quality")
@@ -159,6 +171,9 @@ def ip_quality_score():
 
 
 def grey_noise():
+    """
+    This function will query Greynoise for information about an IP address
+    """
     try:
         if loadconfig.check_buddy_config("GREYNOISE_API_KEY"):
             socbuddy.title_bar("Greynoise")
@@ -176,6 +191,9 @@ def grey_noise():
 
 
 def run_shodan():
+    """
+    This function will query Shodan for information about an IP address or domain
+    """
     try:
         if loadconfig.check_buddy_config("SHODAN_API_KEY"):
             socbuddy.title_bar("Shodan")
@@ -240,6 +258,9 @@ def run_shodan():
 
 
 def get_ip_quality_score_geo(ip_address):
+    """
+    This function will use IP Quality Score to get the geo location of an IP address
+    """
     try:
         if loadconfig.check_buddy_config("IPQS_API_KEY"):
             response = requests.get(
@@ -256,6 +277,9 @@ def get_ip_quality_score_geo(ip_address):
 
 
 def check_if_mobile(ip_address, ipquality_data):
+    """
+    This function will take the IP Quality Score data and determine if the IP address is a mobile IP address
+    """
     if ipquality_data["mobile"] or ipquality_data["connection_type"] == "Mobile":
         print(f"{bcolors.ERROR}{ip_address} a mobile IP address!{bcolors.ENDC}")
     else:
@@ -263,6 +287,9 @@ def check_if_mobile(ip_address, ipquality_data):
 
 
 def check_if_zscalar(ip_address, ipquality_data):
+    """
+    This function will take the IP Quality Score data and determine if the IP address is a Zscalar IP address
+    """
     if ipquality_data["ISP"] == "Zscaler":
         print(f"{bcolors.ERROR}{ip_address} is a Zscalar IP address!{bcolors.ENDC}")
     else:
@@ -272,6 +299,9 @@ def check_if_zscalar(ip_address, ipquality_data):
 
 
 def check_if_residential(ip_address, ipquality_data):
+    """
+    This function will take the IP Quality Score data and determine if the IP address is residential
+    """
     if ipquality_data["connection_type"] == "Residential":
         print(
             f"{bcolors.OKGREEN}{ip_address} is a residential IP address.{bcolors.ENDC}"
@@ -283,6 +313,9 @@ def check_if_residential(ip_address, ipquality_data):
 
 
 def ip_quality_score_geo_compare():
+    """
+    This function will use IP Quality Score to compare two IP addresses and determine the distance between them
+    """
     try:
         if loadconfig.check_buddy_config("IPQS_API_KEY"):
             socbuddy.title_bar("Geo Compare IPs")
@@ -332,6 +365,9 @@ def ip_quality_score_geo_compare():
 
 
 def tcp_udp_port_lookup():
+    """
+    This function will open a web browser to speedguide.net to lookup a TCP or UDP port
+    """
     try:
         socbuddy.title_bar("TCP/UDP Port Lookup")
         port = socbuddy.ask_for_user_input("Enter a port number")
@@ -344,6 +380,9 @@ def tcp_udp_port_lookup():
 
 
 def defang():
+    """
+    This function will defang a URL or IP address so you can safely copy and paste it into a browser or email
+    """
     try:
         socbuddy.title_bar("Defang URLs & IPs")
         input_item = socbuddy.ask_for_user_input("Enter URL or IP")
