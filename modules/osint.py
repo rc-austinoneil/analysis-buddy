@@ -14,6 +14,11 @@ machinaeconfig = loadconfig.load_machinae_config()
 
 # Tools
 def get_target_type(target):
+    """
+    This function checks the target to see if it is an IP address, hash, URL,
+    email address, SSL fingerprint, or MAC address. If it is none of those,
+    it assumes it is a domain name.
+    """
     try:
         getVer = ipaddress.ip_address(target)
         if getVer.version == 4:
@@ -60,51 +65,54 @@ def get_target_type(target):
 
 def update_historical_osint_data(target):
     """
-    This code creates a file for storing the historical OSINT data. It then
+    This function creates a file for storing the historical OSINT data. It then
     reads the data into a variable, checks to see if the target has been
     scanned before, and if it has, it appends the date to the file. Finally,
     it outputs the number of times the target has been scanned and the date
     of the last scan.
     """
-    historical_osint_data = "./config/output/osint_data.json"
+    historical_osint_data_file = "./config/output/osint_data.json"
 
-    with open(historical_osint_data, "w+") as f:
-        try:
+    try:
+        with open(historical_osint_data_file, "r") as f:
             historical_osint_data = json.load(f)
-        except json.decoder.JSONDecodeError:  # expecting json value
-            historical_osint_data = []
+    except Exception:
+        historical_osint_data = []
 
-        last_scan_date = None
-        for entry in reversed(historical_osint_data):
-            if entry.get("target") == target:
-                last_scan_date = entry.get("date")
-                break
+    last_scan_date = None
+    for entry in reversed(historical_osint_data):
+        if entry.get("target") == target:
+            last_scan_date = entry.get("date")
+            break
 
-        count = sum(
-            1 for entry in historical_osint_data if entry.get("target") == target
-        )
+    count = sum(1 for entry in historical_osint_data if entry.get("target") == target)
 
-        try:
-            target = target.replace("[.]", ".")
-            data = {
-                "target": target,
-                "date": datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S"),
-            }
+    try:
+        data = {
+            "target": target,
+            "date": datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S"),
+        }
+        with open(historical_osint_data_file, "w+") as f:
             historical_osint_data.append(data)
             json.dump(historical_osint_data, f)
-        except Exception as e:
-            socbuddy.error_message("Failed to update historical OSINT data", str(e))
+    except Exception as e:
+        socbuddy.error_message("Failed to update historical OSINT data", str(e))
 
-        if count == 0:
-            return f"{target} has not been scanned before."
-        else:
-            return f"{target} has been scanned {count} times, the last scan was: {last_scan_date}"
+    if count == 0:
+        return f"{target} has not been scanned before."
+    else:
+        return f"{target} has been scanned {count} times, the last scan was: {last_scan_date}"
 
 
 def run_osint():
+    """
+    This function will give a titlebar, ask the user for a target, and then
+    run the Machinae against the target, with secondary osint tools.
+    """
     try:
         socbuddy.title_bar("Machinae OSINT")
         target = socbuddy.ask_for_user_input("Enter a target")
+        target = target.replace("[.]", ".")
         socbuddy.info_message(f"Running OSINT search for {target}", True)
         socbuddy.info_message(update_historical_osint_data(target), False)
         subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
@@ -118,21 +126,20 @@ def run_osint():
         socbuddy.main_menu()
 
 
-def run_osint_no_menu(target, newline=False):
+def run_osint_no_menu(target):
     """
-    This code asks the user if they want to run additional OSINT and then
+    This function asks the user if they want to run additional OSINT and then
     run the Machinae against the target, with secondary osint tools.
     """
     try:
-        if newline:
-            print("")
-
+        print("")
         if (
             input(
                 f"{bcolors.INPUT}Run {target} against additional OSINT enrichment? (Y/N): {bcolors.ENDC}"
             ).upper()
             == "Y"
         ):
+            target = target.replace("[.]", ".")
             update_historical_osint_data(target)
             subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
             run_secondary_osint(target)
@@ -176,6 +183,10 @@ def run_secondary_osint(target):
 
 
 def tor_list(target):
+    """
+    This function checks the target against the TOR exit node list and outputs
+    whether or not the target is a TOR exit node.
+    """
     try:
         tor_url = "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=1.1.1.1"
         response = requests.get(tor_url)
@@ -196,6 +207,10 @@ def tor_list(target):
 
 
 def abuse_ipdb(target):
+    """
+    This function checks the target against the AbuseIPDB and outputs the
+    Abuse Confidence Score, the number of reports, and the last report date.
+    """
     try:
         if loadconfig.check_buddy_config("AB_API_KEY"):
             response = requests.request(
@@ -226,6 +241,13 @@ def abuse_ipdb(target):
 
 
 def ip_threat_lists(target):
+    """
+    This function check the target against the IP threat lists
+    located at ./config/json_lookups/threat_lists/iplists.json
+    and outputs the threat list name, category, age, description,
+    and URL.
+    """
+
     class lookupLists:
         def __init__(self, name, desc, category, listURL, period):
             self.name = name
@@ -284,6 +306,12 @@ def ip_threat_lists(target):
 
 
 def domain_threat_lists(target):
+    """
+    This function check the target against the Domain threat lists
+    located at ./config/json_lookups/threat_lists/domainlists.json
+    and outputs the threat list name, category, and URL.
+    """
+
     class lookupLists:
         def __init__(self, name, category, listURL):
             self.name = name
@@ -339,6 +367,12 @@ def domain_threat_lists(target):
 
 
 def hash_threat_lists(target):
+    """
+    This function check the target against the hash threat lists
+    located at ./config/json_lookups/threat_lists/hashlists.json
+    and outputs the threat list name, category, and URL.
+    """
+
     class lookupLists:
         def __init__(self, name, category, listURL):
             self.name = name
@@ -388,17 +422,73 @@ def hash_threat_lists(target):
 
 
 def tweetfeed_live(target=None):
+    """
+    This function checks the target against the Tweetfeed.live API
+    and outputs the date, user, value, tweet, and tags.
+    """
     running_as_secondary_osint = True
     time = "month"
 
     def query_api(url):
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json()
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                return response.json()
+        except Exception:
+            socbuddy.error_message(f"Failed to query the Tweetfeed.live API")
+
+    def print_secondary_osint(api_type, results, domain_or_url):
+        count = 0
+        if domain_or_url:
+            for dic in results:
+                for key in dic:
+                    if target in key.get("value"):
+                        count += 1
+                        # fmt: off
+                        print(f"{bcolors.OKGREEN}[+] {api_type} found in Tweetfeed.live data{bcolors.ENDC}")
+                        print(f"    [-] Date:  {key.get('date')}")
+                        print(f"    [-] User:  {key.get('user')}")
+                        print(f"    [-] Value: {key.get('value')}")
+                        print(f"    [-] Tweet: {key.get('tweet')}")
+                        print(f"    [-] Tags:  {key.get('tags')}")
+                        # fmt: on
+        else:
+            for item in results:
+                if target in item.get("value"):
+                    count += 1
+                    # fmt: off
+                    print(f"{bcolors.OKGREEN}[+] {api_type} found in Tweetfeed.live data{bcolors.ENDC}")
+                    print(f"    [-] Date:  {item.get('date')}")
+                    print(f"    [-] User:  {item.get('user')}")
+                    print(f"    [-] Value: {item.get('value')}")
+                    print(f"    [-] Tweet: {item.get('tweet')}")
+                    print(f"    [-] Tags:  {item.get('tags')}")
+                    # fmt: on
+        if count == 0:
+            print(
+                f"{bcolors.WARNING}[-] {api_type} not found in Tweetfeed.live data{bcolors.ENDC}"
+            )
+
+    def print_results(results, domain_or_url):
+        socbuddy.info_message(update_historical_osint_data(target), True)
+        count = 0
+        if domain_or_url:
+            for dic in results:
+                for key in dic:
+                    if target in key.get("value"):
+                        count += 1
+                        socbuddy.print_json(key)
+        else:
+            for item in results:
+                if target in item.get("value"):
+                    count += 1
+                    socbuddy.print_json(item)
+        if count == 0:
+            socbuddy.error_message(f"{target} not found in Tweetfeed.live data")
 
     if not target:
         socbuddy.title_bar("TweetFeed.live")
-        target = socbuddy.ask_for_user_input("Enter a target")
+        target = socbuddy.ask_for_user_input("Enter an IP, domain, or hash")
         time = socbuddy.ask_for_user_input(
             "How long would you like to search back? (today, week, month, year)"
         )
@@ -423,39 +513,7 @@ def tweetfeed_live(target=None):
         api_type = "Sha256"
         results = query_api(f"https://api.tweetfeed.live/v1/{time}/sha256")
 
-    if not running_as_secondary_osint:
-        socbuddy.info_message(update_historical_osint_data(target), True)
-        if domain_or_url:
-            for dic in results:
-                for key in dic:
-                    if target in key.get("value"):
-                        socbuddy.print_json(key)
-        else:
-            for item in results:
-                if target in item.get("value"):
-                    socbuddy.print_json(item)
-
+    if running_as_secondary_osint:
+        print_secondary_osint(api_type, results, domain_or_url)
     else:
-        if domain_or_url:
-            for dic in results:
-                for key in dic:
-                    if target in key.get("value"):
-                        # fmt: off
-                        print(f"{bcolors.OKGREEN}[+] {api_type} found in Tweetfeed.live data{bcolors.ENDC}")
-                        print(f"    [-] Date:  {key.get('date')}")
-                        print(f"    [-] User:  {key.get('user')}")
-                        print(f"    [-] Value: {key.get('value')}")
-                        print(f"    [-] Tweet: {key.get('tweet')}")
-                        print(f"    [-] Tags:  {key.get('tags')}")
-                        # fmt: on
-        else:
-            for item in results:
-                if target in item.get("value"):
-                    # fmt: off
-                    print(f"{bcolors.OKGREEN}[+] {api_type} found in Tweetfeed.live data{bcolors.ENDC}")
-                    print(f"    [-] Date:  {item.get('date')}")
-                    print(f"    [-] User:  {item.get('user')}")
-                    print(f"    [-] Value: {item.get('value')}")
-                    print(f"    [-] Tweet: {item.get('tweet')}")
-                    print(f"    [-] Tags:  {item.get('tags')}")
-                    # fmt: on
+        print_results(results, domain_or_url)
