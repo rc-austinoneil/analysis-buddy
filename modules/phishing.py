@@ -10,8 +10,6 @@ from emailrep import EmailRep
 
 bcolors = fontcolors.bcolors()
 configvars = loadconfig.load_buddy_config()
-linksFoundList = []
-linksDict = {}
 
 
 # Menu
@@ -57,7 +55,7 @@ def analyze_email():
             socbuddy.info_message(osint.update_historical_osint_data(email), True)
             emailrep = EmailRep(f"{configvars.data['EMAILREP_API_KEY']}")
             socbuddy.print_json(emailrep.query(email))
-            osint.run_osint_no_menu(email, True)
+            osint.run_osint_no_menu(email)
     except Exception as e:
         socbuddy.error_message("Error querying EmailRep.io", str(e))
     analyze_email() if socbuddy.ask_to_run_again() else menu()
@@ -118,7 +116,7 @@ def phish_stats_url():
                 socbuddy.print_json(output)
         else:
             socbuddy.error_message(f"Error {response.status_code}: {response.text}")
-        osint.run_osint_no_menu(url, True)
+        osint.run_osint_no_menu(url)
     except Exception as e:
         socbuddy.error_message("Failed to query PhishStats API", str(e))
     phish_stats_url() if socbuddy.ask_to_run_again() else menu()
@@ -150,7 +148,7 @@ def phish_stats_ip():
                 socbuddy.error_message("No results found")
         else:
             socbuddy.error_message(f"Error {response.status_code}: {response.text}")
-        osint.run_osint_no_menu(ip, True)
+        osint.run_osint_no_menu(ip)
     except Exception as e:
         socbuddy.error_message("Failed to query PhishStats API", str(e))
     phish_stats_ip() if socbuddy.ask_to_run_again() else menu()
