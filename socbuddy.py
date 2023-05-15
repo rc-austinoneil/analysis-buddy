@@ -60,6 +60,10 @@ def menu_switch(choice):
 
 # Project Wide Functions
 def title_bar(title, include_clipboard=False):
+    """
+    This function will print a title bar with the title passed to it.
+    The optional include_clipboard parameter will print the contents of the clipboard if it is not empty.
+    """
     try:
         print("")
         print(
@@ -80,12 +84,22 @@ def title_bar(title, include_clipboard=False):
 
 
 def title_bar_time():
-    print(f" Local : {datetime.now().strftime('%H:%M:%S %m/%d/%Y')}")
-    print(f" UTC   : {datetime.utcnow().strftime('%H:%M:%S %m/%d/%Y')}")
+    """
+    This function will print the current time in UTC and Local time.
+    """
+    print(
+        f"{bcolors.HEADER}Local :{bcolors.ENDC} {datetime.now().strftime('%H:%M:%S %m/%d/%Y')}"
+    )
+    print(
+        f"{bcolors.HEADER}UTC   :{bcolors.ENDC} {datetime.utcnow().strftime('%H:%M:%S %m/%d/%Y')}"
+    )
     print("")
 
 
 def menu_item(option_number, option_name, option_type):
+    """
+    This function will print a menu item with the option number, option name, and option type.
+    """
     prefix = ""
     if option_type == "menu":
         prefix = f"{bcolors.MENU}[MENU]"
@@ -108,6 +122,9 @@ def menu_item(option_number, option_name, option_type):
 
 
 def error_message(message, error=False):
+    """
+    This function will print an error message in red.
+    """
     print("")
     print(bcolors.ERROR + message + bcolors.ENDC)
     if error:
@@ -115,18 +132,28 @@ def error_message(message, error=False):
 
 
 def success_message(message):
+    """
+    This function will print a success message in green.
+    """
     print("")
     print(bcolors.OKGREEN + message + bcolors.ENDC)
     print("")
 
 
 def info_message(message, newline=False):
+    """
+    This function will print an info message in yellow. Optional newline parameter
+    to give spacing if needed.
+    """
     if newline:
         print("")
     print(bcolors.WARNING + message + bcolors.ENDC)
 
 
 def next_result_message(message="Next Result"):
+    """
+    This function will print a message in purple to indicate the next result.
+    """
     print("")
     print(
         bcolors.NEXTRESULT
@@ -138,6 +165,10 @@ def next_result_message(message="Next Result"):
 
 
 def clipboard_paste():
+    """
+    This function will attempt to paste the contents of the clipboard.
+    If it fails, it will return "Clipboard init failed."
+    """
     try:
         return pyperclip.paste()
     except Exception:
@@ -145,6 +176,9 @@ def clipboard_paste():
 
 
 def clipboard_copy(item_to_copy):
+    """
+    This function will attempt to copy the item passed to it to the clipboard.
+    """
     try:
         pyperclip.copy(item_to_copy)
         success_message("Output copied to clipboard.")
@@ -153,6 +187,10 @@ def clipboard_copy(item_to_copy):
 
 
 def ask_for_user_input(input_message="Enter a search string"):
+    """
+    This function will ask the user for input. If the clipboard is not empty,
+    it will ask if the user wants to paste from the clipboard.
+    """
     print("")
     if clipboard_paste() == "Clipboard init failed.":
         output = str(input(f"{bcolors.INPUT}{input_message}: {bcolors.ENDC}")).strip()
@@ -174,6 +212,9 @@ def ask_for_user_input(input_message="Enter a search string"):
 
 
 def ask_to_run_again():
+    """
+    This function will ask the user if they want to run the tool again and return True or False.
+    """
     print("")
     run_again = input(f"{bcolors.INPUT}Run again? (Y/N): {bcolors.ENDC}")
     if run_again.upper() == "Y":
@@ -183,6 +224,9 @@ def ask_to_run_again():
 
 
 def open_in_jsoncrack(inputdata):
+    """
+    This function will ask the user if they want to open the input data in jsoncrack.
+    """
     open_jsoncrack = input(
         f"{bcolors.INPUT}Open in jsoncrack? See (Y/N) {bcolors.ENDC}"
     )
@@ -200,6 +244,9 @@ def open_in_jsoncrack(inputdata):
 
 # fmt: off
 def print_json(json_data, level=0, newline=True):
+    """ 
+    This function will print json data in a readable format to the console.
+    """
     try:
         if newline:
             print("")
@@ -231,6 +278,10 @@ def print_json(json_data, level=0, newline=True):
 
 
 def json_lookup(file, encoding=None):
+    """
+    This function will load a json file then search the json file for a string and return the results.
+    """
+
     def search(values, searchFor):
         try:
             output = []
@@ -269,6 +320,9 @@ def json_lookup(file, encoding=None):
 
 
 def download_file_from_internet(url, file_path):
+    """
+    This function will download a file from the internet and save it to the file_path.
+    """
     try:
         if not os.path.isfile(file_path):
             response = requests.get(url)
