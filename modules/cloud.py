@@ -30,12 +30,18 @@ def menu_switch(choice):
 
 # Tools
 def aws_service_actions():
+    """
+    This function will lookup an AWS service name in the awsservicenames.json file
+    """
     socbuddy.title_bar("AWS serviceName Lookup")
     socbuddy.json_lookup("./config/json_lookups/cloud_lookups/awsservicenames.json")
     aws_service_actions() if socbuddy.ask_to_run_again() else menu()
 
 
 def aws_event_names():
+    """
+    This function will lookup an AWS event name in the awseventnames.json file
+    """
     socbuddy.title_bar("AWS eventName Lookup")
     socbuddy.json_lookup(
         "./config/json_lookups/cloud_lookups/awseventnames.json", "utf-8-sig"
@@ -44,12 +50,18 @@ def aws_event_names():
 
 
 def gcp_service_names():
+    """
+    This function will lookup a GCP service name in the gcpservices.json file
+    """
     socbuddy.title_bar("GCP serviceName Lookup")
     socbuddy.json_lookup("./config/json_lookups/cloud_lookups/gcpservices.json")
     gcp_service_names() if socbuddy.ask_to_run_again() else menu()
 
 
 def azure_service_actions():
+    """
+    This function will lookup an Azure service action in the azureserviceactions.json file
+    """
     socbuddy.title_bar("Azure Service Actions Lookup")
     socbuddy.json_lookup("./config/json_lookups/cloud_lookups/azureserviceactions.json")
     azure_service_actions() if socbuddy.ask_to_run_again() else menu()
