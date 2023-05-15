@@ -48,6 +48,9 @@ def menu_switch(choice):
 
 # Tools
 def analyze_email():
+    """
+    This function will query EmailRep.io for information about an email address
+    """
     try:
         if loadconfig.check_buddy_config("EMAILREP_API_KEY"):
             socbuddy.title_bar("EmailRep.io Analyze Email")
@@ -62,6 +65,9 @@ def analyze_email():
 
 
 def report_phishing():
+    """
+    This function will report an email address to EmailRep.io
+    """
     try:
         if loadconfig.check_buddy_config("EMAILREP_API_KEY"):
             socbuddy.title_bar("EmailRep.io Report Email")
@@ -96,6 +102,9 @@ def report_phishing():
 
 
 def phish_stats_url():
+    """
+    This function will query PhishStats.info for information about a URL
+    """
     try:
         socbuddy.title_bar("PhishStats URL")
         url = socbuddy.ask_for_user_input()
@@ -123,6 +132,9 @@ def phish_stats_url():
 
 
 def phish_stats_ip():
+    """
+    This function will query PhishStats.info for information about an IP
+    """
     try:
         socbuddy.title_bar("PhishStats IPs")
         ip = socbuddy.ask_for_user_input()
@@ -155,6 +167,9 @@ def phish_stats_ip():
 
 
 def urlscanio():
+    """
+    This function will query URLScan.io for information about a URL or domain
+    """
     try:
         if loadconfig.check_buddy_config("URLSCAN_IO_KEY"):
             socbuddy.title_bar("Urlscan.io")
@@ -211,6 +226,10 @@ def urlscanio():
 
 
 def useragent_lookup():
+    """
+    This function will open a browser to useragent.net to lookup a useragent
+    """
+
     def user_agent_fix(agent):
         # replaces most characters with - so that the site can parse it
         fix = agent.lower()
