@@ -1,4 +1,5 @@
-import strictyaml, sys
+import strictyaml
+import sys
 from config import fontcolors
 
 bcolors = fontcolors.bcolors()
@@ -60,7 +61,7 @@ def load_team_config():
 
 def load_machinae_config():
     try:
-        with open("./config/machinae.yaml", "r") as file:
+        with open("./config/machinae.yaml", "r"):
             return "./config/machinae.yaml"
     except FileNotFoundError:
         print(

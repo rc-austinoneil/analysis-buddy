@@ -1,6 +1,6 @@
 {
     "python.linting.flake8Enabled": true,
-    "python.linting.flake8Path": "./venv/bin/flake8",
+    "python.linting.flake8Path": "venv/bin/flake8",
     "editor.formatOnSave": true,
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
