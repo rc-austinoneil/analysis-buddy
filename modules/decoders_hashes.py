@@ -207,7 +207,9 @@ def json_pprint(clear_screen=True):
     This function will pretty print a JSON blob you paste into the terminal
     """
     analysisbuddy.title_bar("PPrint JSON input", False)
-    input_from_file = analysisbuddy.ask_for_user_input("Enter a filepath? (y/n)")
+    input_from_file = str(
+        input(f"{bcolors.INPUT}Enter a filepath? (Y/N) {bcolors.ENDC}")
+    )
     if input_from_file.upper() == "Y":
         input_file_path = analysisbuddy.ask_for_user_input(
             "Enter the filepath to your json file"
