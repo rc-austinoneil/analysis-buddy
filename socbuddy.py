@@ -26,7 +26,7 @@ def main_menu():
     title_bar_time()
     menu_item(0, "Exit Tool", "exit")
     menu_item(1, teammenu.team_name(), "menu")
-    menu_item(2, "Decoders (PP, URL, SafeLinks)", "menu")
+    menu_item(2, "Decoders and Hash Tools", "menu")
     menu_item(3, "DNS and IP Tools", "menu")
     menu_item(4, "Phishing & URL Analysis", "menu")
     menu_item(5, "Windows Tools", "menu")
@@ -350,6 +350,9 @@ def download_file_from_internet(url, file_path):
 
 
 def json_to_csv(input_file_path=None):
+    """
+    This function will convert a JSON file to a CSV file.
+    """
     title_bar("JSON to CSV Converter")
     if not input_file_path:
         input_file_path = ask_for_user_input("Enter the path to the JSON file")
@@ -371,6 +374,9 @@ def json_to_csv(input_file_path=None):
 
 
 def csv_to_json(input_file_path=None):
+    """
+    This function will convert a CSV file to a JSON file.
+    """
     title_bar("CSV to JSON Converter")
     if not input_file_path:
         input_file_path = ask_for_user_input("Enter the path to the CSV file")
