@@ -5,6 +5,7 @@ import pyperclip
 import webbrowser
 import urllib.parse
 import json
+import csv
 import requests
 from modules import dns_ip, decoders, phishing, osint, mitre, windows, cloud
 from config import fontcolors, loadconfig
@@ -33,6 +34,8 @@ def main_menu():
     menu_item(7, "Run data through OSINT tooling", "tool")
     menu_item(8, "MITRE ATT&CK Lookup", "tool")
     menu_item(9, "JSON Pretty Print", "tool")
+    menu_item(10, "Convert CSV to JSON", "tool")
+    menu_item(11, "Convert JSON to CSV", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -60,6 +63,12 @@ def menu_switch(choice):
         mitre.mitre_lookup()
     if choice == "9":
         decoders.json_pprint()
+    if choice == "10":
+        csv_to_json()
+        csv_to_json() if ask_to_run_again() else main_menu()
+    if choice == "11":
+        json_to_csv()
+        json_to_csv() if ask_to_run_again() else main_menu()
     else:
         main_menu()
 
@@ -338,6 +347,45 @@ def download_file_from_internet(url, file_path):
                 info_message(f"File downloaded and saved to {file_path}")
     except Exception as e:
         error_message(f"Failed to download {url} to {file_path}", str(e))
+
+
+def json_to_csv(input_file_path=None):
+    title_bar("JSON to CSV Converter")
+    if not input_file_path:
+        input_file_path = ask_for_user_input("Enter the path to the JSON file")
+    output_file_path = ask_for_user_input("Enter the path to output CSV file")
+
+    with open(input_file_path, "r") as input_file:
+        json_data = json.load(input_file)
+
+    headers = list(json_data[0].keys())
+
+    with open(output_file_path, "w", newline="") as output_file:
+        writer = csv.DictWriter(output_file, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(json_data)
+
+    success_message(
+        f"Conversion successful\nJSON file '{input_file_path}' converted to CSV file '{output_file_path}'"
+    )
+
+
+def csv_to_json(input_file_path=None):
+    title_bar("CSV to JSON Converter")
+    if not input_file_path:
+        input_file_path = ask_for_user_input("Enter the path to the CSV file")
+    output_file_path = ask_for_user_input("Enter the path to output JSON file")
+
+    with open(input_file_path, "r") as input_file:
+        reader = csv.DictReader(input_file)
+        rows = list(reader)
+
+    with open(output_file_path, "w") as output_file:
+        json.dump(rows, output_file, indent=4)
+
+    success_message(
+        f"Conversion successful\nCSV file '{input_file_path}' converted to JSON file '{output_file_path}'"
+    )
 
 
 if __name__ == "__main__":
