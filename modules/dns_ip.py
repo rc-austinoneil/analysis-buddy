@@ -367,6 +367,7 @@ def ip_quality_score_geo_compare():
             check_if_residential(ip_address2, data2)
             check_if_mobile(ip_address2, data2)
             check_if_zscalar(ip_address2, data2)
+            print("")
             osint.run_osint_no_menu(ip_address1)
             osint.run_osint_no_menu(ip_address2)
     except Exception as e:
