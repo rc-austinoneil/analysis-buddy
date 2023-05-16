@@ -4,6 +4,7 @@ import webbrowser
 import socket
 import requests
 import haversine
+import ipaddress
 from modules import osint
 from ipwhois import IPWhois
 from config import fontcolors, loadconfig
@@ -27,6 +28,7 @@ def menu():
     socbuddy.menu_item(8, "TCP/UDP Port Lookup", "tool")
     socbuddy.menu_item(9, "Defang URLs & IPs", "tool")
     socbuddy.menu_item(10, "Tweetfeed IOC Lookup", "tool")
+    socbuddy.menu_item(11, "Subnet Calculator", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -52,6 +54,8 @@ def menu_switch(choice):
     if choice == "10":
         osint.tweetfeed_live()
         osint.tweetfeed_live() if socbuddy.ask_to_run_again() else menu()
+    if choice == "11":
+        subnet_calc()
     if choice == "0":
         socbuddy.main_menu()
     else:
@@ -395,3 +399,32 @@ def defang():
     except Exception as e:
         socbuddy.error_message("Unable to defang URL or IP", str(e))
     defang() if socbuddy.ask_to_run_again() else menu()
+
+
+def subnet_calc():
+    try:
+        socbuddy.title_bar("Subnet Calculator")
+        IP_Addr = ipaddress.ip_interface(
+            socbuddy.ask_for_user_input("Enter IP address in IP/Mask Format")
+        )
+
+        Net_Addr = IP_Addr.network
+        pref_len = IP_Addr.with_prefixlen
+        Mask = IP_Addr.with_netmask
+        wildcard = IP_Addr.hostmask
+        broadcast_address = Net_Addr.broadcast_address
+
+        output = {
+            "Network Address": str(Net_Addr).split("/")[0],
+            "Broadcast Address": broadcast_address,
+            "CIDR Notation": pref_len.split("/")[1],
+            "Subnet Mask": Mask.split("/")[1],
+            "Wildcard Mask": wildcard,
+            "First IP": list(Net_Addr.hosts())[0],
+            "Last IP": list(Net_Addr.hosts())[-1],
+        }
+
+        socbuddy.print_json(output)
+    except:
+        socbuddy.error_message("Failed to run subnet calculator")
+    subnet_calc() if socbuddy.ask_to_run_again() else menu()

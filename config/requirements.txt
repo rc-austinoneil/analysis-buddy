@@ -24,4 +24,5 @@ shodan
 mitreattack-python
 BeautifulSoup4
 requests
+ipaddress
 git+https://austinoneil.com/aoneil/machinae.git
