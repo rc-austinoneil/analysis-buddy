@@ -204,23 +204,33 @@ def json_pprint(clear_screen=True):
     This function will pretty print a JSON blob you paste into the terminal
     """
     socbuddy.title_bar("PPrint JSON input", False)
-    print(
-        f"{bcolors.INPUT}Enter your JSON Blob below.\nEnter + CTRL+D to finish input.\n{bcolors.ENDC}"
-    )
-    try:
-        line = ""
-        while True:
-            try:
-                line += input()
-            except EOFError:
-                break
-        if clear_screen:
-            os.system("clear")
-        socbuddy.print_json(json.loads(line))
-    except Exception as e:
-        socbuddy.error_message("Error parsing JSON input.", str(e))
-    except KeyboardInterrupt:
-        socbuddy.error_message("Keyboard Interrupt")
+    input_from_file = socbuddy.ask_for_user_input("Enter a filepath? (y/n)")
+    if input_from_file.upper() == "Y":
+        input_file_path = socbuddy.ask_for_user_input(
+            "Enter the filepath to your json file"
+        )
+        with open(input_file_path, "r") as input_file:
+            json_data = json.load(input_file)
+            for each in json_data:
+                socbuddy.print_json(each)
+    else:
+        print(
+            f"{bcolors.INPUT}Enter your JSON Blob below.\nEnter + CTRL+D to finish input.\n{bcolors.ENDC}"
+        )
+        try:
+            line = ""
+            while True:
+                try:
+                    line += input()
+                except EOFError:
+                    break
+            if clear_screen:
+                os.system("clear")
+            socbuddy.print_json(json.loads(line))
+        except Exception as e:
+            socbuddy.error_message("Error parsing JSON input.", str(e))
+        except KeyboardInterrupt:
+            socbuddy.error_message("Keyboard Interrupt")
     json_pprint(False) if socbuddy.ask_to_run_again() else socbuddy.main_menu()
 
 
