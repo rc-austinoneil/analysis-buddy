@@ -7,7 +7,17 @@ import urllib.parse
 import json
 import csv
 import requests
-from modules import dns_ip, decoders, phishing, osint, mitre, windows, cloud
+from modules import (
+    decoders_hashes,
+    dns_ip,
+    osint,
+    mitre,
+    phishing_urls,
+    windows,
+    cloud,
+    linux,
+    mac,
+)
 from config import fontcolors, loadconfig
 from team import teammenu
 from datetime import datetime
@@ -25,17 +35,19 @@ def main_menu():
     title_bar("Main Menu", True)
     title_bar_time()
     menu_item(0, "Exit Tool", "exit")
-    menu_item(1, teammenu.team_name(), "menu")
-    menu_item(2, "Decoders and Hash Tools", "menu")
-    menu_item(3, "DNS and IP Tools", "menu")
-    menu_item(4, "Phishing & URL Analysis", "menu")
-    menu_item(5, "Windows Tools", "menu")
-    menu_item(6, "Cloud Tools", "menu")
-    menu_item(7, "Run data through OSINT tooling", "tool")
-    menu_item(8, "MITRE ATT&CK Lookup", "tool")
-    menu_item(9, "JSON Pretty Print", "tool")
-    menu_item(10, "Convert CSV to JSON", "tool")
-    menu_item(11, "Convert JSON to CSV", "tool")
+    menu_item(1, "Search All OSINT Tools", "tool")
+    menu_item(2, teammenu.team_name(), "menu")
+    menu_item(3, "Decoders & Hash Tools", "menu")
+    menu_item(4, "DNS & IP Tools", "menu")
+    menu_item(5, "Phishing & URL Tools", "menu")
+    menu_item(6, "Windows Tools", "menu")
+    menu_item(7, "Linux Tools", "menu")
+    menu_item(8, "MacOS Tools", "menu")
+    menu_item(9, "Cloud Tools", "menu")
+    menu_item(10, "MITRE ATT&CK Lookup", "tool")
+    menu_item(11, "JSON Pretty Print", "tool")
+    menu_item(12, "Convert CSV to JSON", "tool")
+    menu_item(13, "Convert JSON to CSV", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -46,29 +58,34 @@ def menu_switch(choice):
     if choice == "0":
         sys.exit()
     if choice == "1":
-        teammenu.main_menu()
-    if choice == "2":
-        decoders.menu()
-    if choice == "3":
-        dns_ip.menu()
-    if choice == "4":
-        phishing.menu()
-    if choice == "5":
-        windows.menu()
-    if choice == "6":
-        cloud.menu()
-    if choice == "7":
         osint.run_osint()
+    if choice == "2":
+        teammenu.main_menu()
+    if choice == "3":
+        decoders_hashes.menu()
+    if choice == "4":
+        dns_ip.menu()
+    if choice == "5":
+        phishing_urls.menu()
+    if choice == "6":
+        windows.menu()
+    if choice == "7":
+        linux.menu()
     if choice == "8":
-        mitre.mitre_lookup()
+        mac.menu()
     if choice == "9":
-        decoders.json_pprint()
+        cloud.menu()
     if choice == "10":
+        mitre.mitre_lookup()
+    if choice == "11":
+        decoders_hashes.json_pprint()
+    if choice == "12":
         csv_to_json()
         csv_to_json() if ask_to_run_again() else main_menu()
-    if choice == "11":
+    if choice == "12":
         json_to_csv()
         json_to_csv() if ask_to_run_again() else main_menu()
+
     else:
         main_menu()
 

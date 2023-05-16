@@ -8,7 +8,6 @@ import json
 import os
 from config import fontcolors
 from unfurl import core
-from bs4 import BeautifulSoup
 
 bcolors = fontcolors.bcolors()
 linksFoundList = []
@@ -16,7 +15,7 @@ linksFoundList = []
 
 # Menu
 def menu():
-    socbuddy.title_bar("Decoders")
+    socbuddy.title_bar("Decoders & Hash Tools")
     socbuddy.menu_item(0, "Return to main menu", "goback")
     socbuddy.menu_item(1, "ProofPoint Decoder", "tool")
     socbuddy.menu_item(2, "URL Decoder", "tool")
@@ -25,7 +24,6 @@ def menu():
     socbuddy.menu_item(5, "Base64 Decoder", "tool")
     socbuddy.menu_item(6, "Unfurl URL", "tool")
     socbuddy.menu_item(7, "JSON Pretty Print", "tool")
-    socbuddy.menu_item(8, "Chrome Extension Lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -44,8 +42,6 @@ def menu_switch(choice):
         unfurl_url()
     if choice == "7":
         json_pprint()
-    if choice == "8":
-        chrome_extension_lookup()
     if choice == "0":
         socbuddy.main_menu()
 
@@ -232,29 +228,3 @@ def json_pprint(clear_screen=True):
         except KeyboardInterrupt:
             socbuddy.error_message("Keyboard Interrupt")
     json_pprint(False) if socbuddy.ask_to_run_again() else socbuddy.main_menu()
-
-
-def chrome_extension_lookup():
-    """
-    This function will lookup a Chrome Extension ID in the Chrome Web Store
-    """
-    try:
-        socbuddy.title_bar("Chrome Extension Details")
-        extension_id = socbuddy.ask_for_user_input("Enter the Chrome Extension ID")
-        url = f"https://chrome.google.com/webstore/detail/{extension_id}"
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        output = {
-            "Extension name": soup.find("h1", {"class": "e-f-w"}).text.strip(),
-            "Version": soup.find("span", {"class": "C-b-p-D-Xe h-C-b-p-D-md"}).text,
-            "Size": soup.find("span", {"class": "C-b-p-D-Xe h-C-b-p-D-za"}).text,
-            "Updated": soup.find("span", {"class": "C-b-p-D-Xe h-C-b-p-D-xh-hh"}).text,
-            "Number of users": soup.find("span", {"class": "e-f-ih"}).text,
-            "Developer": soup.find("a", {"class": "e-f-y"}).text,
-            "url": url,
-        }
-        socbuddy.print_json(output)
-    except AttributeError as e:
-        socbuddy.error_message("Failed to parse HTML", str(e))
-    chrome_extension_lookup() if socbuddy.ask_to_run_again() else menu()

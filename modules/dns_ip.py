@@ -15,7 +15,7 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def menu():
-    socbuddy.title_bar("DNS and IP Tools")
+    socbuddy.title_bar("DNS & IP Tools")
     socbuddy.menu_item(0, "Return to main menu", "goback")
     socbuddy.menu_item(1, "Reverse DNS Lookup", "tool")
     socbuddy.menu_item(2, "DNS Lookup", "tool")
@@ -26,7 +26,7 @@ def menu():
     socbuddy.menu_item(7, "Geo Compare IPs", "tool")
     socbuddy.menu_item(8, "TCP/UDP Port Lookup", "tool")
     socbuddy.menu_item(9, "Defang URLs & IPs", "tool")
-    socbuddy.menu_item(10, "Tweetfeed IOC lookup", "tool")
+    socbuddy.menu_item(10, "Tweetfeed IOC Lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 

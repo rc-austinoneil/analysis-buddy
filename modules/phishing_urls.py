@@ -6,7 +6,7 @@ import webbrowser
 from config import fontcolors, loadconfig
 from modules import osint
 from emailrep import EmailRep
-
+from bs4 import BeautifulSoup
 
 bcolors = fontcolors.bcolors()
 configvars = loadconfig.load_buddy_config()
@@ -14,7 +14,7 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def menu():
-    socbuddy.title_bar("Phishing & URLs")
+    socbuddy.title_bar("Phishing & URL Tools")
     socbuddy.menu_item(0, "Return to main menu", "goback")
     socbuddy.menu_item(1, "URLScan.io", "tool")
     socbuddy.menu_item(2, "Useragent Lookup", "tool")
@@ -22,7 +22,8 @@ def menu():
     socbuddy.menu_item(4, "Report phishing email to EmailRep.io", "tool")
     socbuddy.menu_item(5, "PhishStats URL", "tool")
     socbuddy.menu_item(6, "PhishStats IP", "tool")
-    socbuddy.menu_item(7, "Tweetfeed IOC lookup", "tool")
+    socbuddy.menu_item(7, "Tweetfeed IOC Lookup", "tool")
+    socbuddy.menu_item(8, "Chrome Extension Lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -42,6 +43,8 @@ def menu_switch(choice):
     if choice == "7":
         osint.tweetfeed_live()
         osint.tweetfeed_live() if socbuddy.ask_to_run_again() else menu()
+    if choice == "8":
+        chrome_extension_lookup()
     else:
         socbuddy.main_menu()
 
@@ -253,3 +256,29 @@ def useragent_lookup():
     except Exception as e:
         socbuddy.error_message("Failed to query useragent.net", str(e))
     urlscanio() if socbuddy.ask_to_run_again() else menu()
+
+
+def chrome_extension_lookup():
+    """
+    This function will lookup a Chrome Extension ID in the Chrome Web Store
+    """
+    try:
+        socbuddy.title_bar("Chrome Extension Details")
+        extension_id = socbuddy.ask_for_user_input("Enter the Chrome Extension ID")
+        url = f"https://chrome.google.com/webstore/detail/{extension_id}"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        output = {
+            "Extension name": soup.find("h1", {"class": "e-f-w"}).text.strip(),
+            "Version": soup.find("span", {"class": "C-b-p-D-Xe h-C-b-p-D-md"}).text,
+            "Size": soup.find("span", {"class": "C-b-p-D-Xe h-C-b-p-D-za"}).text,
+            "Updated": soup.find("span", {"class": "C-b-p-D-Xe h-C-b-p-D-xh-hh"}).text,
+            "Number of users": soup.find("span", {"class": "e-f-ih"}).text,
+            "Developer": soup.find("a", {"class": "e-f-y"}).text,
+            "url": url,
+        }
+        socbuddy.print_json(output)
+    except AttributeError as e:
+        socbuddy.error_message("Failed to parse HTML", str(e))
+    chrome_extension_lookup() if socbuddy.ask_to_run_again() else menu()

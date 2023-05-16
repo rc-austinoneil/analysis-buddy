@@ -6,7 +6,7 @@ bcolors = fontcolors.bcolors()
 
 # Menu
 def menu():
-    socbuddy.title_bar("Cloud")
+    socbuddy.title_bar("Cloud Tools")
     socbuddy.menu_item(0, "Return to main menu", "goback")
     socbuddy.menu_item(1, "AWS serviceName Lookup", "tool")
     socbuddy.menu_item(2, "AWS eventName Lookup", "tool")
