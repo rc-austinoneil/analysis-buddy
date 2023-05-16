@@ -435,7 +435,7 @@ def tweetfeed_live(target=None):
             if response.status_code == 200:
                 return response.json()
         except Exception:
-            analysisbuddy.error_message(f"Failed to query the Tweetfeed.live API")
+            analysisbuddy.error_message("Failed to query the Tweetfeed.live API")
 
     def print_secondary_osint(api_type, results, domain_or_url):
         count = 0
