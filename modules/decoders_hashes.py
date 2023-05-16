@@ -6,8 +6,10 @@ import urllib.parse
 import requests
 import json
 import os
-from config import fontcolors
+from config import fontcolors, loadconfig
 from unfurl import core
+
+configvars = loadconfig.load_buddy_config()
 
 bcolors = fontcolors.bcolors()
 linksFoundList = []
@@ -24,6 +26,7 @@ def menu():
     socbuddy.menu_item(5, "Base64 Decoder", "tool")
     socbuddy.menu_item(6, "Unfurl URL", "tool")
     socbuddy.menu_item(7, "JSON Pretty Print", "tool")
+    socbuddy.menu_item(8, "Hybrid Analysis Lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -42,6 +45,8 @@ def menu_switch(choice):
         unfurl_url()
     if choice == "7":
         json_pprint()
+    if choice == "8":
+        hybrid_analysis()
     if choice == "0":
         socbuddy.main_menu()
 
@@ -228,3 +233,34 @@ def json_pprint(clear_screen=True):
         except KeyboardInterrupt:
             socbuddy.error_message("Keyboard Interrupt")
     json_pprint(False) if socbuddy.ask_to_run_again() else socbuddy.main_menu()
+
+
+def hybrid_analysis():
+    """
+    This function will lookup a hash in Hybrid Analysis.
+    """
+    try:
+        if loadconfig.check_buddy_config("HYBRID_ANALYSIS_API_KEY"):
+            socbuddy.title_bar("Hybrid Analysis Lookup")
+            hash_input = socbuddy.ask_for_user_input("Enter the hash to lookup")
+            response = requests.post(
+                "https://www.hybrid-analysis.com/api/v2/search/hash",
+                headers={
+                    "api-key": str(configvars["HYBRID_ANALYSIS_API_KEY"]),
+                    "user-agent": "Falcon Sandbox",
+                    "accept": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                data={"hash": hash_input},
+            )
+
+            if response.status_code == 200:
+                socbuddy.print_json(response.json())
+                socbuddy.info_message(
+                    f"https://www.hybrid-analysis.com/sample/{hash_input}", True
+                )
+            else:
+                raise Exception("Hash not found in Hybrid Analysis.")
+    except Exception as e:
+        socbuddy.error_message("Failed to run Hybrid Analysis", str(e))
+    hybrid_analysis() if socbuddy.ask_to_run_again() else socbuddy.main_menu()
