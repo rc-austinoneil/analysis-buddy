@@ -135,6 +135,9 @@ def echotrail_lookup():
             )
             if response.status_code == 200:
                 analysisbuddy.print_json(response.json())
+                analysisbuddy.info_message(
+                    f"https://www.echotrail.io/insights/search/{search}", True
+                )
             else:
                 raise Exception
     except Exception as e:
