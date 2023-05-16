@@ -1,6 +1,5 @@
 import analysisbuddy
 import requests
-import json
 from config import fontcolors, loadconfig
 
 bcolors = fontcolors.bcolors()
@@ -58,7 +57,7 @@ def clsid_lookup():
         else:
             raise Exception
     except Exception as e:
-        analysisbuddy.error_message(f"Failed to run the CLSID lookup.", str(e))
+        analysisbuddy.error_message("Failed to run the CLSID lookup.", str(e))
     clsid_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
