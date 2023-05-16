@@ -1,4 +1,4 @@
-import socbuddy
+import analysisbuddy
 import requests
 import json
 from config import fontcolors, loadconfig
@@ -9,13 +9,13 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def menu():
-    socbuddy.title_bar("Windows Tools")
-    socbuddy.menu_item(0, "Return to main menu", "goback")
-    socbuddy.menu_item(1, "EventID Lookup", "tool")
-    socbuddy.menu_item(2, "LOLBin Lookup", "tool")
-    socbuddy.menu_item(3, "LOLdriver Lookup", "tool")
-    socbuddy.menu_item(4, "CLISD Lookup", "tool")
-    socbuddy.menu_item(5, "EchoTrail Lookup", "tool")
+    analysisbuddy.title_bar("Windows Tools")
+    analysisbuddy.menu_item(0, "Return to main menu", "goback")
+    analysisbuddy.menu_item(1, "EventID Lookup", "tool")
+    analysisbuddy.menu_item(2, "LOLBin Lookup", "tool")
+    analysisbuddy.menu_item(3, "LOLdriver Lookup", "tool")
+    analysisbuddy.menu_item(4, "CLISD Lookup", "tool")
+    analysisbuddy.menu_item(5, "EchoTrail Lookup", "tool")
     menu_switch(str(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}")))
 
 
@@ -31,7 +31,7 @@ def menu_switch(choice):
     if choice == "5":
         echotrail_lookup()
     if choice == "0":
-        socbuddy.main_menu()
+        analysisbuddy.main_menu()
     else:
         menu()
 
@@ -42,8 +42,8 @@ def clsid_lookup():
     This function will lookup a CLSID string in the CLSID-Lookup github repo
     """
     try:
-        socbuddy.title_bar("CLSID Lookup")
-        target = socbuddy.ask_for_user_input("Enter a CLSID string to lookup")
+        analysisbuddy.title_bar("CLSID Lookup")
+        target = analysisbuddy.ask_for_user_input("Enter a CLSID string to lookup")
         req = requests.get(
             "https://raw.githubusercontent.com/jkerai1/CLSID-Lookup/main/List.md"
         )
@@ -52,14 +52,14 @@ def clsid_lookup():
             for line in lines:
                 if target in line:
                     line = line.split(" ")
-                    socbuddy.print_json(
+                    analysisbuddy.print_json(
                         {"CLSID": line[0], "Description": " ".join(line[1:])}
                     )
         else:
             raise Exception
     except Exception as e:
-        socbuddy.error_message(f"Failed to run the CLSID lookup.", str(e))
-    clsid_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message(f"Failed to run the CLSID lookup.", str(e))
+    clsid_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def event_id_lookup():
@@ -67,17 +67,17 @@ def event_id_lookup():
     This function will lookup a Windows Event ID in ./config/json_lookups/windows_lookups/windowseventids.json
     """
     try:
-        socbuddy.title_bar("Windows Event ID Lookup")
-        socbuddy.download_file_from_internet(
+        analysisbuddy.title_bar("Windows Event ID Lookup")
+        analysisbuddy.download_file_from_internet(
             url="https://raw.githubusercontent.com/qbrusa/Windows-Security-Event-ID-Helper/main/AdvancedSecurityEventIDs.json",
             file_path="./config/json_lookups/windows_lookups/windowseventids.json",
         )
-        socbuddy.json_lookup(
+        analysisbuddy.json_lookup(
             "./config/json_lookups/windows_lookups/windowseventids.json", "UTF-8"
         )
     except Exception as e:
-        socbuddy.error_message("Failed to run the event id lookup", str(e))
-    event_id_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run the event id lookup", str(e))
+    event_id_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def lolbin_lookup():
@@ -85,17 +85,17 @@ def lolbin_lookup():
     This function will lookup a LOLBin in ./config/json_lookups/windows_lookups/lolbins.json
     """
     try:
-        socbuddy.title_bar("LOLBin Lookup")
-        socbuddy.download_file_from_internet(
+        analysisbuddy.title_bar("LOLBin Lookup")
+        analysisbuddy.download_file_from_internet(
             url="https://lolbas-project.github.io/api/lolbas.json",
             file_path="./config/json_lookups/windows_lookups/lolbins.json",
         )
-        socbuddy.json_lookup(
+        analysisbuddy.json_lookup(
             "./config/json_lookups/windows_lookups/lolbins.json", "UTF-8"
         )
     except Exception as e:
-        socbuddy.error_message("Failed to run the LOLBin lookup", str(e))
-    lolbin_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run the LOLBin lookup", str(e))
+    lolbin_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def loldriver_lookup():
@@ -103,17 +103,17 @@ def loldriver_lookup():
     This function will lookup a LOLDriver in ./config/json_lookups/windows_lookups/loldrivers.json
     """
     try:
-        socbuddy.title_bar("Loldriver Lookup")
-        socbuddy.download_file_from_internet(
+        analysisbuddy.title_bar("Loldriver Lookup")
+        analysisbuddy.download_file_from_internet(
             url="https://www.loldrivers.io/api/drivers.json",
             file_path="./config/json_lookups/windows_lookups/loldrivers.json",
         )
-        socbuddy.json_lookup(
+        analysisbuddy.json_lookup(
             "./config/json_lookups/windows_lookups/loldrivers.json", "UTF-8"
         )
     except Exception as e:
-        socbuddy.error_message("Failed to run the Loldriver lookup", str(e))
-    loldriver_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run the Loldriver lookup", str(e))
+    loldriver_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def echotrail_lookup():
@@ -122,8 +122,10 @@ def echotrail_lookup():
     """
     try:
         if loadconfig.check_buddy_config("ECHOTRAIL_API_KEY"):
-            socbuddy.title_bar("Echo Trail Windows Binary Lookup")
-            search = socbuddy.ask_for_user_input("Enter a Windows Binary to lookup")
+            analysisbuddy.title_bar("Echo Trail Windows Binary Lookup")
+            search = analysisbuddy.ask_for_user_input(
+                "Enter a Windows Binary to lookup"
+            )
 
             response = requests.get(
                 f"https://api.echotrail.io/v1/insights/{search}",
@@ -133,9 +135,9 @@ def echotrail_lookup():
                 },
             )
             if response.status_code == 200:
-                socbuddy.print_json(response.json())
+                analysisbuddy.print_json(response.json())
             else:
                 raise Exception
     except Exception as e:
-        socbuddy.error_message("Failed to run the EchoTrail lookup", str(e))
-    echotrail_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run the EchoTrail lookup", str(e))
+    echotrail_lookup() if analysisbuddy.ask_to_run_again() else menu()

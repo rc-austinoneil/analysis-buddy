@@ -1,11 +1,11 @@
 #!/bin/bash
 
-echo "Updating SOC Buddy"
+echo "Updating Analysis Buddy"
 git pull
 echo " "
 echo "Updating team menu"
 cd team && git pull && cd ..
 echo " "
-echo "Starting SOC Buddy"
+echo "Starting Analysis Buddy"
 source ./venv/bin/activate
-./venv/bin/python3 socbuddy.py
+./venv/bin/python3 analysisbuddy.py

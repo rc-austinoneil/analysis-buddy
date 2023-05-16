@@ -1,9 +1,9 @@
-# SOC Buddy
+# Analysis Buddy
 
-SOC Buddy is an all-in-one tool for cybersecurity professionals, designed to make analysis easier by collecting frequently used tools together in an easy to use menu system. With SOC Buddy, you can quickly and easily look up Indicators of Compromise (IOCs) against a variety of OSINT APIs. The tool also has the ability to search MITRE techniques and other useful lookups for quick reference while performing an investigation. 
+Analysis Buddy is an all-in-one tool for cybersecurity professionals, designed to make analysis easier by collecting frequently used tools together in an easy to use menu system. With Analysis Buddy, you can quickly and easily look up Indicators of Compromise (IOCs) against a variety of OSINT APIs. The tool also has the ability to search MITRE techniques and other useful lookups for quick reference while performing an investigation. 
 
 
-![SOC Buddy Main Menu](images/main_menu.png)
+![Analysis Buddy Main Menu](images/main_menu.png)
 
 ## Installation
 
@@ -12,7 +12,7 @@ SOC Buddy is an all-in-one tool for cybersecurity professionals, designed to mak
 3. Copy the config files located in `./config/config_examples` to `./config`
 4. Rename the files to `config.yaml` and `machinae.yaml`
 5. Edit configuration file with your API keys.
-	1. If you don't have API access to a tool listed in the config, SOC buddy will prompt you that the key is missing.
+	1. If you don't have API access to a tool listed in the config, Analysis Buddy will prompt you that the key is missing.
 	2. In `machinae.yaml`, you can enable tools by changing `default: False` to `default: True`
 		1. Some of the machinae sources require you to enter an API key where it says 'CHANGEME'"
 6. Run the tool with `./run.sh`
@@ -24,23 +24,23 @@ SOC Buddy is an all-in-one tool for cybersecurity professionals, designed to mak
 
 * Threat lists:  In `config/json_lookups/threat_lists`, I have a list of publicly available threatlists that I grabbed from various githubs and firebog. Threat lists of course aren't always accurate and need to be validated but when an IP or Domain that I run through the tool appears on one of these lists, its an extra datapoint to look at in my investigation. 
 
-- AWS/GCP/Azure lookups: SOC Buddy includes lookups for commonly used information from cloud providers like AWS, GCP, and Azure.
+- AWS/GCP/Azure lookups: Analysis Buddy includes lookups for commonly used information from cloud providers like AWS, GCP, and Azure.
 
-- MITRE Techniques: SOC Buddy includes a function to return a MITRE Technique by its Technique ID, making it easy to look up information on specific techniques used in detections.
+- MITRE Techniques: Analysis Buddy includes a function to return a MITRE Technique by its Technique ID, making it easy to look up information on specific techniques used in detections.
 
-* Expandability: If you want to use your internal APIs and use SOC Buddy as a framework, the "team" module will allow you to develop your own functions and tooling separate from the "core" code of the tool.
+* Expandability: If you want to use your internal APIs and use Analysis Buddy as a framework, the "team" module will allow you to develop your own functions and tooling separate from the "core" code of the tool.
 
 * More to come! I plan to continue deving on this project because I use this tool daily in my analysis workflow. 
 
 ## Add your own internal tools (Teams)
 
-If you want to use your internal APIs or internal python tools and use SOC Buddy as a framework, the `./teams`  module will allow you to build in a .gitignored folder to keep the code separate from the "core" code of SOC Buddy. 
+If you want to use your internal APIs or internal python tools and use Analysis Buddy as a framework, the `./teams`  module will allow you to build in a .gitignored folder to keep the code separate from the "core" code of Analysis Buddy. 
 
 ### Menu System
-Each menu in SOC Buddy has two elements. 
+Each menu in Analysis Buddy has two elements. 
 
 *  A `menu()` function that includes what you to print to the console and the color of the menu item.
-	* `socbuddy.menu_item(0, "Example", "menu")` 
+	* `analysisbuddy.menu_item(0, "Example", "menu")` 
 		* The `option_type` variable determines the color of the menu item.
 			* menu
 			* tool

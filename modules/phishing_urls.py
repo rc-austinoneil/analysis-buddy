@@ -1,4 +1,4 @@
-import socbuddy
+import analysisbuddy
 import requests
 import json
 import time
@@ -14,16 +14,16 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def menu():
-    socbuddy.title_bar("Phishing & URL Tools")
-    socbuddy.menu_item(0, "Return to main menu", "goback")
-    socbuddy.menu_item(1, "URLScan.io", "tool")
-    socbuddy.menu_item(2, "Useragent Lookup", "tool")
-    socbuddy.menu_item(3, "Check email against EmailRep.io", "tool")
-    socbuddy.menu_item(4, "Report phishing email to EmailRep.io", "tool")
-    socbuddy.menu_item(5, "PhishStats URL", "tool")
-    socbuddy.menu_item(6, "PhishStats IP", "tool")
-    socbuddy.menu_item(7, "Tweetfeed IOC Lookup", "tool")
-    socbuddy.menu_item(8, "Chrome Extension Lookup", "tool")
+    analysisbuddy.title_bar("Phishing & URL Tools")
+    analysisbuddy.menu_item(0, "Return to main menu", "goback")
+    analysisbuddy.menu_item(1, "URLScan.io", "tool")
+    analysisbuddy.menu_item(2, "Useragent Lookup", "tool")
+    analysisbuddy.menu_item(3, "Check email against EmailRep.io", "tool")
+    analysisbuddy.menu_item(4, "Report phishing email to EmailRep.io", "tool")
+    analysisbuddy.menu_item(5, "PhishStats URL", "tool")
+    analysisbuddy.menu_item(6, "PhishStats IP", "tool")
+    analysisbuddy.menu_item(7, "Tweetfeed IOC Lookup", "tool")
+    analysisbuddy.menu_item(8, "Chrome Extension Lookup", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -42,11 +42,11 @@ def menu_switch(choice):
         phish_stats_ip()
     if choice == "7":
         osint.tweetfeed_live()
-        osint.tweetfeed_live() if socbuddy.ask_to_run_again() else menu()
+        osint.tweetfeed_live() if analysisbuddy.ask_to_run_again() else menu()
     if choice == "8":
         chrome_extension_lookup()
     else:
-        socbuddy.main_menu()
+        analysisbuddy.main_menu()
 
 
 # Tools
@@ -56,15 +56,15 @@ def analyze_email():
     """
     try:
         if loadconfig.check_buddy_config("EMAILREP_API_KEY"):
-            socbuddy.title_bar("EmailRep.io Analyze Email")
-            email = socbuddy.ask_for_user_input("Enter email address")
-            socbuddy.info_message(osint.update_historical_osint_data(email), True)
+            analysisbuddy.title_bar("EmailRep.io Analyze Email")
+            email = analysisbuddy.ask_for_user_input("Enter email address")
+            analysisbuddy.info_message(osint.update_historical_osint_data(email), True)
             emailrep = EmailRep(f"{configvars.data['EMAILREP_API_KEY']}")
-            socbuddy.print_json(emailrep.query(email))
+            analysisbuddy.print_json(emailrep.query(email))
             osint.run_osint_no_menu(email)
     except Exception as e:
-        socbuddy.error_message("Error querying EmailRep.io", str(e))
-    analyze_email() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Error querying EmailRep.io", str(e))
+    analyze_email() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def report_phishing():
@@ -73,8 +73,8 @@ def report_phishing():
     """
     try:
         if loadconfig.check_buddy_config("EMAILREP_API_KEY"):
-            socbuddy.title_bar("EmailRep.io Report Email")
-            email = socbuddy.ask_for_user_input("Enter email address")
+            analysisbuddy.title_bar("EmailRep.io Report Email")
+            email = analysisbuddy.ask_for_user_input("Enter email address")
             tags = str(
                 input(
                     f"{bcolors.INPUT}Input comma delaminated tags. For example 'bec,maldoc': {bcolors.ENDC}"
@@ -96,12 +96,12 @@ def report_phishing():
             if yn.upper() == "Y":
                 emailrep = EmailRep(f"{configvars.data['EMAILREP_API_KEY']}")
                 data = emailrep.report(email, tags, description)
-                socbuddy.print_json(data)
+                analysisbuddy.print_json(data)
             else:
-                socbuddy.error_message("You decided to not send the report.")
+                analysisbuddy.error_message("You decided to not send the report.")
     except Exception as e:
-        socbuddy.error_message("Error querying EmailRep.io", str(e))
-    report_phishing() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Error querying EmailRep.io", str(e))
+    report_phishing() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def phish_stats_url():
@@ -109,9 +109,9 @@ def phish_stats_url():
     This function will query PhishStats.info for information about a URL
     """
     try:
-        socbuddy.title_bar("PhishStats URL")
-        url = socbuddy.ask_for_user_input()
-        socbuddy.info_message(osint.update_historical_osint_data(url), True)
+        analysisbuddy.title_bar("PhishStats URL")
+        url = analysisbuddy.ask_for_user_input()
+        analysisbuddy.info_message(osint.update_historical_osint_data(url), True)
         endpoint = "https://phishstats.info:2096/api/phishing"
         params = {"_size": "100", "url": f"like,~{url}~"}
         response = requests.get(endpoint, params=params)
@@ -125,13 +125,15 @@ def phish_stats_url():
                     "Score": str(x["score"]),
                     "Tags": str(x["tags"]),
                 }
-                socbuddy.print_json(output)
+                analysisbuddy.print_json(output)
         else:
-            socbuddy.error_message(f"Error {response.status_code}: {response.text}")
+            analysisbuddy.error_message(
+                f"Error {response.status_code}: {response.text}"
+            )
         osint.run_osint_no_menu(url)
     except Exception as e:
-        socbuddy.error_message("Failed to query PhishStats API", str(e))
-    phish_stats_url() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query PhishStats API", str(e))
+    phish_stats_url() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def phish_stats_ip():
@@ -139,9 +141,9 @@ def phish_stats_ip():
     This function will query PhishStats.info for information about an IP
     """
     try:
-        socbuddy.title_bar("PhishStats IPs")
-        ip = socbuddy.ask_for_user_input()
-        socbuddy.info_message(osint.update_historical_osint_data(ip), True)
+        analysisbuddy.title_bar("PhishStats IPs")
+        ip = analysisbuddy.ask_for_user_input()
+        analysisbuddy.info_message(osint.update_historical_osint_data(ip), True)
         endpoint = "https://phishstats.info:2096/api/phishing"
         params = {"_size": "100", "url": f"eq,{ip}"}
         response = requests.get(endpoint, params=params)
@@ -158,15 +160,17 @@ def phish_stats_ip():
                         "Score": str(x["score"]),
                         "Tags": str(x["tags"]),
                     }
-                    socbuddy.print_json(output)
+                    analysisbuddy.print_json(output)
             if c == 0:
-                socbuddy.error_message("No results found")
+                analysisbuddy.error_message("No results found")
         else:
-            socbuddy.error_message(f"Error {response.status_code}: {response.text}")
+            analysisbuddy.error_message(
+                f"Error {response.status_code}: {response.text}"
+            )
         osint.run_osint_no_menu(ip)
     except Exception as e:
-        socbuddy.error_message("Failed to query PhishStats API", str(e))
-    phish_stats_ip() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query PhishStats API", str(e))
+    phish_stats_ip() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def urlscanio():
@@ -175,9 +179,11 @@ def urlscanio():
     """
     try:
         if loadconfig.check_buddy_config("URLSCAN_IO_KEY"):
-            socbuddy.title_bar("Urlscan.io")
-            url_to_scan = socbuddy.ask_for_user_input("Enter URL")
-            socbuddy.info_message(osint.update_historical_osint_data(url_to_scan), True)
+            analysisbuddy.title_bar("Urlscan.io")
+            url_to_scan = analysisbuddy.ask_for_user_input("Enter URL")
+            analysisbuddy.info_message(
+                osint.update_historical_osint_data(url_to_scan), True
+            )
             type_prompt = str(
                 input(
                     f"{bcolors.INPUT}\nSet scan visibility to Public? \nType '1' for Public or '2' for Private: {bcolors.ENDC}"
@@ -196,7 +202,7 @@ def urlscanio():
             )
 
             if response.status_code == 200:
-                socbuddy.info_message(
+                analysisbuddy.info_message(
                     f"Now {visibility} scanning {url_to_scan}\nCheck back in 1 minute.",
                     True,
                 )
@@ -220,12 +226,12 @@ def urlscanio():
                     "Servers": scan_results.get("lists", {}).get("servers"),
                 }
                 # fmt: on
-                socbuddy.print_json(output)
+                analysisbuddy.print_json(output)
             else:
-                socbuddy.error_message("URLScan run failed", response["message"])
+                analysisbuddy.error_message("URLScan run failed", response["message"])
     except Exception as e:
-        socbuddy.error_message("Failed to query URLScan.io", str(e))
-    urlscanio() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query URLScan.io", str(e))
+    urlscanio() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def useragent_lookup():
@@ -248,14 +254,14 @@ def useragent_lookup():
         return fix
 
     try:
-        socbuddy.title_bar("Urlscan.io")
-        useragent = socbuddy.ask_for_user_input("Enter useragent")
+        analysisbuddy.title_bar("Urlscan.io")
+        useragent = analysisbuddy.ask_for_user_input("Enter useragent")
         url = f"https://user-agents.net/string/{user_agent_fix(useragent)}"
-        socbuddy.print_json({"Useragent Lookup": url})
+        analysisbuddy.print_json({"Useragent Lookup": url})
         webbrowser.open(url, new=2)
     except Exception as e:
-        socbuddy.error_message("Failed to query useragent.net", str(e))
-    urlscanio() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query useragent.net", str(e))
+    urlscanio() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def chrome_extension_lookup():
@@ -263,8 +269,8 @@ def chrome_extension_lookup():
     This function will lookup a Chrome Extension ID in the Chrome Web Store
     """
     try:
-        socbuddy.title_bar("Chrome Extension Details")
-        extension_id = socbuddy.ask_for_user_input("Enter the Chrome Extension ID")
+        analysisbuddy.title_bar("Chrome Extension Details")
+        extension_id = analysisbuddy.ask_for_user_input("Enter the Chrome Extension ID")
         url = f"https://chrome.google.com/webstore/detail/{extension_id}"
         response = requests.get(url)
         soup = BeautifulSoup(response.content, "html.parser")
@@ -278,7 +284,7 @@ def chrome_extension_lookup():
             "Developer": soup.find("a", {"class": "e-f-y"}).text,
             "url": url,
         }
-        socbuddy.print_json(output)
+        analysisbuddy.print_json(output)
     except AttributeError as e:
-        socbuddy.error_message("Failed to parse HTML", str(e))
-    chrome_extension_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to parse HTML", str(e))
+    chrome_extension_lookup() if analysisbuddy.ask_to_run_again() else menu()

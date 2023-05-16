@@ -26,7 +26,7 @@ echo "team/config/example_config.yaml" >> .git/info/exclude
 echo " "
 echo "------------------------------------------"
 echo "Setup complete!"
-echo "You must configure ./config/config.yaml AND ./config/machinae.yaml before running socbuddy!"
+echo "You must configure ./config/config.yaml AND ./config/machinae.yaml before running Analysis Buddy!"
 echo " "
 echo "In machinae.yaml, you can enable tools by changing default: False to default: True"
 echo "Note: Some of the machinae sources require you to enter an API key where it says 'CHANGEME'"

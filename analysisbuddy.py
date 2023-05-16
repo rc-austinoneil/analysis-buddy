@@ -29,10 +29,10 @@ configvars = loadconfig.load_buddy_config()
 # Menu
 def main_menu():
     """
-    This function will clear the console and print the SOC Buddy main menu.
+    This function will clear the console and print the Analysis Buddy main menu.
     """
     os.system("clear")
-    title_bar("Main Menu", True)
+    title_bar("Analysis Buddy Main Menu", True)
     title_bar_time()
     menu_item(0, "Exit Tool", "exit")
     menu_item(1, "Search All OSINT Tools", "tool")

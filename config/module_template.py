@@ -1,4 +1,4 @@
-import socbuddy
+import analysisbuddy
 from config import fontcolors, loadconfig
 
 bcolors = fontcolors.bcolors()
@@ -7,10 +7,10 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def menu():
-    socbuddy.title_bar("Example Menu")
-    socbuddy.menu_item(0, "Return to main menu", "goback")
-    socbuddy.menu_item(1, "Tool function", "tool")
-    socbuddy.menu_item(2, "Menu function", "menu")
+    analysisbuddy.title_bar("Example Menu")
+    analysisbuddy.menu_item(0, "Return to main menu", "goback")
+    analysisbuddy.menu_item(1, "Tool function", "tool")
+    analysisbuddy.menu_item(2, "Menu function", "menu")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -22,7 +22,7 @@ def menu_switch(choice):
     if choice == "3":
         function3()
     if choice == "0":
-        socbuddy.main_menu()
+        analysisbuddy.main_menu()
     else:
         menu()
 

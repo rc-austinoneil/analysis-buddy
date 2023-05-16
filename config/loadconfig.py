@@ -15,7 +15,7 @@ def load_buddy_config():
         return configvars
     except FileNotFoundError:
         print(
-            f"{bcolors.ERROR}Error: ./config/config.yaml not found.\nPlease configure the config file before launching Soc Buddy. See readme for documentation.{bcolors.ENDC}"
+            f"{bcolors.ERROR}Error: ./config/config.yaml not found.\nPlease configure the config file before launching Analysis Buddy. See readme for documentation.{bcolors.ENDC}"
         )
         sys.exit()
 
@@ -53,7 +53,7 @@ def load_team_config():
         return configvars
     except FileNotFoundError:
         print(
-            f"{bcolors.ERROR}Error: ./team/config/config.yaml not found.\nPlease configure your team config file before launching Soc Buddy. See readme for documentation.{bcolors.ENDC}"
+            f"{bcolors.ERROR}Error: ./team/config/config.yaml not found.\nPlease configure your team config file before launching Analysis Buddy. See readme for documentation.{bcolors.ENDC}"
         )
         sys.exit()
 
@@ -64,6 +64,6 @@ def load_machinae_config():
             return "./config/machinae.yaml"
     except FileNotFoundError:
         print(
-            f"{bcolors.ERROR}Error: ./config/machinae.yaml not found.\nPlease setup the machinae config file before launching Soc Buddy. See readme for documentation.{bcolors.ENDC}"
+            f"{bcolors.ERROR}Error: ./config/machinae.yaml not found.\nPlease setup the machinae config file before launching Analysis Buddy. See readme for documentation.{bcolors.ENDC}"
         )
         sys.exit()

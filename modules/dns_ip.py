@@ -1,4 +1,4 @@
-import socbuddy
+import analysisbuddy
 import re
 import webbrowser
 import socket
@@ -16,19 +16,19 @@ configvars = loadconfig.load_buddy_config()
 
 # Menu
 def menu():
-    socbuddy.title_bar("DNS & IP Tools")
-    socbuddy.menu_item(0, "Return to main menu", "goback")
-    socbuddy.menu_item(1, "Reverse DNS Lookup", "tool")
-    socbuddy.menu_item(2, "DNS Lookup", "tool")
-    socbuddy.menu_item(3, "WHOIS Lookup", "tool")
-    socbuddy.menu_item(4, "IP Quality Score", "tool")
-    socbuddy.menu_item(5, "GreyNoise.io", "tool")
-    socbuddy.menu_item(6, "Shodan", "tool")
-    socbuddy.menu_item(7, "Geo Compare IPs", "tool")
-    socbuddy.menu_item(8, "TCP/UDP Port Lookup", "tool")
-    socbuddy.menu_item(9, "Defang URLs & IPs", "tool")
-    socbuddy.menu_item(10, "Tweetfeed IOC Lookup", "tool")
-    socbuddy.menu_item(11, "Subnet Calculator", "tool")
+    analysisbuddy.title_bar("DNS & IP Tools")
+    analysisbuddy.menu_item(0, "Return to main menu", "goback")
+    analysisbuddy.menu_item(1, "Reverse DNS Lookup", "tool")
+    analysisbuddy.menu_item(2, "DNS Lookup", "tool")
+    analysisbuddy.menu_item(3, "WHOIS Lookup", "tool")
+    analysisbuddy.menu_item(4, "IP Quality Score", "tool")
+    analysisbuddy.menu_item(5, "GreyNoise.io", "tool")
+    analysisbuddy.menu_item(6, "Shodan", "tool")
+    analysisbuddy.menu_item(7, "Geo Compare IPs", "tool")
+    analysisbuddy.menu_item(8, "TCP/UDP Port Lookup", "tool")
+    analysisbuddy.menu_item(9, "Defang URLs & IPs", "tool")
+    analysisbuddy.menu_item(10, "Tweetfeed IOC Lookup", "tool")
+    analysisbuddy.menu_item(11, "Subnet Calculator", "tool")
     menu_switch(input(f"{bcolors.INPUT} ~> {bcolors.ENDC}"))
 
 
@@ -53,11 +53,11 @@ def menu_switch(choice):
         defang()
     if choice == "10":
         osint.tweetfeed_live()
-        osint.tweetfeed_live() if socbuddy.ask_to_run_again() else menu()
+        osint.tweetfeed_live() if analysisbuddy.ask_to_run_again() else menu()
     if choice == "11":
         subnet_calc()
     if choice == "0":
-        socbuddy.main_menu()
+        analysisbuddy.main_menu()
     else:
         menu()
 
@@ -68,16 +68,16 @@ def reverse_dns_lookup():
     This function will query DNS for information about an IP address
     """
     try:
-        socbuddy.title_bar("Reverse DNS Lookup")
-        domain = socbuddy.ask_for_user_input("Enter IP to check")
-        socbuddy.info_message(osint.update_historical_osint_data(domain), True)
+        analysisbuddy.title_bar("Reverse DNS Lookup")
+        domain = analysisbuddy.ask_for_user_input("Enter IP to check")
+        analysisbuddy.info_message(osint.update_historical_osint_data(domain), True)
         results = socket.gethostbyaddr(domain)
         output = {"Hostname": results[0], "Aliases": results[1], "IPs": results[2]}
-        socbuddy.print_json(output)
+        analysisbuddy.print_json(output)
         osint.run_osint_no_menu(output.get("Hostname"))
     except Exception as e:
-        socbuddy.error_message("Hostname not found", str(e))
-    reverse_dns_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Hostname not found", str(e))
+    reverse_dns_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def dns_lookup():
@@ -85,18 +85,18 @@ def dns_lookup():
     This function will query DNS for information about a domain
     """
     try:
-        socbuddy.title_bar("DNS Lookup")
-        domain = socbuddy.ask_for_user_input("Enter a FQDN to check")
-        socbuddy.info_message(osint.update_historical_osint_data(domain), True)
+        analysisbuddy.title_bar("DNS Lookup")
+        domain = analysisbuddy.ask_for_user_input("Enter a FQDN to check")
+        analysisbuddy.info_message(osint.update_historical_osint_data(domain), True)
         domain = re.sub("http://", "", domain)
         domain = re.sub("https://", "", domain)
         output = {"IP": socket.gethostbyname(domain), "Domain": domain}
-        socbuddy.print_json(output)
-        socbuddy.clipboard_copy(output.get("IP"))
+        analysisbuddy.print_json(output)
+        analysisbuddy.clipboard_copy(output.get("IP"))
         osint.run_osint_no_menu(output.get("IP"))
     except Exception as e:
-        socbuddy.error_message("Domain not found", str(e))
-    dns_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Domain not found", str(e))
+    dns_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def who_is():
@@ -104,9 +104,9 @@ def who_is():
     This function will query IPWhois for information about an IP address
     """
     try:
-        socbuddy.title_bar("Whois")
-        search = socbuddy.ask_for_user_input("Enter IP / Domain")
-        socbuddy.info_message(osint.update_historical_osint_data(search), True)
+        analysisbuddy.title_bar("Whois")
+        search = analysisbuddy.ask_for_user_input("Enter IP / Domain")
+        analysisbuddy.info_message(osint.update_historical_osint_data(search), True)
         if osint.get_target_type(search) == "fqdn":
             search = re.sub("http://", "", search)
             search = re.sub("https://", "", search)
@@ -136,11 +136,11 @@ def who_is():
             "Updated": str(w.get("nets")[0].get("updated")),
         }
 
-        socbuddy.print_json(output)
+        analysisbuddy.print_json(output)
         osint.run_osint_no_menu(w.get("query"))
     except Exception as e:
-        socbuddy.error_message("Failed to run WHOIS lookup", str(e))
-    who_is() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run WHOIS lookup", str(e))
+    who_is() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def ip_quality_score():
@@ -149,9 +149,11 @@ def ip_quality_score():
     """
     try:
         if loadconfig.check_buddy_config("IPQS_API_KEY"):
-            socbuddy.title_bar("IP Quality")
-            ip_address = socbuddy.ask_for_user_input("Enter an IP Address")
-            socbuddy.info_message(osint.update_historical_osint_data(ip_address), True)
+            analysisbuddy.title_bar("IP Quality")
+            ip_address = analysisbuddy.ask_for_user_input("Enter an IP Address")
+            analysisbuddy.info_message(
+                osint.update_historical_osint_data(ip_address), True
+            )
             response = requests.get(
                 f"https://us.ipqualityscore.com/api/json/ip/{configvars.data['IPQS_API_KEY']}/",
                 params={"strictness": 1, "ip": ip_address},
@@ -162,16 +164,16 @@ def ip_quality_score():
                 check_if_residential(ip_address, data)
                 check_if_mobile(ip_address, data)
                 check_if_zscalar(ip_address, data)
-                socbuddy.print_json(data)
-                socbuddy.info_message(
+                analysisbuddy.print_json(data)
+                analysisbuddy.info_message(
                     f"https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test/lookup/{ip_address}",
                     True,
                 )
             osint.run_osint_no_menu(ip_address)
 
     except Exception as e:
-        socbuddy.error_message("Failed to query IP Quality Score", str(e))
-    ip_quality_score() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query IP Quality Score", str(e))
+    ip_quality_score() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def grey_noise():
@@ -180,18 +182,20 @@ def grey_noise():
     """
     try:
         if loadconfig.check_buddy_config("GREYNOISE_API_KEY"):
-            socbuddy.title_bar("Greynoise")
-            ip_address = socbuddy.ask_for_user_input("Enter an IP Address")
-            socbuddy.info_message(osint.update_historical_osint_data(ip_address), True)
+            analysisbuddy.title_bar("Greynoise")
+            ip_address = analysisbuddy.ask_for_user_input("Enter an IP Address")
+            analysisbuddy.info_message(
+                osint.update_historical_osint_data(ip_address), True
+            )
             response = requests.get(
                 f"https://api.greynoise.io/v3/community/{ip_address}",
                 headers={"key": configvars.data["GREYNOISE_API_KEY"]},
             )
-            socbuddy.print_json(response.json())
+            analysisbuddy.print_json(response.json())
             osint.run_osint_no_menu(ip_address)
     except Exception as e:
-        socbuddy.error_message("Failed to query Greynoise", str(e))
-    grey_noise() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query Greynoise", str(e))
+    grey_noise() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def run_shodan():
@@ -200,9 +204,9 @@ def run_shodan():
     """
     try:
         if loadconfig.check_buddy_config("SHODAN_API_KEY"):
-            socbuddy.title_bar("Shodan")
-            search = socbuddy.ask_for_user_input("Enter shodan search")
-            socbuddy.info_message(osint.update_historical_osint_data(search), True)
+            analysisbuddy.title_bar("Shodan")
+            search = analysisbuddy.ask_for_user_input("Enter shodan search")
+            analysisbuddy.info_message(osint.update_historical_osint_data(search), True)
             inputtype = osint.get_target_type(search)
             sdan = Shodan(configvars.data["SHODAN_API_KEY"])
 
@@ -226,9 +230,9 @@ def run_shodan():
                             "url": f"https://www.shodan.io/host/{output.get('ip_str')}",
                         }
                     ]
-                    socbuddy.print_json(output)
+                    analysisbuddy.print_json(output)
                 else:
-                    socbuddy.error_message("No results found")
+                    analysisbuddy.error_message("No results found")
             else:
                 output = sdan.search(search)
                 if output:
@@ -250,15 +254,15 @@ def run_shodan():
                                 "url": f"https://www.shodan.io/host/{x.get('ip_str')}",
                             }
                         ]
-                        socbuddy.print_json(output_item)
+                        analysisbuddy.print_json(output_item)
                         printed_result += 1
                         if printed_result < len(output["matches"]):
-                            socbuddy.next_result_message()
+                            analysisbuddy.next_result_message()
                 else:
-                    socbuddy.info_message("No results found")
+                    analysisbuddy.info_message("No results found")
     except Exception as e:
-        socbuddy.error_message("Failed to query shodan", str(e))
-    run_shodan() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to query shodan", str(e))
+    run_shodan() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def get_ip_quality_score_geo(ip_address):
@@ -276,7 +280,7 @@ def get_ip_quality_score_geo(ip_address):
                 loc = (data["latitude"], data["longitude"])
             return loc, data
     except Exception as e:
-        socbuddy.error_message("Failed to query IP Quality Score", str(e))
+        analysisbuddy.error_message("Failed to query IP Quality Score", str(e))
         return None
 
 
@@ -322,30 +326,32 @@ def ip_quality_score_geo_compare():
     """
     try:
         if loadconfig.check_buddy_config("IPQS_API_KEY"):
-            socbuddy.title_bar("Geo Compare IPs")
+            analysisbuddy.title_bar("Geo Compare IPs")
             # Input and processing
-            ip_address1 = socbuddy.ask_for_user_input("Enter the first IP Address")
-            ip_address2 = socbuddy.ask_for_user_input("Enter the second IP Address")
+            ip_address1 = analysisbuddy.ask_for_user_input("Enter the first IP Address")
+            ip_address2 = analysisbuddy.ask_for_user_input(
+                "Enter the second IP Address"
+            )
             loc1, data1 = get_ip_quality_score_geo(ip_address1)
             loc2, data2 = get_ip_quality_score_geo(ip_address2)
             distance = haversine.haversine(loc1, loc2, unit=haversine.Unit.MILES)
 
             # Output
-            socbuddy.next_result_message(ip_address1)
-            socbuddy.print_json(data1, False)
-            socbuddy.next_result_message(ip_address2)
-            socbuddy.print_json(data2, False)
+            analysisbuddy.next_result_message(ip_address1)
+            analysisbuddy.print_json(data1, False)
+            analysisbuddy.next_result_message(ip_address2)
+            analysisbuddy.print_json(data2, False)
 
             # Summary
-            socbuddy.next_result_message("Geo IP Summary")
-            socbuddy.info_message(
+            analysisbuddy.next_result_message("Geo IP Summary")
+            analysisbuddy.info_message(
                 f"Distance between the two IPs is {str(round(distance,2))} miles."
             )
             print("")
             print(
                 f'{ip_address1} is located in {data1.get("country_code")}, {data1.get("region")}, {data1.get("city")} and the ISP is {data1.get("ISP")}'
             )
-            socbuddy.info_message(
+            analysisbuddy.info_message(
                 osint.update_historical_osint_data(ip_address1), False
             )
             check_if_residential(ip_address1, data1)
@@ -355,7 +361,7 @@ def ip_quality_score_geo_compare():
             print(
                 f'{ip_address2} is located in {data2.get("country_code")}, {data2.get("region")}, {data2.get("city")} and the ISP is {data2.get("ISP")}'
             )
-            socbuddy.info_message(
+            analysisbuddy.info_message(
                 osint.update_historical_osint_data(ip_address2), False
             )
             check_if_residential(ip_address2, data2)
@@ -364,8 +370,8 @@ def ip_quality_score_geo_compare():
             osint.run_osint_no_menu(ip_address1)
             osint.run_osint_no_menu(ip_address2)
     except Exception as e:
-        socbuddy.error_message("Failed to run geo compare", str(e))
-    ip_quality_score_geo_compare() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run geo compare", str(e))
+    ip_quality_score_geo_compare() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def tcp_udp_port_lookup():
@@ -373,14 +379,14 @@ def tcp_udp_port_lookup():
     This function will open a web browser to speedguide.net to lookup a TCP or UDP port
     """
     try:
-        socbuddy.title_bar("TCP/UDP Port Lookup")
-        port = socbuddy.ask_for_user_input("Enter a port number")
+        analysisbuddy.title_bar("TCP/UDP Port Lookup")
+        port = analysisbuddy.ask_for_user_input("Enter a port number")
         url = f"https://www.speedguide.net/port.php?port={port}"
-        socbuddy.info_message(f"Opening {url}")
+        analysisbuddy.info_message(f"Opening {url}")
         webbrowser.open(url)
     except Exception as e:
-        socbuddy.error_message(f"Failed to open {url}", str(e))
-    tcp_udp_port_lookup() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message(f"Failed to open {url}", str(e))
+    tcp_udp_port_lookup() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def defang():
@@ -388,24 +394,24 @@ def defang():
     This function will defang a URL or IP address so you can safely copy and paste it into a browser or email
     """
     try:
-        socbuddy.title_bar("Defang URLs & IPs")
-        input_item = socbuddy.ask_for_user_input("Enter URL or IP")
+        analysisbuddy.title_bar("Defang URLs & IPs")
+        input_item = analysisbuddy.ask_for_user_input("Enter URL or IP")
         input_item = re.sub(r"\.", "[.]", input_item)
         input_item = re.sub("http://", "hxxp://", input_item)
         input_item = re.sub("https://", "hxxps://", input_item)
         output = {"defanged": input_item}
-        socbuddy.print_json(output)
-        socbuddy.clipboard_copy(output.get("defanged"))
+        analysisbuddy.print_json(output)
+        analysisbuddy.clipboard_copy(output.get("defanged"))
     except Exception as e:
-        socbuddy.error_message("Unable to defang URL or IP", str(e))
-    defang() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Unable to defang URL or IP", str(e))
+    defang() if analysisbuddy.ask_to_run_again() else menu()
 
 
 def subnet_calc():
     try:
-        socbuddy.title_bar("Subnet Calculator")
+        analysisbuddy.title_bar("Subnet Calculator")
         IP_Addr = ipaddress.ip_interface(
-            socbuddy.ask_for_user_input("Enter IP address in IP/Mask Format")
+            analysisbuddy.ask_for_user_input("Enter IP address in IP/Mask Format")
         )
 
         Net_Addr = IP_Addr.network
@@ -424,7 +430,7 @@ def subnet_calc():
             "Last IP": list(Net_Addr.hosts())[-1],
         }
 
-        socbuddy.print_json(output)
+        analysisbuddy.print_json(output)
     except:
-        socbuddy.error_message("Failed to run subnet calculator")
-    subnet_calc() if socbuddy.ask_to_run_again() else menu()
+        analysisbuddy.error_message("Failed to run subnet calculator")
+    subnet_calc() if analysisbuddy.ask_to_run_again() else menu()

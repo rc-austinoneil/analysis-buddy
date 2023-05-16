@@ -1,4 +1,4 @@
-import socbuddy
+import analysisbuddy
 import subprocess
 import requests
 import ipaddress
@@ -96,7 +96,7 @@ def update_historical_osint_data(target):
             historical_osint_data.append(data)
             json.dump(historical_osint_data, f)
     except Exception as e:
-        socbuddy.error_message("Failed to update historical OSINT data", str(e))
+        analysisbuddy.error_message("Failed to update historical OSINT data", str(e))
 
     if count == 0:
         return f"{target} has not been scanned before."
@@ -110,20 +110,20 @@ def run_osint():
     run the Machinae against the target, with secondary osint tools.
     """
     try:
-        socbuddy.title_bar("Machinae OSINT")
-        target = socbuddy.ask_for_user_input("Enter a target")
+        analysisbuddy.title_bar("Machinae OSINT")
+        target = analysisbuddy.ask_for_user_input("Enter a target")
         target = target.replace("[.]", ".")
-        socbuddy.info_message(f"Running OSINT search for {target}", True)
-        socbuddy.info_message(update_historical_osint_data(target), False)
+        analysisbuddy.info_message(f"Running OSINT search for {target}", True)
+        analysisbuddy.info_message(update_historical_osint_data(target), False)
         subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
         run_secondary_osint(target)
-        run_osint() if socbuddy.ask_to_run_again() else socbuddy.main_menu()
+        run_osint() if analysisbuddy.ask_to_run_again() else analysisbuddy.main_menu()
     except KeyboardInterrupt:
-        socbuddy.error_message("OSINT search canceled.")
+        analysisbuddy.error_message("OSINT search canceled.")
     except Exception as e:
-        socbuddy.error_message("Failed to run OSINT search.", str(e))
+        analysisbuddy.error_message("Failed to run OSINT search.", str(e))
         input(bcolors.INPUT + "Press enter to return to the main menu" + bcolors.ENDC)
-        socbuddy.main_menu()
+        analysisbuddy.main_menu()
 
 
 def run_osint_no_menu(target):
@@ -146,9 +146,9 @@ def run_osint_no_menu(target):
         else:
             return
     except KeyboardInterrupt:
-        socbuddy.error_message("OSINT search canceled.")
+        analysisbuddy.error_message("OSINT search canceled.")
     except Exception as e:
-        socbuddy.error_message("Failed to run OSINT search.", str(e))
+        analysisbuddy.error_message("Failed to run OSINT search.", str(e))
 
 
 def run_secondary_osint(target):
@@ -435,7 +435,7 @@ def tweetfeed_live(target=None):
             if response.status_code == 200:
                 return response.json()
         except Exception:
-            socbuddy.error_message(f"Failed to query the Tweetfeed.live API")
+            analysisbuddy.error_message(f"Failed to query the Tweetfeed.live API")
 
     def print_secondary_osint(api_type, results, domain_or_url):
         count = 0
@@ -470,26 +470,26 @@ def tweetfeed_live(target=None):
             )
 
     def print_results(results, domain_or_url):
-        socbuddy.info_message(update_historical_osint_data(target), True)
+        analysisbuddy.info_message(update_historical_osint_data(target), True)
         count = 0
         if domain_or_url:
             for dic in results:
                 for key in dic:
                     if target in key.get("value"):
                         count += 1
-                        socbuddy.print_json(key)
+                        analysisbuddy.print_json(key)
         else:
             for item in results:
                 if target in item.get("value"):
                     count += 1
-                    socbuddy.print_json(item)
+                    analysisbuddy.print_json(item)
         if count == 0:
-            socbuddy.error_message(f"{target} not found in Tweetfeed.live data")
+            analysisbuddy.error_message(f"{target} not found in Tweetfeed.live data")
 
     if not target:
-        socbuddy.title_bar("TweetFeed.live")
-        target = socbuddy.ask_for_user_input("Enter an IP, domain, or hash")
-        time = socbuddy.ask_for_user_input(
+        analysisbuddy.title_bar("TweetFeed.live")
+        target = analysisbuddy.ask_for_user_input("Enter an IP, domain, or hash")
+        time = analysisbuddy.ask_for_user_input(
             "How long would you like to search back? (today, week, month, year)"
         )
         running_as_secondary_osint = False

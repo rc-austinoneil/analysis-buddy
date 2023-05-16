@@ -1,4 +1,4 @@
-import socbuddy
+import analysisbuddy
 from mitreattack.stix20 import MitreAttackData
 from config import fontcolors
 
@@ -13,7 +13,7 @@ def check_mitre_id(mitre_id):
     elif mitre_id[0] == "t":
         return "T" + mitre_id[1:]
     elif mitre_id[0].isalpha() and mitre_id[0] != "T":
-        socbuddy.error_message(
+        analysisbuddy.error_message(
             f"Invalid MITRE ID ({mitre_id}). Must start with 'T' or 't'."
         )
         return None
@@ -57,13 +57,13 @@ def get_mitre_details(mitre_id):
         return mitre_details
 
     except AttributeError:
-        socbuddy.error_message(
+        analysisbuddy.error_message(
             f"Mitre ID ({mitre_id}) not found. Check the Mitre ID and try again."
         )
         return None
 
     except Exception:
-        socbuddy.error_message(f"Failed to get Mitre details for {mitre_id}.")
+        analysisbuddy.error_message(f"Failed to get Mitre details for {mitre_id}.")
         return None
 
 
@@ -72,25 +72,25 @@ def mitre_lookup():
     This function will lookup a Mitre ID in the Mitre Enterprise Attack Framework JSON file
     """
     try:
-        socbuddy.title_bar("Mitre Lookup")
-        mitre_id = socbuddy.ask_for_user_input("Enter the MITRE ID to lookup")
+        analysisbuddy.title_bar("Mitre Lookup")
+        mitre_id = analysisbuddy.ask_for_user_input("Enter the MITRE ID to lookup")
         mitre_id = check_mitre_id(mitre_id)
         if mitre_id:
-            socbuddy.info_message(f"Looking up Mitre ID: {mitre_id}")
-            socbuddy.download_file_from_internet(
+            analysisbuddy.info_message(f"Looking up Mitre ID: {mitre_id}")
+            analysisbuddy.download_file_from_internet(
                 url="https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json",
                 file_path="./config/json_lookups/mitre-enterprise-attack.json",
             )
             technique = get_mitre_details(mitre_id)
             if technique:
-                socbuddy.next_result_message(f"Technique: {mitre_id}")
-                socbuddy.print_json(technique, False)
+                analysisbuddy.next_result_message(f"Technique: {mitre_id}")
+                analysisbuddy.print_json(technique, False)
                 if "." in mitre_id:
                     parent_technique = get_mitre_details(mitre_id.split(".")[0])
-                    socbuddy.next_result_message(
+                    analysisbuddy.next_result_message(
                         f'Parent Technique: {mitre_id.split(".")[0]}'
                     )
-                    socbuddy.print_json(parent_technique, False)
+                    analysisbuddy.print_json(parent_technique, False)
     except Exception as e:
-        socbuddy.error_message(f"Failed to run MITRE lookup", str(e))
-    mitre_lookup() if socbuddy.ask_to_run_again() else socbuddy.main_menu()
+        analysisbuddy.error_message(f"Failed to run MITRE lookup", str(e))
+    mitre_lookup() if analysisbuddy.ask_to_run_again() else analysisbuddy.main_menu()
