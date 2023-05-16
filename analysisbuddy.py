@@ -7,6 +7,9 @@ import urllib.parse
 import json
 import csv
 import requests
+from config import fontcolors, loadconfig
+from team import teammenu
+from datetime import datetime
 from modules import (
     decoders_hashes,
     dns_ip,
@@ -18,9 +21,6 @@ from modules import (
     linux,
     mac,
 )
-from config import fontcolors, loadconfig
-from team import teammenu
-from datetime import datetime
 
 bcolors = fontcolors.bcolors()
 configvars = loadconfig.load_buddy_config()
@@ -82,7 +82,7 @@ def menu_switch(choice):
     if choice == "12":
         csv_to_json()
         csv_to_json() if ask_to_run_again() else main_menu()
-    if choice == "12":
+    if choice == "13":
         json_to_csv()
         json_to_csv() if ask_to_run_again() else main_menu()
 
@@ -276,7 +276,7 @@ def open_in_jsoncrack(inputdata):
 
 # fmt: off
 def print_json(json_data, level=0, newline=True):
-    """ 
+    """
     This function will print json data in a readable format to the console.
     """
     try:
