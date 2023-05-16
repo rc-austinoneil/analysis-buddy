@@ -229,7 +229,7 @@ def abuse_ipdb(target):
                 print(f"{bcolors.OKGREEN}[+] ABUSEIPDB Report{bcolors.ENDC}")
                 print(f"    [-] IP:          {req.get('data', {}).get('ipAddress')}")
                 print(f"    [-] Reports:     {req.get('data', {}).get('totalReports')}")
-                print(f"    [-] Abuse Score: {req.get('data', {}).get('abuseConfidenceScore')}%")   
+                print(f"    [-] Abuse Score: {req.get('data', {}).get('abuseConfidenceScore')}%")
                 print(f"    [-] Last Report: {req.get('data', {}).get('lastReportedAt')}")
                 # fmt: on
             else:
