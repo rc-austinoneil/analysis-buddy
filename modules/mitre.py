@@ -92,5 +92,5 @@ def mitre_lookup():
                     )
                     analysisbuddy.print_json(parent_technique, False)
     except Exception as e:
-        analysisbuddy.error_message(f"Failed to run MITRE lookup", str(e))
+        analysisbuddy.error_message("Failed to run MITRE lookup", str(e))
     mitre_lookup() if analysisbuddy.ask_to_run_again() else analysisbuddy.main_menu()

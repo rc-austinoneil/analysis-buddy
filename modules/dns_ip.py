@@ -431,6 +431,6 @@ def subnet_calc():
         }
 
         analysisbuddy.print_json(output)
-    except:
-        analysisbuddy.error_message("Failed to run subnet calculator")
+    except Exception as e:
+        analysisbuddy.error_message("Failed to run subnet calculator", str(e))
     subnet_calc() if analysisbuddy.ask_to_run_again() else menu()
