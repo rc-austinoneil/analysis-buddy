@@ -2,15 +2,12 @@
 
 # Make sure you have python3-venv installed
 echo "Installing dependencies"
-echo "sudo apt install -y python3-venv"
-sudo apt install -y python3-venv
 
 # Setup enviroment
 python3 -m venv venv
 source ./venv/bin/activate
-
-# Install requirements
 ./venv/bin/python3 -m pip install -r ./config/requirements.txt
+
 if [ "$(uname)" == "Darwin" ]; then
 ./venv/bin/python3 -m pip install python-magic-bin
 fi
