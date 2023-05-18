@@ -370,45 +370,51 @@ def json_to_csv(input_file_path=None):
     """
     This function will convert a JSON file to a CSV file.
     """
-    title_bar("JSON to CSV Converter")
-    if not input_file_path:
-        input_file_path = ask_for_user_input("Enter the path to the JSON file")
-    output_file_path = ask_for_user_input("Enter the path to output CSV file")
+    try:
+        title_bar("JSON to CSV Converter")
+        if not input_file_path:
+            input_file_path = ask_for_user_input("Enter the path to the JSON file")
+        output_file_path = ask_for_user_input("Enter the path to output CSV file")
 
-    with open(input_file_path, "r") as input_file:
-        json_data = json.load(input_file)
+        with open(input_file_path, "r") as input_file:
+            json_data = json.load(input_file)
 
-    headers = list(json_data[0].keys())
+        headers = list(json_data[0].keys())
 
-    with open(output_file_path, "w", newline="") as output_file:
-        writer = csv.DictWriter(output_file, fieldnames=headers)
-        writer.writeheader()
-        writer.writerows(json_data)
+        with open(output_file_path, "w+", newline="") as output_file:
+            writer = csv.DictWriter(output_file, fieldnames=headers)
+            writer.writeheader()
+            writer.writerows(json_data)
 
-    success_message(
-        f"Conversion successful\nJSON file '{input_file_path}' converted to CSV file '{output_file_path}'"
-    )
+        success_message(
+            f"Conversion successful\nJSON file '{input_file_path}' converted to CSV file '{output_file_path}'"
+        )
+    except Exception as e:
+        error_message("Failed to convert JSON to CSV", str(e))
 
 
 def csv_to_json(input_file_path=None):
     """
     This function will convert a CSV file to a JSON file.
     """
-    title_bar("CSV to JSON Converter")
-    if not input_file_path:
-        input_file_path = ask_for_user_input("Enter the path to the CSV file")
-    output_file_path = ask_for_user_input("Enter the path to output JSON file")
+    try:
+        title_bar("CSV to JSON Converter")
+        if not input_file_path:
+            input_file_path = ask_for_user_input("Enter the path to the CSV file")
+        output_file_path = ask_for_user_input("Enter the path to output JSON file")
 
-    with open(input_file_path, "r") as input_file:
-        reader = csv.DictReader(input_file)
-        rows = list(reader)
+        with open(input_file_path, "r") as input_file:
+            reader = csv.DictReader(input_file)
+            rows = list(reader)
 
-    with open(output_file_path, "w") as output_file:
-        json.dump(rows, output_file, indent=4)
+        with open(output_file_path, "w+") as output_file:
+            json.dump(rows, output_file, indent=4)
 
-    success_message(
-        f"Conversion successful\nCSV file '{input_file_path}' converted to JSON file '{output_file_path}'"
-    )
+        success_message(
+            f"Conversion successful\nCSV file '{input_file_path}' converted to JSON file '{output_file_path}'"
+        )
+    except Exception as e:
+        error_message("Failed to convert CSV to JSON", str(e))
 
 
 if __name__ == "__main__":
