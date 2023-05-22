@@ -15,10 +15,10 @@ python3 -m venv venv
 source ./venv/bin/activate
 ./venv/bin/python3 -m pip install -r ./config/requirements.txt
 
-# If your internal team has a requirements.txt file, install those too
-if [ -e "./team/config/requirements.txt" ]; then
-    echo "Installing team dependencies"
-    ./venv/bin/python3 -m pip install -r ./team/config/requirements.txt
+# If your internal custom has a requirements.txt file, install those too
+if [ -e "./custom/config/requirements.txt" ]; then
+    echo "Installing custom dependencies"
+    ./venv/bin/python3 -m pip install -r ./custom/config/requirements.txt
 fi
 
 # If mac, install python-magic-bin
@@ -26,11 +26,11 @@ if [ "$(uname)" == "Darwin" ]; then
 ./venv/bin/python3 -m pip install python-magic-bin
 fi
 
-# Setup gitignore for teams
-git update-index --assume-unchanged team/teammenu.py
-git update-index --assume-unchanged team/config/example_config.yaml
-echo "team/teammenu.py" >> .git/info/exclude
-echo "team/config/example_config.yaml" >> .git/info/exclude
+# Setup gitignore for customs
+git update-index --assume-unchanged custom/custommenu.py
+git update-index --assume-unchanged custom/config/example_config.yaml
+echo "custom/custommenu.py" >> .git/info/exclude
+echo "custom/config/example_config.yaml" >> .git/info/exclude
 
 #Print completion message
 echo " "
@@ -39,9 +39,9 @@ echo "Setup complete!"
 if [ -f "./config/config.yaml" ] && [ -f "./config/machinae.yaml" ]; then
     echo "You have existing config files, check them to make sure they are up to date!"
     echo "New additions to the tool will be added to the example config files."
-    if [ -f "./team/config/config.yaml" ]; then
+    if [ -f "./custom/config/config.yaml" ]; then
         echo " "
-        echo "You have an existing team config file, check it to make sure its up to date!" 
+        echo "You have an existing custom config file, check it to make sure its up to date!" 
         echo "New additions to the tool will be added to the example config files."
     fi
     echo " "

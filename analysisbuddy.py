@@ -8,7 +8,7 @@ import json
 import csv
 import requests
 from config import fontcolors, loadconfig
-from team import teammenu
+from custom import custommenu
 from datetime import datetime
 from modules import (
     decoders_hashes,
@@ -36,7 +36,7 @@ def main_menu():
     title_bar_time()
     menu_item(0, "Exit Tool", "exit")
     menu_item(1, "Search All OSINT Tools", "tool")
-    menu_item(2, teammenu.team_name(), "menu")
+    menu_item(2, custommenu.custom_name(), "menu")
     menu_item(3, "Decoders & Hash Tools", "menu")
     menu_item(4, "DNS & IP Tools", "menu")
     menu_item(5, "Phishing & URL Tools", "menu")
@@ -60,7 +60,7 @@ def menu_switch(choice):
     if choice == "1":
         osint.run_osint()
     if choice == "2":
-        teammenu.main_menu()
+        custommenu.main_menu()
     if choice == "3":
         decoders_hashes.menu()
     if choice == "4":

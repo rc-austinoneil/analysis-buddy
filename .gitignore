@@ -6,7 +6,7 @@ config/json_lookups/windows_lookups/lolbins.json
 config/json_lookups/windows_lookups/windowseventids.json
 config/json_lookups/windows_lookups/loldrivers.json
 config/output/**
-team/**
+custom/**
 
 # pyenv
 .python-version

@@ -36,11 +36,11 @@ if [[ "$answer" == [Yy]* ]]; then
     check_requirements "./config/requirements.txt"
 
 
-    if [ -f "./team/config/requirements.txt" ]; then
+    if [ -f "./custom/config/requirements.txt" ]; then
         echo " "
-        echo "Updating team menu"
-        cd team && git pull && cd ..
-        check_requirements "./team/config/requirements.txt"
+        echo "Updating custom menu"
+        cd custom && git pull && cd ..
+        check_requirements "./custom/config/requirements.txt"
     fi
 fi
 

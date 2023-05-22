@@ -28,13 +28,13 @@ Analysis Buddy is an all-in-one tool for cybersecurity professionals, designed t
 
 - MITRE Techniques: Analysis Buddy includes a function to return a MITRE Technique by its Technique ID, making it easy to look up information on specific techniques used in detections.
 
-* Expandability: If you want to use your internal APIs and use Analysis Buddy as a framework, the "team" module will allow you to develop your own functions and tooling separate from the "core" code of the tool.
+* Expandability: If you want to use your internal APIs and use Analysis Buddy as a framework, the "custom" module will allow you to develop your own functions and tooling separate from the "core" code of the tool.
 
 * More to come! I plan to continue deving on this project because I use this tool daily in my analysis workflow. 
 
-## Add your own internal tools (Teams)
+## Add your own internal tools
 
-If you want to use your internal APIs or internal python tools and use Analysis Buddy as a framework, the `./teams`  module will allow you to build in a .gitignored folder to keep the code separate from the "core" code of Analysis Buddy. 
+If you want to use your internal APIs or internal python tools and use Analysis Buddy as a framework, the `custom` folder will allow you to build in a .gitignored folder to keep the code separate from the "core" code of Analysis Buddy. 
 
 ### Menu System
 Each menu in Analysis Buddy has two elements. 
@@ -50,8 +50,8 @@ Each menu in Analysis Buddy has two elements.
 			* exit
 * A `menu_switch(choice)` function that will collect the input and send you to your function. 
 
-### Team Config
-Just like the "core" code, there is a `.team/config/example_config.yaml` example file. You will need to rename this file to `config.yaml` and add your APIs to that config file.  Once that is configured, uncomment `# teamconfigvars = loadconfig.load_team_config()` found in `teammenu.py` to load your config file. 
+### custom Config
+Just like the "core" code, there is a `.custom/config/example_config.yaml` example file. You will need to rename this file to `config.yaml` and add your APIs to that config file.  Once that is configured, uncomment `# customconfigvars = loadconfig.load_custom_config()` found in `custommenu.py` to load your config file. 
 
 ## Images
 ### Machinae
@@ -70,4 +70,4 @@ Just like the "core" code, there is a `.team/config/example_config.yaml` example
 ![dns_ip.png](images/dns_ip.png)
 
 ### Internal Tooling
-![team_menu.png](images/team_menu.png)
+![custom_menu.png](images/team_menu.png)
