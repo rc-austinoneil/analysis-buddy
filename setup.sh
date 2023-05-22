@@ -54,6 +54,6 @@ else
     echo "Note: Some of the machinae sources require you to enter an API key where it says 'CHANGEME'"
     echo " "
     echo "Once the two configuration files are setup, run the tool with: ./run.sh"
-fi
     echo "------------------------------------------"
+fi
 
