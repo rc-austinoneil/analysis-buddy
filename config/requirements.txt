@@ -25,4 +25,4 @@ mitreattack-python
 beautifulsoup4
 requests
 ipaddress
-git+https://austinoneil.com/aoneil/machinae.git
+git+https://github.com/rc-austinoneil/machinae.git
