@@ -5,6 +5,7 @@ config/json_lookups/mitre-enterprise-attack.json
 config/json_lookups/windows_lookups/lolbins.json
 config/json_lookups/windows_lookups/windowseventids.json
 config/json_lookups/windows_lookups/loldrivers.json
+config/json_lookups/macos_lookups/loobins.json
 config/output/**
 custom/**
 
