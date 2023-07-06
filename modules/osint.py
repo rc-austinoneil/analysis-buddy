@@ -34,13 +34,13 @@ def get_target_type(target):
         return "hash"
     elif re.match("^[a-f0-9]{40}$", target, re.I):
         # SHA-1
-        return "hash.sha1"
+        return "hash"
     elif re.match("^[a-f0-9]{64}$", target, re.I):
         # SHA-256
-        return "hash.sha256"
+        return "hash"
     elif re.match("^[a-f0-9]{128}$", target, re.I):
         # SHA-512
-        return "hash.sha512"
+        return "hash"
 
     # URL
     elif re.match("^https?://", target, re.I):
@@ -60,7 +60,15 @@ def get_target_type(target):
     ):
         return "mac"
 
-    return "fqdn"
+    # FQDN
+    elif re.match(
+        "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)",
+        target,
+        re.I,
+    ):
+        return "fqdn"
+
+    return None
 
 
 def update_historical_osint_data(target):
@@ -113,10 +121,27 @@ def run_osint():
         analysisbuddy.title_bar("Machinae OSINT")
         target = analysisbuddy.ask_for_user_input("Enter a target")
         target = target.replace("[.]", ".")
-        analysisbuddy.info_message(f"Running OSINT search for {target}", True)
-        analysisbuddy.info_message(update_historical_osint_data(target), False)
-        subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
-        run_secondary_osint(target)
+        target_type = get_target_type(target)
+        analysisbuddy.info_message(
+            f"Running OSINT search for {target_type}: {target}", True
+        )
+        if target_type:
+            analysisbuddy.info_message(update_historical_osint_data(target), False)
+            subprocess.call(
+                [
+                    "machinae",
+                    "-c",
+                    machinaeconfig,
+                    "-s",
+                    "default",
+                    "-O",
+                    target_type,
+                    target,
+                ]
+            )
+            run_secondary_osint(target)
+        else:
+            analysisbuddy.error_message("Invalid target. Please try again.")
         run_osint() if analysisbuddy.ask_to_run_again() else analysisbuddy.main_menu()
     except KeyboardInterrupt:
         analysisbuddy.error_message("OSINT search canceled.")
@@ -140,9 +165,24 @@ def run_osint_no_menu(target):
             == "Y"
         ):
             target = target.replace("[.]", ".")
-            update_historical_osint_data(target)
-            subprocess.call(["machinae", "-c", machinaeconfig, "-s", "default", target])
-            run_secondary_osint(target)
+            target_type = get_target_type(target)
+            if target_type:
+                update_historical_osint_data(target)
+                subprocess.call(
+                    [
+                        "machinae",
+                        "-c",
+                        machinaeconfig,
+                        "-s",
+                        "default",
+                        "-O",
+                        target_type,
+                        target,
+                    ]
+                )
+                run_secondary_osint(target)
+            else:
+                analysisbuddy.error_message("Invalid target. Please try again.")
         else:
             return
     except KeyboardInterrupt:
