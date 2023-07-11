@@ -34,13 +34,13 @@ def get_target_type(target):
         return "hash"
     elif re.match("^[a-f0-9]{40}$", target, re.I):
         # SHA-1
-        return "hash"
+        return "hash.sha1"
     elif re.match("^[a-f0-9]{64}$", target, re.I):
         # SHA-256
-        return "hash"
+        return "hash.sha256"
     elif re.match("^[a-f0-9]{128}$", target, re.I):
         # SHA-512
-        return "hash"
+        return "hash.sha512"
 
     # URL
     elif re.match("^https?://", target, re.I):
@@ -127,6 +127,13 @@ def run_osint():
         )
         if target_type:
             analysisbuddy.info_message(update_historical_osint_data(target), False)
+
+            # Machinae will only allow "hash" as a target type, so we need to
+            # convert the target type to "hash". We still want to return the hash type in
+            # get_target_type() because it is used in other places.
+            if "hash" in target_type:
+                target_type = "hash"
+
             subprocess.call(
                 [
                     "machinae",
@@ -168,6 +175,13 @@ def run_osint_no_menu(target):
             target_type = get_target_type(target)
             if target_type:
                 update_historical_osint_data(target)
+
+                # Machinae will only allow "hash" as a target type, so we need to
+                # convert the target type to "hash". We still want to return the hash type in
+                # get_target_type() because it is used in other places.
+                if "hash" in target_type:
+                    target_type = "hash"
+
                 subprocess.call(
                     [
                         "machinae",
