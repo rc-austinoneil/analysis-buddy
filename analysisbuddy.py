@@ -229,7 +229,7 @@ def ask_for_user_input(input_message="Enter a search string"):
     else:
         paste_from_clipboard = str(
             input(
-                f"{bcolors.INPUT}{input_message}, Paste from clipboard? (Y/N): {bcolors.ENDC}"
+                f"{bcolors.INPUT}{input_message}, Paste from clipboard? (Y/N/Q): {bcolors.ENDC}"
             )
         ).strip()
         if paste_from_clipboard.upper() == "Y":
@@ -238,6 +238,8 @@ def ask_for_user_input(input_message="Enter a search string"):
             output = str(
                 input(f"{bcolors.INPUT}{input_message}: {bcolors.ENDC}")
             ).strip()
+        elif paste_from_clipboard.upper() == "Q":
+            main_menu()
         else:
             output = str(paste_from_clipboard).strip()
     return output
